@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Build Figures 1-3 for the three-storm manuscript.
+"""Build the three manuscript figures.
+
+File names follow the rendered figure numbers: fig1 = June 2017 hourly (Section 3),
+fig2 = the three events (Section 4), fig3 = Rangamati and the residual (Section 5).
+The builder functions keep their original names.
 
 Rainfall: ERA5-Land hourly from the Copernicus CDS and IMERG V07 half-hourly, processed by
 data/scripts/rain_analysis.py (de-accumulation, local time, gauge anchoring).
@@ -12,16 +16,37 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.patheffects as pe
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / "data" / "figdata"; CACHE.mkdir(parents=True, exist_ok=True)
 OUT = Path(__file__).resolve().parent
 
 # ---- validated palette (dataviz reference, light, surface #ffffff) -----------------------
 RAIN, SLIDE, FLOOD, WARN = "#2a78d6", "#eb6834", "#1baf7a", "#eda100"
 INK, INK2, MUTED, GRID, BAND = "#0b0b0b", "#52514e", "#8a8984", "#e6e5e1", "#f0efec"
+# ---- typography: match the manuscript body face (Latin Modern Roman) ---------------------
+# Latin Modern ships with TeX Live. If it is not on this machine the figures still build, in
+# the nearest serif, and only the letterforms differ.
+def _register_latin_modern():
+    import glob
+    from matplotlib import font_manager as fm
+    pats = ["/usr/local/texlive/*/texmf-dist/fonts/opentype/public/lm/lmroman*.otf",
+            "/opt/homebrew/Cellar/texlive/*/share/texmf-dist/fonts/opentype/public/lm/lmroman*.otf",
+            "/usr/share/texmf/fonts/opentype/public/lm/lmroman*.otf",
+            "/usr/share/texlive/texmf-dist/fonts/opentype/public/lm/lmroman*.otf"]
+    files = [f for pat in pats for f in glob.glob(pat)]
+    for f in files:
+        try: fm.fontManager.addfont(f)
+        except Exception: pass
+    return bool(files) and "Latin Modern Roman" in {f.name for f in fm.fontManager.ttflist}
+
+SERIF = "Latin Modern Roman" if _register_latin_modern() else "DejaVu Serif"
+
 plt.rcParams.update({
-    "font.family": "DejaVu Sans", "font.size": 8, "axes.edgecolor": MUTED, "axes.labelcolor": INK2,
+    "font.family": "serif", "font.serif": [SERIF, "DejaVu Serif"],
+    "mathtext.fontset": "cm",
+    "font.size": 8.5, "axes.edgecolor": MUTED, "axes.labelcolor": INK2,
     "xtick.color": INK2, "ytick.color": INK2, "axes.spines.top": False, "axes.spines.right": False,
     "axes.linewidth": 0.6, "xtick.major.width": 0.6, "ytick.major.width": 0.6,
     "savefig.facecolor": "white", "figure.facecolor": "white",
@@ -67,87 +92,153 @@ RANGAMATI = (22.5954, 92.1431)      # centroid of the 160 Rangamati failures, 13
 # Figure 1 - three events, four lanes
 # ======================================================================================
 EVENTS = [
-    # each item: (time, label, ha, level)  level 0 = just below marker, 1 = lower row
+    # (time, label). Vertical placement is computed in fig1() by measuring the rendered text,
+    # so labels are never hand-positioned and cannot silently collide when a label is edited.
     dict(name="June 2017", start="2017-06-08", end="2017-06-16",
-         flood=[("2017-06-12 12:00", "Matamuhuri above\ndanger level", "right", 0),        # F1
-                ("2017-06-13 12:00", "Sangu peak\n+135 cm", "left", 0)],                    # F1
-         slide=[("2017-06-13 05:00", "257 dated failures;\n~150-170 deaths", "center", 0)], # C2, D1
-         warn=[], warn_none="no dedicated warning for either hazard"),                                      # F3, G1
+         flood=[("2017-06-12 12:00", "Matamuhuri above\ndanger level"),                   # F1
+                ("2017-06-13 12:00", "Sangu peak\n+135 cm")],                             # F1
+         slide=[("2017-06-13 05:00", "257 dated failures;\n~150-170 deaths")],            # C2, D1
+         warn=[], warn_none="no dedicated warning\nfor either hazard"),                     # F3, G1
     dict(name="August 2023", start="2023-08-02", end="2023-08-11",
-         flood=[("2023-08-07 12:00", "Sangu +283 cm", "center", 0)],                          # H1
-         slide=[("2023-08-08 12:00", "10 deaths, flood\nand landslides", "center", 0)],                 # H4
-         warn=[("2023-08-07 07:00", "FFWC bulletin (24-48 h);\nBMD landslide alert", "right", 0),
-               ("2023-08-10 12:00", "33,000\nsheltered", "center", 1)]),  # H2, H3
+         flood=[("2023-08-07 12:00", "Sangu +283 cm")],                                    # H1
+         slide=[("2023-08-08 12:00", "10 deaths, flood\nand landslides")],                # H4
+         warn=[("2023-08-07 07:00", "FFWC bulletin (24-48 h);\nBMD landslide alert"),     # H2, H3
+               ("2023-08-10 12:00", "33,000\nsheltered")]),
     dict(name="July 2026", start="2026-07-03", end="2026-07-13",
-         flood=[("2026-07-08 09:00", "Sangu +96 cm", "center", 0)],                           # A6
-         slide=[("2026-07-06 02:00", "8 killed,\ncamps", "right", 0),                        # I8
-                ("2026-07-08 14:00", "5+ killed,\nCamp 5", "left", 0),                       # L6
-                ("2026-07-12 12:00", "Rangamati:\n126 incidents,\n1 death", "center", 1)],  # I7
-         warn=[("2026-07-05 09:00", "forecast;\nresponse\nactivated", "right", 0),          # I4
-               ("2026-07-07 13:00", "Bulletin\n05/2026", "left", 0),                         # I2
-               ("2026-07-12 12:00", "38,422\nsheltered", "center", 1)]),                     # I5
+         flood=[("2026-07-08 09:00", "Sangu +96 cm")],                                     # A6
+         slide=[("2026-07-06 02:00", "8 killed,\ncamps"),                                 # I8
+                ("2026-07-08 14:00", "5+ killed,\nCamp 5"),                               # L6
+                ("2026-07-12 12:00", "Rangamati:\n126 incidents,\n1 death")],            # I7
+         warn=[("2026-07-05 09:00", "forecast;\nresponse activated"),                     # I4
+               ("2026-07-07 13:00", "Bulletin\n05/2026"),                                 # I2
+               ("2026-07-12 12:00", "38,422\nsheltered")]),                               # I5
 ]
 
+LANE_LEVELS = [0.70, 0.45, 0.21]   # text top, in axis fraction, per stacking level
+DOT_Y, LAB_FS, PAD = 0.88, 6.8, 0.015
+
+def _place_lane(fig, a, items, col, t0, t1):
+    """Draw each mark with its label, stacking labels only as far down as they must go.
+
+    Text width is measured from the actual renderer, so a label that is edited later cannot
+    quietly overlap its neighbour; it drops to the next free level instead.
+    """
+    fig.canvas.draw()
+    rend = fig.canvas.get_renderer()
+    placed = []                                   # (level, x0, x1) in axis fraction
+    for t, lab in items:
+        x = pd.Timestamp(t)
+        frac = (x - t0) / (t1 - t0)
+        ha = "left" if frac < 0.17 else ("right" if frac > 0.83 else "center")
+        probe = a.text(x, 0.5, lab, ha=ha, va="top", fontsize=LAB_FS, linespacing=1.12)
+        w = probe.get_window_extent(renderer=rend).transformed(a.transAxes.inverted()).width
+        probe.remove()
+        x0, x1 = {"center": (frac - w / 2, frac + w / 2),
+                  "left":   (frac, frac + w),
+                  "right":  (frac - w, frac)}[ha]
+        lvl = 0
+        while any(l == lvl and not (x1 + PAD < q0 or x0 - PAD > q1) for l, q0, q1 in placed):
+            lvl += 1
+        lvl = min(lvl, len(LANE_LEVELS) - 1)
+        placed.append((lvl, x0, x1))
+        ty = LANE_LEVELS[lvl]
+        a.plot([x, x], [DOT_Y - 0.09, ty + 0.05], color=col, lw=0.6, alpha=0.55, zorder=1)
+        a.plot([x], [DOT_Y], marker="o", ms=7, color=col, mec="white", mew=1.1, zorder=3)
+        # a white halo keeps a leader line that passes a neighbouring label legible
+        a.text(x, ty, lab, ha=ha, va="top", fontsize=LAB_FS, color=INK, linespacing=1.12,
+               zorder=4, path_effects=[pe.withStroke(linewidth=2.2, foreground="white")])
+
 def fig1():
-    fig, axes = plt.subplots(4, 3, figsize=(7.2, 5.6), sharex="col",
-                             gridspec_kw={"height_ratios": [1.5, 1, 1, 1], "hspace": 0.06, "wspace": 0.12})
-    lanes = [("Rainfall\n(mm per day)", RAIN), ("Flash flood", FLOOD), ("Landslides", SLIDE), ("Warning\nand action", WARN)]
+    fig, axes = plt.subplots(4, 3, figsize=(6.27, 6.4), sharex="col",
+                             gridspec_kw={"height_ratios": [1.40, 1.10, 1.55, 1.35],
+                                          "hspace": 0.08, "wspace": 0.10})
+    lanes = [("Rainfall\n(mm per day)", RAIN), ("Flash flood", FLOOD),
+             ("Landslides", SLIDE), ("Warning\nand action", WARN)]
     for c, ev in enumerate(EVENTS):
+        t0, t1 = pd.Timestamp(ev["start"]), pd.Timestamp(ev["end"]) + pd.Timedelta(days=1)
         day = era5land_point(*BANDARBAN, ev["start"], ev["end"] + " 23:00").resample("D").sum()
         ax = axes[0, c]
-        ax.bar(day.index + pd.Timedelta(hours=12), day.values, width=0.82, color=RAIN, linewidth=0)
-        ax.set_ylim(0, 130); ax.set_title(ev["name"], fontsize=9, color=INK, loc="left", pad=4)
+        ax.bar(day.index + pd.Timedelta(hours=12), day.values, width=0.80, color=RAIN, linewidth=0)
+        ax.set_ylim(0, 130)
+        ax.set_title(ev["name"], fontsize=9.5, color=INK, loc="left", pad=5)
         ax.yaxis.grid(True, color=GRID, linewidth=0.5); ax.set_axisbelow(True)
         ax.tick_params(axis="x", length=0)
         if c: ax.set_yticklabels([])
+        for r in range(4):
+            axes[r, c].set_xlim(t0, t1)
         for r, key in [(1, "flood"), (2, "slide"), (3, "warn")]:
             a = axes[r, c]; col = lanes[r][1]
             a.set_ylim(0, 1); a.set_yticks([]); a.spines["left"].set_visible(False)
             if r < 3:
                 a.spines["bottom"].set_color(GRID); a.tick_params(axis="x", length=0)
-            for t, lab, ha, lvl in ev[key]:
-                x = pd.Timestamp(t)
-                a.plot([x], [0.8], marker="o", ms=8, color=col, mec="white", mew=1.2, zorder=3)
-                dx = {"right": -pd.Timedelta(hours=4), "left": pd.Timedelta(hours=4), "center": pd.Timedelta(0)}[ha]
-                y = 0.8 if ha != "center" else (0.6 if lvl == 0 else 0.62)
-                va = "center" if ha != "center" else "top"
-                if lvl == 1 and ha == "center": y = 0.6
-                a.text(x + dx, y, lab, ha=ha, va=va, fontsize=6.3, color=INK, linespacing=1.05)
+            _place_lane(fig, a, ev[key], col, t0, t1)
             if key == "warn" and ev.get("warn_none"):
-                mid = pd.Timestamp(ev["start"]) + (pd.Timestamp(ev["end"]) - pd.Timestamp(ev["start"])) * 0.62
-                a.text(mid, 0.5, ev["warn_none"], ha="center", va="center", fontsize=7, color=INK2, style="italic")
-        for r in range(4):
-            axes[r, c].set_xlim(pd.Timestamp(ev["start"]), pd.Timestamp(ev["end"]) + pd.Timedelta(days=1))
+                a.text(t0 + (t1 - t0) * 0.5, 0.55, ev["warn_none"], ha="center", va="center",
+                       fontsize=6.9, color=INK2, style="italic", linespacing=1.2)
         axes[3, c].xaxis.set_major_locator(mdates.DayLocator(interval=2))
         axes[3, c].xaxis.set_major_formatter(mdates.DateFormatter("%d"))
-        axes[3, c].set_xlabel(pd.Timestamp(ev["start"]).strftime("%B %Y"), fontsize=7)
+        axes[3, c].tick_params(axis="x", labelsize=7)
     for r, (lab, col) in enumerate(lanes):
-        axes[r, 0].set_ylabel(lab, fontsize=7, color=INK2, rotation=0, ha="right", va="center", labelpad=6)
-    fig.savefig(OUT / "fig1_three_events.pdf", bbox_inches="tight"); fig.savefig(OUT / "fig1_three_events.png", dpi=200, bbox_inches="tight")
+        axes[r, 0].set_ylabel(lab, fontsize=7.5, color=INK2, rotation=0, ha="right",
+                              va="center", labelpad=10)
+    # the month is already in each panel title, so the axis carries only the day of month
+    fig.text(0.5, 0.055, "Day of month", ha="center", fontsize=7.5, color=INK2)
+    fig.savefig(OUT / "fig2_three_events.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig2_three_events.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 # ======================================================================================
-# Figure 2 - Rangamati, 2017 vs 2026 (slope chart, one axis, same unit)
+# Figure 3 - Rangamati 2017 vs 2026, and where the 2026 residual fell
 # ======================================================================================
+# (a) the like-for-like district comparison under comparable forcing  [C2, D1, I7, J1]
+# (b) the identifiable landslide deaths of July 2026 by setting       [L3, I7, I9]
+# The three settings whose landslide deaths can be separated from other causes; they sum to the
+# 21 of Section 5.1. Rangamati's single 2026 death is deliberately absent: the source does not
+# state its cause, so it is not an identifiable landslide death.
+RESIDUAL = [("Rohingya camps,\nCox's Bazar", 13),   # L3: 8 on 6 Jul + >=5 Camp 5, 8 Jul
+            ("Cox's Bazar\nhost community", 5),     # I9
+            ("Chattogram", 3)]                       # L3
+
 def fig2():
-    fig, ax = plt.subplots(figsize=(3.4, 3.0))
+    fig, (axL, axR) = plt.subplots(1, 2, figsize=(6.27, 3.2),
+                                   gridspec_kw={"width_ratios": [1, 1.15], "wspace": 0.42})
+
+    # ---- (a) slope chart: one axis, same unit, direct labels only (no legend) ----
     x = [0, 1]
-    series = [("Slope failures", [160, 126], RAIN),     # C2, I7
-              ("Deaths", [121, 1], SLIDE)]              # D1, I7
-    for name, y, col in series:
-        ax.plot(x, y, color=col, lw=2, solid_capstyle="round", zorder=2, label=name)
-        ax.scatter(x, y, s=64, color=col, edgecolor="white", linewidth=1.2, zorder=3, clip_on=False)
-        ax.text(-0.06, y[0], f"{y[0]}", ha="right", va="center", fontsize=8, color=INK)
-        ax.text(1.06, y[1], f"{y[1]}", ha="left", va="center", fontsize=8, color=INK)
-        if name == "Slope failures":
-            ax.text(0.5, (y[0] + y[1]) / 2 + 9, name, ha="center", va="bottom", fontsize=7.5, color=INK2)
-        else:
-            ax.text(0.56, (y[0] + y[1]) / 2, name, ha="left", va="center", fontsize=7.5, color=INK2)
-    ax.set_xticks(x); ax.set_xticklabels(["June 2017\nno dedicated warning", "July 2026\nwarning layer"])
-    ax.set_xlim(-0.35, 1.35); ax.set_ylim(0, 165); ax.set_ylabel("Count")
-    ax.yaxis.grid(True, color=GRID, linewidth=0.5); ax.set_axisbelow(True)
-    ax.legend(frameon=False, fontsize=7, loc="upper center", bbox_to_anchor=(0.5, 1.12), ncol=2)
-    fig.savefig(OUT / "fig2_rangamati.pdf", bbox_inches="tight"); fig.savefig(OUT / "fig2_rangamati.png", dpi=200, bbox_inches="tight")
+    for name, y, col, lab_dx, lab_dy in [("Slope failures", [160, 126], RAIN, 0.50, 11),
+                                         ("Deaths",         [121, 1],   SLIDE, 0.56, 6)]:
+        axL.plot(x, y, color=col, lw=2, solid_capstyle="round", zorder=2)
+        axL.scatter(x, y, s=58, color=col, edgecolor="white", linewidth=1.2, zorder=3, clip_on=False)
+        axL.text(-0.07, y[0], f"{y[0]}", ha="right", va="center", fontsize=8.5, color=INK)
+        axL.text(1.07, y[1], f"{y[1]}", ha="left", va="center", fontsize=8.5, color=INK)
+        axL.text(lab_dx, (y[0] + y[1]) / 2 + lab_dy, name, ha="center", va="bottom",
+                 fontsize=7.5, color=col)
+    axL.set_xticks(x)
+    axL.set_xticklabels(["June 2017\nno dedicated warning", "July 2026\nwarning layer"], fontsize=7.5)
+    axL.set_xlim(-0.40, 1.40); axL.set_ylim(0, 168); axL.set_ylabel("Count", fontsize=8)
+    axL.yaxis.grid(True, color=GRID, linewidth=0.5); axL.set_axisbelow(True)
+    axL.set_title("(a) Rangamati district", fontsize=8.5, color=INK, loc="left", pad=16)
+    axL.text(0, 1.015, "peak 24-h rainfall above 300 mm in 2017, 287 mm in 2026",
+             transform=axL.transAxes, fontsize=6.8, color=MUTED, va="bottom")
+
+    # ---- (b) where the residual fell ----
+    labs = [l for l, _ in RESIDUAL][::-1]
+    vals = [v for _, v in RESIDUAL][::-1]
+    ypos = range(len(vals))
+    axR.barh(list(ypos), vals, height=0.5, color=SLIDE, linewidth=0)
+    for i, v in enumerate(vals):
+        axR.text(v + 0.35, i, str(v), va="center", ha="left", fontsize=8.5, color=INK)
+    axR.set_yticks(list(ypos)); axR.set_yticklabels(labs, fontsize=7.5)
+    axR.set_xlim(0, 15); axR.set_xlabel("Identifiable landslide deaths, July 2026", fontsize=8)
+    axR.set_xticks([0, 5, 10, 15])          # deaths are counts, so the axis carries integers
+    axR.xaxis.grid(True, color=GRID, linewidth=0.5); axR.set_axisbelow(True)
+    axR.tick_params(axis="y", length=0)
+    axR.set_title("(b) Where the residual fell", fontsize=8.5, color=INK, loc="left", pad=16)
+    axR.text(0, 1.015, "at least 21 deaths are identifiable from the incident records",
+             transform=axR.transAxes, fontsize=6.8, color=MUTED, va="bottom")
+
+    fig.savefig(OUT / "fig3_rangamati.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig3_rangamati.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 # ======================================================================================
@@ -158,7 +249,7 @@ def fig3():
     prods = [("ERA5-Land", "era5land_raw", RAIN), ("IMERG", "imerg_raw", SLIDE)]
     t0, t1 = pd.Timestamp("2017-06-10 12:00"), pd.Timestamp("2017-06-14 00:00")
     win = (pd.Timestamp("2017-06-13 02:30"), pd.Timestamp("2017-06-13 11:00"))      # D1, published clock times
-    fig, (a, b) = plt.subplots(2, 1, figsize=(7.2, 4.4), sharex=True, gridspec_kw={"height_ratios": [1, 1.6], "hspace": 0.1})
+    fig, (a, b) = plt.subplots(2, 1, figsize=(6.27, 4.4), sharex=True, gridspec_kw={"height_ratios": [1, 1.6], "hspace": 0.1})
     for ax in (a, b):
         ax.axvspan(*win, color=BAND, zorder=0); ax.yaxis.grid(True, color=GRID, linewidth=0.5); ax.set_axisbelow(True)
     hits = {57.4: [], 200.0: []}
@@ -168,7 +259,7 @@ def fig3():
         corr = raw * K
         a.step(corr.index, corr.values, where="post", color=colr, lw=1.4, label=f"{lab} x{K:.2f}")
         r24 = corr.rolling(24, min_periods=1).sum(); r24raw = raw.rolling(24, min_periods=1).sum()
-        b.plot(r24raw.index, r24raw.values, color=colr, lw=1.0, ls=(0, (3, 2)))
+        b.plot(r24raw.index, r24raw.values, color=colr, lw=0.9, ls=(0, (3, 2)), alpha=0.5)
         b.plot(r24.index, r24.values, color=colr, lw=2, label=f"{lab}, gauge-corrected (x{K:.2f})")
         for val in hits:
             h = r24[r24 >= val].index.min(); hits[val].append(h)
@@ -176,18 +267,22 @@ def fig3():
     a.set_ylabel("Hourly rainfall,\ngauge-corrected\n(mm)", fontsize=7)
     b.text(win[0] + (win[1] - win[0]) / 2, 392, "failure window", ha="center", va="top", fontsize=6.5, color=INK2)
     for val, lab in [(57.4, "empirical 57.4 mm (Roy et al. 2022)"), (200, "installed 200 mm (Ali et al. 2018)")]:
-        b.axhline(val, color=INK2, lw=0.8, ls=(0, (4, 3)))
+        b.axhline(val, color=INK2, lw=0.8, ls=(0, (1, 2)))
         b.text(t0 + pd.Timedelta(hours=1), val + 5, lab, fontsize=6.5, color=INK2, va="bottom")
         h0, h1 = min(hits[val]), max(hits[val])
         l0, l1 = [(win[0] - h).total_seconds() / 3600 for h in (h1, h0)]
         txt = f"{h0:%d %b %H:%M} to {h1:%H:%M}\n{math.floor(l0):+d} to {math.ceil(l1):+d} h before first failures"
-        tx, ty, ha = (h0 - pd.Timedelta(hours=1), 80, "right") if val < 100 else (h0 - pd.Timedelta(hours=2), 275, "right")
-        b.text(tx, ty, txt, ha=ha, va="bottom", fontsize=6.3, color=INK)
+        tx, ty = (h0 - pd.Timedelta(hours=2), 114) if val < 100 else (h0 - pd.Timedelta(hours=3), 268)
+        b.annotate(txt, xy=(h0, val), xytext=(tx, ty), ha="right", va="bottom",
+                   fontsize=6.3, color=INK,
+                   arrowprops=dict(arrowstyle="-", lw=0.6, color=MUTED,
+                                   shrinkA=3, shrinkB=6, connectionstyle="arc3,rad=0.12"))
     b.set_ylabel("Rolling 24-h total (mm)", fontsize=7); b.set_ylim(0, 400)
     b.legend(frameon=False, fontsize=6.8, loc="upper left", bbox_to_anchor=(0.0, 0.96))
     b.set_xlim(t0, t1); b.xaxis.set_major_locator(mdates.HourLocator(byhour=[0, 12]))
     b.xaxis.set_major_formatter(mdates.DateFormatter("%d %b\n%H:%M")); b.set_xlabel("Bangladesh Standard Time (UTC+6); dashed lines uncorrected", fontsize=7)
-    fig.savefig(OUT / "fig3_june2017_hourly.pdf", bbox_inches="tight"); fig.savefig(OUT / "fig3_june2017_hourly.png", dpi=200, bbox_inches="tight")
+    fig.savefig(OUT / "fig1_june2017_hourly.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig1_june2017_hourly.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
     return {v: [str(x) for x in h] for v, h in hits.items()}
 

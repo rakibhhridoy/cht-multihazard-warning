@@ -84,9 +84,9 @@ Creative Commons Attribution 4.0 International (`LICENSE-data`).
 ## Authors
 
 Md Rakib Hasan ([0009-0002-4007-7590](https://orcid.org/0009-0002-4007-7590)),
+Shoumik Zubyer ([0009-0006-4085-1493](https://orcid.org/0009-0006-4085-1493)),
 Mst Anika Khatun Rupa ([0009-0008-4347-4288](https://orcid.org/0009-0008-4347-4288)),
-Fazla Zawadul Arabi ([0009-0001-4632-9579](https://orcid.org/0009-0001-4632-9579)),
-Shoumik Zubyer ([0009-0006-4085-1493](https://orcid.org/0009-0006-4085-1493))
+A. S. M. Mohiuddin
 
 Fermium Systems, Dhaka, and the Department of Soil, Water and Environment,
 University of Dhaka.
