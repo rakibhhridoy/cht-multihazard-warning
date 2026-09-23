@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite it as below."
+title: "Compound landslide and flash flood events in the Chittagong Hill Tracts: analysis code and derived data"
+abstract: "Analysis code, derived data and claims register for a study of three compound landslide and flash flood events in south-eastern Bangladesh (June 2017, August 2023, July 2026), comparing observation, forecast, advisory and action across the three events."
+type: software
+authors:
+  - family-names: Hasan
+    given-names: "Md Rakib"
+    orcid: "https://orcid.org/0009-0002-4007-7590"
+    affiliation: "Fermium Systems, Dhaka, Bangladesh; Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+    email: rakibhhridoy@fermium.systems
+  - family-names: Rupa
+    given-names: "Mst Anika Khatun"
+    orcid: "https://orcid.org/0009-0008-4347-4288"
+    affiliation: "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+  - family-names: Arabi
+    given-names: "Fazla Zawadul"
+    orcid: "https://orcid.org/0009-0001-4632-9579"
+    affiliation: "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+  - family-names: Zubyer
+    given-names: "Shoumik"
+    orcid: "https://orcid.org/0009-0006-4085-1493"
+    affiliation: "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+keywords:
+  - landslide
+  - flash flood
+  - compound hazard
+  - early warning
+  - Chittagong Hill Tracts
+  - Bangladesh
+  - anticipatory action
+  - ERA5-Land
+  - GPM IMERG
+license: MIT
+repository-code: "https://github.com/rakibhhridoy/cht-multihazard-warning"
+version: "1.0.0"
+date-released: "2026-09-23"

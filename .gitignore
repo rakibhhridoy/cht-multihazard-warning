@@ -1,0 +1,25 @@
+# Raw reanalysis and satellite data are fetched, never committed
+*.nc
+*.nc4
+*.hdf5
+*.HDF5
+data/era5land/
+data/imerg/
+data/imerg_raw/
+
+# Third-party documents and publisher PDFs are not redistributed
+*.pdf
+
+# Third-party inventory: download from the publisher
+data/rabby_li_inventory/
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS
+.DS_Store
+._*

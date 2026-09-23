@@ -1,0 +1,179 @@
+{
+ "summary": {
+  "era5land_raw": {
+   "max24h_mm": 116.3,
+   "peak_hourly_mm": 12.8,
+   "ratio_to_gauge_343": 0.34,
+   "onset_first_hour_ge_1mm_after_12Jun": "2017-06-12 01:00:00",
+   "K_low": 2.854,
+   "K_high": 2.948
+  },
+  "imerg_raw": {
+   "max24h_mm": 215.5,
+   "peak_hourly_mm": 21.9,
+   "ratio_to_gauge_343": 0.63,
+   "onset_first_hour_ge_1mm_after_12Jun": "2017-06-12 00:00:00",
+   "K_low": 1.541,
+   "K_high": 1.592
+  }
+ },
+ "crossings": {
+  "era5land_raw": {
+   "empirical_24h_57.4": {
+    "time": "2017-06-12 11:00:00",
+    "lead_h_earliest": 15.5,
+    "lead_h_dawn": 18.5,
+    "lead_h_latest": 24.0
+   },
+   "empirical_72h_130": {
+    "time": "2017-06-13 02:00:00",
+    "lead_h_earliest": 0.5,
+    "lead_h_dawn": 3.5,
+    "lead_h_latest": 9.0
+   },
+   "operational_3h_100": null,
+   "operational_24h_200": null,
+   "operational_72h_350": null
+  },
+  "imerg_raw": {
+   "empirical_24h_57.4": {
+    "time": "2017-06-12 11:00:00",
+    "lead_h_earliest": 15.5,
+    "lead_h_dawn": 18.5,
+    "lead_h_latest": 24.0
+   },
+   "empirical_72h_130": {
+    "time": "2017-06-12 16:00:00",
+    "lead_h_earliest": 10.5,
+    "lead_h_dawn": 13.5,
+    "lead_h_latest": 19.0
+   },
+   "operational_3h_100": null,
+   "operational_24h_200": {
+    "time": "2017-06-13 06:00:00",
+    "lead_h_earliest": -3.5,
+    "lead_h_dawn": -0.5,
+    "lead_h_latest": 5.0
+   },
+   "operational_72h_350": null
+  },
+  "era5land_raw_corr_low": {
+   "empirical_24h_57.4": {
+    "time": "2017-06-12 02:00:00",
+    "lead_h_earliest": 24.5,
+    "lead_h_dawn": 27.5,
+    "lead_h_latest": 33.0
+   },
+   "empirical_72h_130": {
+    "time": "2017-06-12 03:00:00",
+    "lead_h_earliest": 23.5,
+    "lead_h_dawn": 26.5,
+    "lead_h_latest": 32.0
+   },
+   "operational_3h_100": {
+    "time": "2017-06-13 03:00:00",
+    "lead_h_earliest": -0.5,
+    "lead_h_dawn": 2.5,
+    "lead_h_latest": 8.0
+   },
+   "operational_24h_200": {
+    "time": "2017-06-12 20:00:00",
+    "lead_h_earliest": 6.5,
+    "lead_h_dawn": 9.5,
+    "lead_h_latest": 15.0
+   },
+   "operational_72h_350": {
+    "time": "2017-06-13 02:00:00",
+    "lead_h_earliest": 0.5,
+    "lead_h_dawn": 3.5,
+    "lead_h_latest": 9.0
+   }
+  },
+  "era5land_raw_corr_high": {
+   "empirical_24h_57.4": {
+    "time": "2017-06-12 02:00:00",
+    "lead_h_earliest": 24.5,
+    "lead_h_dawn": 27.5,
+    "lead_h_latest": 33.0
+   },
+   "empirical_72h_130": {
+    "time": "2017-06-12 03:00:00",
+    "lead_h_earliest": 23.5,
+    "lead_h_dawn": 26.5,
+    "lead_h_latest": 32.0
+   },
+   "operational_3h_100": {
+    "time": "2017-06-13 03:00:00",
+    "lead_h_earliest": -0.5,
+    "lead_h_dawn": 2.5,
+    "lead_h_latest": 8.0
+   },
+   "operational_24h_200": {
+    "time": "2017-06-12 19:00:00",
+    "lead_h_earliest": 7.5,
+    "lead_h_dawn": 10.5,
+    "lead_h_latest": 16.0
+   },
+   "operational_72h_350": {
+    "time": "2017-06-13 01:00:00",
+    "lead_h_earliest": 1.5,
+    "lead_h_dawn": 4.5,
+    "lead_h_latest": 10.0
+   }
+  },
+  "imerg_raw_corr_low": {
+   "empirical_24h_57.4": {
+    "time": "2017-06-12 08:00:00",
+    "lead_h_earliest": 18.5,
+    "lead_h_dawn": 21.5,
+    "lead_h_latest": 27.0
+   },
+   "empirical_72h_130": {
+    "time": "2017-06-12 11:00:00",
+    "lead_h_earliest": 15.5,
+    "lead_h_dawn": 18.5,
+    "lead_h_latest": 24.0
+   },
+   "operational_3h_100": null,
+   "operational_24h_200": {
+    "time": "2017-06-12 23:00:00",
+    "lead_h_earliest": 3.5,
+    "lead_h_dawn": 6.5,
+    "lead_h_latest": 12.0
+   },
+   "operational_72h_350": {
+    "time": "2017-06-13 05:00:00",
+    "lead_h_earliest": -2.5,
+    "lead_h_dawn": 0.5,
+    "lead_h_latest": 6.0
+   }
+  },
+  "imerg_raw_corr_high": {
+   "empirical_24h_57.4": {
+    "time": "2017-06-12 08:00:00",
+    "lead_h_earliest": 18.5,
+    "lead_h_dawn": 21.5,
+    "lead_h_latest": 27.0
+   },
+   "empirical_72h_130": {
+    "time": "2017-06-12 10:00:00",
+    "lead_h_earliest": 16.5,
+    "lead_h_dawn": 19.5,
+    "lead_h_latest": 25.0
+   },
+   "operational_3h_100": null,
+   "operational_24h_200": {
+    "time": "2017-06-12 22:00:00",
+    "lead_h_earliest": 4.5,
+    "lead_h_dawn": 7.5,
+    "lead_h_latest": 13.0
+   },
+   "operational_72h_350": {
+    "time": "2017-06-13 05:00:00",
+    "lead_h_earliest": -2.5,
+    "lead_h_dawn": 0.5,
+    "lead_h_latest": 6.0
+   }
+  }
+ }
+}

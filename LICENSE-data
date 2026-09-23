@@ -1,0 +1,19 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Md Rakib Hasan, Mst Anika Khatun Rupa, Fazla Zawadul Arabi, Shoumik Zubyer
+
+The derived data files in data/results/ and data/figdata/, and the claims
+register in review/claims-register.md, are licensed under the Creative Commons
+Attribution 4.0 International License.
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the license, and
+indicate if changes were made.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+This license applies only to the derived material produced by this study. The
+underlying ERA5-Land, GPM IMERG and landslide-inventory data carry the terms of
+their respective providers, as recorded in README.md. Source code in
+data/scripts/ and figures/ is licensed separately under the MIT License, in the
+file LICENSE.
