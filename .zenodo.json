@@ -6,17 +6,45 @@
   "access_right": "open",
   "language": "eng",
   "creators": [
-    {"name": "Hasan, Md Rakib", "orcid": "0009-0002-4007-7590", "affiliation": "Fermium Systems, Dhaka, Bangladesh; Department of Soil, Water and Environment, University of Dhaka, Bangladesh"},
-    {"name": "Rupa, Mst Anika Khatun", "orcid": "0009-0008-4347-4288", "affiliation": "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"},
-    {"name": "Arabi, Fazla Zawadul", "orcid": "0009-0001-4632-9579", "affiliation": "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"},
-    {"name": "Zubyer, Shoumik", "orcid": "0009-0006-4085-1493", "affiliation": "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"}
+    {
+      "name": "Hasan, Md Rakib",
+      "orcid": "0009-0002-4007-7590",
+      "affiliation": "Fermium Systems, Dhaka, Bangladesh; Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+    },
+    {
+      "name": "Zubyer, Shoumik",
+      "orcid": "0009-0006-4085-1493",
+      "affiliation": "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+    },
+    {
+      "name": "Rupa, Mst Anika Khatun",
+      "orcid": "0009-0008-4347-4288",
+      "affiliation": "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+    },
+    {
+      "name": "Arabi, Fazla Zawadul",
+      "orcid": "0009-0001-4632-9579",
+      "affiliation": "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
+    }
   ],
   "keywords": [
-    "landslide", "flash flood", "compound hazard", "multi-hazard",
-    "early warning", "anticipatory action", "rainfall threshold",
-    "Chittagong Hill Tracts", "Bangladesh", "ERA5-Land", "GPM IMERG"
+    "landslide",
+    "flash flood",
+    "compound hazard",
+    "multi-hazard",
+    "early warning",
+    "anticipatory action",
+    "rainfall threshold",
+    "Chittagong Hill Tracts",
+    "Bangladesh",
+    "ERA5-Land",
+    "GPM IMERG"
   ],
   "related_identifiers": [
-    {"identifier": "https://github.com/rakibhhridoy/cht-multihazard-warning", "relation": "isSupplementTo", "scheme": "url"}
+    {
+      "identifier": "https://github.com/rakibhhridoy/cht-multihazard-warning",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
   ]
 }

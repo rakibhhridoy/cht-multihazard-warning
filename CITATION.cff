@@ -9,6 +9,10 @@ authors:
     orcid: "https://orcid.org/0009-0002-4007-7590"
     affiliation: "Fermium Systems, Dhaka, Bangladesh; Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
     email: rakibhhridoy@fermium.systems
+  - family-names: Zubyer
+    given-names: "Shoumik"
+    orcid: "https://orcid.org/0009-0006-4085-1493"
+    affiliation: "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
   - family-names: Rupa
     given-names: "Mst Anika Khatun"
     orcid: "https://orcid.org/0009-0008-4347-4288"
@@ -16,10 +20,6 @@ authors:
   - family-names: Arabi
     given-names: "Fazla Zawadul"
     orcid: "https://orcid.org/0009-0001-4632-9579"
-    affiliation: "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
-  - family-names: Zubyer
-    given-names: "Shoumik"
-    orcid: "https://orcid.org/0009-0006-4085-1493"
     affiliation: "Department of Soil, Water and Environment, University of Dhaka, Bangladesh"
 keywords:
   - landslide
