@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Build the three manuscript figures.
+"""Build the four manuscript figures.
 
 File names follow the rendered figure numbers: fig1 = June 2017 hourly (Section 3),
-fig2 = the three events (Section 4), fig3 = Rangamati and the residual (Section 5).
+fig2 = the three events (Section 4), fig3 = Rangamati and the residual (Section 5), fig4 = the 1950-2025
+rainfall climatology (Section 5).
 The builder functions keep their original names.
 
 Rainfall: ERA5-Land hourly from the Copernicus CDS and IMERG V07 half-hourly, processed by
@@ -18,7 +19,9 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.patheffects as pe
 
-ROOT = Path(__file__).resolve().parents[2]
+# The same file runs from the public repository (figures/) and from the manuscript tree
+# (manuscript/figures/), so the project root is the nearest ancestor holding data/.
+ROOT = next(p for p in Path(__file__).resolve().parents if (p / "data" / "scripts").is_dir())
 CACHE = ROOT / "data" / "figdata"; CACHE.mkdir(parents=True, exist_ok=True)
 OUT = Path(__file__).resolve().parent
 
@@ -286,6 +289,52 @@ def fig3():
     plt.close(fig)
     return {v: [str(x) for x in h] for v, h in hits.items()}
 
+def fig4():
+    """Annual maximum rolling 24-h ERA5-Land rainfall, 1950-2025, from data/scripts/climatology.py.
+    Values are uncorrected ERA5-Land, so only their ranks and relative changes are interpreted."""
+    import numpy as np
+    sys.path.insert(0, str(ROOT / "data" / "scripts"))
+    from climatology import mann_kendall
+    am = pd.read_csv(ROOT / "data" / "results" / "climatology_annual_maxima.csv")
+    am = am[am.window == "24h"]
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.7), sharey=True, constrained_layout=True)
+    for a, (pt, lab) in zip(axes, [("Rangamati", "a"), ("Bandarban", "b")]):
+        s = am[am.point == pt].set_index("year").annual_max_mm
+        full, part = s[s.index <= 2025], s[s.index > 2025]
+        a.axvspan(1949.5, 1978.5, color=BAND, lw=0, zorder=0)
+        a.text(1964, 300, "before satellite\ndata entered\nthe reanalysis", ha="center", va="top",
+               fontsize=6.3, color=INK2)
+        a.plot(full.index, full.values, color=RAIN, lw=0.7, alpha=0.55, zorder=2)
+        a.scatter(full.index, full.values, s=7, color=RAIN, lw=0, zorder=3)
+        meds = {}
+        for lo, hi in [(1950, 1978), (1979, 2025)]:
+            meds[lo] = m = full.loc[lo:hi].median()
+            a.plot([lo - 0.5, hi + 0.5], [m, m], color=INK2, lw=0.8, ls=(0, (4, 2)), zorder=2)
+        x = full.loc[1979:]; mk = mann_kendall(x.values)
+        yrs = np.array(x.index); b = mk["sen_slope_per_year"]
+        c0 = np.median(x.values - b * (yrs - yrs[0]))
+        a.plot(yrs, c0 + b * (yrs - yrs[0]), color=INK, lw=1.0, zorder=4)
+        a.text(2026, 405, f"dashed: median {meds[1950]:.0f} mm (1950\u201378), {meds[1979]:.0f} mm (1979\u20132025)\n"
+               f"solid: Sen slope 1979\u20132025, {1000*b/x.median():+.0f}% per decade, p = {mk['p']:.2f}",
+               fontsize=6.0, color=INK, ha="right", va="top", linespacing=1.5)
+        for yr, nm in [(2017, "2017"), (2023, "2023")]:
+            a.scatter([yr], [s[yr]], s=26, facecolor="none", edgecolor=SLIDE, lw=1.0, zorder=5)
+            a.annotate(nm, (yr, s[yr]), xytext=(0, 9 if nm == "2017" else -12), textcoords="offset points",
+                       ha="center", fontsize=6.3, color=SLIDE)
+        if len(part):
+            a.scatter(part.index, part.values, s=26, facecolor="none", edgecolor=MUTED, lw=1.0,
+                      ls=(0, (1, 1)), zorder=5)
+            a.annotate("2026 to\n21 Sep", (part.index[0], part.values[0]), xytext=(0, 10),
+                       textcoords="offset points", ha="center", fontsize=6.0, color=MUTED)
+        a.set_title(f"({lab}) {pt}", fontsize=8, loc="left", color=INK)
+        a.set_xlim(1948, 2029); a.set_ylim(0, 410)
+        a.set_xlabel("Year", fontsize=7)
+        a.grid(axis="y", color=GRID, lw=0.5); a.set_axisbelow(True)
+    axes[0].set_ylabel("Annual maximum 24-h total,\nERA5-Land, uncorrected (mm)", fontsize=7)
+    fig.savefig(OUT / "fig4_climatology.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig4_climatology.png", dpi=200, bbox_inches="tight")
+    plt.close(fig)
+
 if __name__ == "__main__":
-    fig1(); fig2(); hits = fig3()
+    fig1(); fig2(); hits = fig3(); fig4()
     print(f"figures written to {OUT}; crossings {hits}")

@@ -23,3 +23,6 @@ venv/
 # OS
 .DS_Store
 ._*
+
+# ERA5-Land monsoon climatology, one NetCDF per year
+data/era5land_climatology/

@@ -15,8 +15,10 @@ inventory, river stage records and agency situation reports. Manuscript in prepa
 | `data/scripts/fetch_era5land.py` | Retrieves ERA5-Land hourly total precipitation from the Copernicus Climate Data Store |
 | `data/scripts/fetch_imerg.py` | Retrieves and subsets GPM IMERG V07 Final half-hourly precipitation |
 | `data/scripts/rain_analysis.py` | De-accumulation of ERA5-Land hourly totals, gauge anchoring, threshold crossings, and the rainfall-based inventory date audit |
-| `figures/make_figures.py` | Builds the three manuscript figures from the derived data in `data/` |
-| `data/results/` | Derived outputs: the June 2017 hourly series at Rangamati, the threshold crossing times, and the inventory date audit table |
+| `data/scripts/fetch_era5land_climatology.py` | Retrieves ERA5-Land hourly precipitation for May to October of every year from 1950, one verified file per season |
+| `data/scripts/climatology.py` | Annual maximum 24- and 72-hour rainfall at Rangamati and Bandarban, Mann-Kendall trends and Sen slopes (full record and 1979 onward), GEV return periods, and threshold-exceedance days |
+| `figures/make_figures.py` | Builds the four manuscript figures from the derived data in `data/` |
+| `data/results/` | Derived outputs: the June 2017 hourly series at Rangamati, the threshold crossing times, the inventory date audit table, and the 1950-2025 rainfall climatology |
 | `data/figdata/` | Cached point rainfall series for the three events: ERA5-Land extractions at Bandarban, and the gauge-comparison series |
 | `review/claims-register.md` | Every load-bearing quantitative claim in the study, its status, and its source |
 
@@ -36,7 +38,7 @@ here where the two disagree.
 ## Reproducing the analysis
 
 ```bash
-pip install xarray netCDF4 pandas numpy matplotlib cdsapi earthaccess
+pip install xarray netCDF4 pandas numpy scipy matplotlib cdsapi earthaccess
 ```
 
 The figures rebuild from the derived data shipped in this repository, with no downloads:
@@ -54,6 +56,19 @@ python data/scripts/fetch_imerg.py        # needs NASA Earthdata credentials in 
 python data/scripts/rain_analysis.py
 python data/scripts/rain_analysis.py audit
 ```
+
+The 1950-2025 climatology needs one CDS request per monsoon season, because the CDS cost
+limit refuses two seasons in one request. Queue time dominates, so expect about a day. The
+fetch is resumable and decides what is missing by opening every file and counting its hours:
+
+```bash
+python data/scripts/fetch_era5land_climatology.py   # rerun until it reports nothing remaining
+python data/scripts/climatology.py
+```
+
+ERA5-Land captures about a third of the June 2017 gauge total, so the climatology interprets
+only rank-based results. The Mann-Kendall test is unchanged by any constant scaling, and the
+Sen slope is reported as a percentage of the median per decade.
 
 `rain_analysis.py` carries a unit test on the ERA5-Land de-accumulation convention, in which
 accumulations run from 00 UTC and reset at 01 UTC. It runs on import and will fail loudly if

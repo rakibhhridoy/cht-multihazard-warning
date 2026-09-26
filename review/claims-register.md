@@ -288,3 +288,23 @@ S9  Figure 2: the 2017 "no dedicated warning" caption overlapped the lane label;
 Read-through also confirmed: no stale counts (257/160/460), no press composites, abstract 150 w,
 0 undefined references, all \reg IDs resolve, three TODOs remain (affiliation, email, repo URL).
 
+## W. Rainfall climatology 1950-2025 (2026-09-26)
+Source for all: data/results/climatology.json and climatology_annual_maxima.csv, from
+data/scripts/climatology.py on ERA5-Land hourly May-Oct 1950-2026 (77 files, each verified at
+4,416 h; 2026 = 3,443 h to 21 Sep 10:00 UTC). Uncorrected ERA5-Land; ranks only.
+W1  2026 season incomplete (ends 21 Sep); excluded from MK, Sen, GEV and threshold-day trends .. SOLID
+W2  Annual max 24h, 1950-2025 (n=76): Rangamati MK Z=-1.20 p=0.23 Sen -2.6 %/dec;
+    Bandarban Z=-0.29 p=0.77 Sen -0.6 %/dec. No significant trend ............................ SOLID
+W3  Step at 1979: median annual max 24h 1950-78 vs 1979-2025 = 111 vs 92 mm (Rangamati, +21 %),
+    123 vs 99 mm (Bandarban, +24 %). Coincides with satellite era (Bell et al. 2021). That the
+    step is a reanalysis artefact is INFERENCE, not shown ...................................... INFER
+W4  1979-2025 (n=47): 24h Rangamati Z=+1.63 p=0.10 Sen +7.0 %/dec; Bandarban Z=+1.63 p=0.10
+    +6.9 %/dec. 72h Rangamati p=0.21 (+6.1 %/dec), Bandarban p=0.095 (+5.5 %/dec) ............. SOLID
+W5  Threshold-day counts (thresholds / 2.95): 1979-2025 p = 0.21 (R, 57.4), 0.063 (B, 57.4),
+    0.47 (R, 200), 0.66 (B, 200). Full record: R 200-mm days decline p=0.039, gone from 1979.
+    Absolute counts (~40 d/season at 57.4) are implausible: the single-event factor over-corrects
+    ordinary rain. Use counts for TREND ONLY, never quote a days-per-season figure ............. SOLID
+W6  Event-year season maxima (24h, GEV on 1950-2025): 2017 = 116.3 mm R / 120.8 mm B, RP 2.6 y
+    at both; 2023 RP 1.6 / 1.2 y; 2026-to-date RP 2.1 / 1.7 y. These are SEASON maxima, an upper
+    bound on the event: Rangamati 2023 max fell 27 Aug (event 8-9 Aug); Bandarban 2017 72h max
+    fell 25 Jul. ERA5-Land cannot rank the events; do not quote these as event return periods .. SOLID
