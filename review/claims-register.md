@@ -351,7 +351,8 @@ Y12 Figure 2's July 2026 panel extended to 18 Jul (rain 14-18 Jul at Bandarban 1
 ## Z. Enhancement analyses (2026-09-26/27) — data/scripts/{event2026,bias_qm,skill,shared_clock,camp_slopes}.py
 Z1  2026 gauge check: 10 BMD 24-h totals (BDRCS SR2-3, Daily Star) vs same windows (event2026.json):
     ERA5-Land ratio 1.49-4.71, median 2.79, IQR 2.30-3.26; IMERG V07 Late median 2.06 (0.92-3.35).
-    Rangamati/Bandarban/Kutubdia at town coordinates; Chattogram (Ambagan) and Cox's Bazar ~1 km .. SOLID
+    Rangamati/Bandarban/Kutubdia at town coordinates; Chattogram (Ambagan) and Cox's Bazar ~1 km.
+    3x3 sensitivity: median ratio 2.63 (wettest neighbour) to 3.07 (driest neighbour) ............ SOLID
 Z2  Quantile mapping on GHCN Chattogram airport (12 seasons 2008-2024) + Cox's Bazar (5 seasons
     2015-2024), seasons >=170 reported days, 3,036 days: 20->27.5 mm, 100->200.8 mm. 2026
     out-of-sample: flat x2.95 bias +14.2 mm, MAE 52.3; QM median 0.69 of gauge; raw 0.36 (bias_qm.json).
@@ -361,6 +362,7 @@ Z3  Skill (skill.json, K_FLAT 2.79): 31 inventory district-dates May-Oct + 6 sit
     season; installed 24h POD 0.22-0.38, alarm 1-2 (qm) / 3-8 (flat). Sitrep events: empirical 1.00.
     Sweep: ~5 alarm d -> POD ~0.38 under BOTH corrections; ~10 d -> ~0.5; ~20 d -> ~0.6. 90% CI
     about +/-0.13. POD is a lower bound (image dates); alarm days are not ...................... SOLID
+    Sensitivity: recorded date only (no day before) lowers each POD by <=0.03 (detection_recorded_date_only)
 Z4  2026 replay, each product corrected by its own 2026 median ratio (event2026.json):
     Rangamati empirical 24h: ERA5 4 Jul 22:00, IMERG 4 Jul 19:00 (>2.5 d before Bulletin 05, 7 Jul 13:00).
     Installed 24h: ERA5 5 Jul 14:00; IMERG 7 Jul 15:00 (2 h AFTER the bulletin); not reached at the
@@ -388,3 +390,10 @@ Z7  TWO TIMING BUGS FOUND AND FIXED (2026-09-27):
         already returns BST). All 2026 numbers in Z1, Z2, Z4 above are from the corrected code;
         the first drafts (median 2.88, crossings 6 h late) are void. skill/shared_clock unaffected
         except via K_FLAT (2.88 -> 2.79) .............................................. FIXED
+Z8  Warming sensitivity (warming.json): corrected 1979-2025 series scaled uniformly by 7 %/deg
+    (Clausius-Clapeyron; Trenberth 2003, Westra 2014), +1..+3 deg. Alarm days: empirical 24h
+    +10-11 %/deg (+30-31 % at 3 deg); installed 24h +17-19 %/deg (+57-62 % at 3 deg, 2.6-7.4 d).
+    Installed POD 0.22-0.38 -> 0.30-0.49 at 3 deg. Scaling rain by f == lowering threshold by f,
+    so warming moves a fixed trigger ALONG the Fig 2b curve. Sensitivity, not projection ...... SOLID
+    (2026-09-27: manuscript restructured to Introduction / Results / Discussion / Methods;
+    Acknowledgements-funding and Competing interests added as \todo placeholders for the authors.)

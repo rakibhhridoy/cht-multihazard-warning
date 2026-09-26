@@ -91,6 +91,15 @@ def main():
                        "pod_inventory": round(float(hv[src == "inventory"].mean()), 2),
                        "pod_sitrep": round(float(hv[src == "sitrep"].mean()), 2), "n": int(len(hv))}
         out["detection"][mode] = det
+        # sensitivity: recorded date only, without the day before
+        same = {}
+        for tn, hrs, thr in THRESH:
+            hv = []
+            for _, e in events.iterrows():
+                w = roll[e.District][hrs].loc[e.D: e.D + pd.Timedelta(hours=23)]
+                if len(w): hv.append(bool((w >= thr).any()))
+            same[tn] = round(float(np.mean(hv)), 2)
+        out.setdefault("detection_recorded_date_only", {})[mode] = same
         alarm = {}
         for tn, hrs, thr in THRESH:
             per = {}

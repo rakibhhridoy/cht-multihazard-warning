@@ -23,6 +23,7 @@ inventory, river stage records and agency situation reports. Manuscript in prepa
 | `data/scripts/bias_qm.py` | Quantile mapping of ERA5-Land onto the Chattogram and Cox's Bazar gauges, validated out of sample on July 2026 |
 | `data/scripts/skill.py` | Detection of dated landslide district-days by each threshold, days per season on which each would fire, and a sweep of the 24-hour threshold |
 | `data/scripts/shared_clock.py` | Threshold crossings at the Sangu and Matamuhuri gauge sites against river danger-level crossings, for all three events |
+| `data/scripts/warming.py` | Sensitivity of the thresholds' alarm days and detection to 1-3 degrees of warming at the Clausius-Clapeyron rate |
 | `data/scripts/camp_slopes.py` | Slope and relief of the 33 Rohingya camps from the Copernicus 30 m elevation model, by fatal and listed status |
 | `figures/make_figures.py` | Builds the five manuscript figures from the derived data in `data/` |
 | `data/results/` | Derived outputs: the June 2017 hourly series at Rangamati, the threshold crossing times, the inventory date audit table, and the 1950-2025 rainfall climatology |
@@ -92,6 +93,7 @@ python data/scripts/bias_qm.py        # quantile mapping, needs the climatology 
 python data/scripts/skill.py
 python data/scripts/shared_clock.py
 python data/scripts/camp_slopes.py
+python data/scripts/warming.py
 ```
 
 Version 1.2.0 also corrects the hour labelling of IMERG in `rain_analysis.py`. IMERG hours were

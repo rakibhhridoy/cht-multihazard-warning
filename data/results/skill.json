@@ -246,6 +246,26 @@
    }
   }
  },
+ "detection_recorded_date_only": {
+  "raw": {
+   "empirical_24h_57.4": 0.43,
+   "empirical_72h_130": 0.41,
+   "installed_24h_200": 0.0,
+   "installed_72h_350": 0.03
+  },
+  "qm": {
+   "empirical_24h_57.4": 0.54,
+   "empirical_72h_130": 0.54,
+   "installed_24h_200": 0.19,
+   "installed_72h_350": 0.32
+  },
+  "flat": {
+   "empirical_24h_57.4": 0.73,
+   "empirical_72h_130": 0.68,
+   "installed_24h_200": 0.35,
+   "installed_72h_350": 0.46
+  }
+ },
  "sweep_24h": {
   "qm": [
    {
