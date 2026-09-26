@@ -77,7 +77,10 @@ def imerg_hourly_point(lat, lon):
     if not isinstance(idx, pd.DatetimeIndex):                      # cftime -> pandas
         idx = pd.DatetimeIndex([pd.Timestamp(str(x)) for x in idx])
     p.index = idx + LOCAL
-    return (p * 0.5).resample("h").sum()                          # mm/h rate over 30 min -> mm per hour
+    # Each IMERG time is the START of its half hour, whereas each ERA5-Land hour is labelled at its
+    # END. Hours are summed on their start and then relabelled at their end, so that a rolling total
+    # labelled t covers the same interval, up to t, in both products.
+    return (p * 0.5).resample("h").sum().shift(1, freq="h")        # mm/h rate over 30 min -> mm per hour
 
 # ---------------------------------------------------------------- thresholds
 def crossings(s):

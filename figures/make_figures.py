@@ -197,8 +197,8 @@ def fig1():
                               va="center", labelpad=10)
     # the month is already in each panel title, so the axis carries only the day of month
     fig.text(0.5, 0.055, "Day of month", ha="center", fontsize=7.5, color=INK2)
-    fig.savefig(OUT / "fig2_three_events.pdf", bbox_inches="tight")
-    fig.savefig(OUT / "fig2_three_events.png", dpi=200, bbox_inches="tight")
+    fig.savefig(OUT / "fig3_three_events.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig3_three_events.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 # ======================================================================================
@@ -251,8 +251,8 @@ def fig2():
     axR.text(0, 1.015, "at least 21 deaths are identifiable\nfrom the incident records",
              transform=axR.transAxes, fontsize=6.8, color=MUTED, va="bottom")
 
-    fig.savefig(OUT / "fig3_rangamati.pdf", bbox_inches="tight")
-    fig.savefig(OUT / "fig3_rangamati.png", dpi=200, bbox_inches="tight")
+    fig.savefig(OUT / "fig4_rangamati.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig4_rangamati.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 # ======================================================================================
@@ -342,10 +342,63 @@ def fig4():
         a.set_xlabel("Year", fontsize=7)
         a.grid(axis="y", color=GRID, lw=0.5); a.set_axisbelow(True)
     axes[0].set_ylabel("Annual maximum 24-h total,\nERA5-Land, uncorrected (mm)", fontsize=7)
-    fig.savefig(OUT / "fig4_climatology.pdf", bbox_inches="tight")
-    fig.savefig(OUT / "fig4_climatology.png", dpi=200, bbox_inches="tight")
+    fig.savefig(OUT / "fig5_climatology.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig5_climatology.png", dpi=200, bbox_inches="tight")
+    plt.close(fig)
+
+def fig5():
+    """(a) ERA5-Land against the BMD 24-h gauge totals of July 2026 (event2026.py, bias_qm.py).
+    (b) Detection of dated landslide district-days against the number of days per monsoon on
+    which a 24-h threshold would fire, under both corrections (skill.py)."""
+    import json, numpy as np
+    res = ROOT / "data" / "results"
+    g = json.loads((res / "event2026.json").read_text())["gauge_check"]
+    q = json.loads((res / "bias_qm.json").read_text())
+    sk = json.loads((res / "skill.json").read_text())
+    tq = pd.read_csv(res / "qm_transfer.csv")
+    fig, (a, b) = plt.subplots(1, 2, figsize=(7.2, 3.0), constrained_layout=True,
+                               gridspec_kw={"width_ratios": [1, 1.25]})
+    # ---- (a) gauge check ----
+    era = np.array([r["era5land_mm"] for r in g["pairs"]]); gau = np.array([r["gauge_mm"] for r in g["pairs"]])
+    xs = np.linspace(0, 130, 50)
+    a.plot(xs, xs, color=MUTED, lw=0.7, ls=(0, (1, 1.5)))
+    a.plot(xs, 2.95 * xs, color=INK, lw=0.9)
+    a.plot(tq.era5land_mm.clip(upper=130), np.interp(tq.era5land_mm.clip(upper=130), tq.era5land_mm, tq.gauge_mm),
+           color=RAIN, lw=0.9, ls=(0, (4, 2)))
+    a.scatter(era, gau, s=22, color=SLIDE, edgecolor="white", lw=0.6, zorder=3)
+    a.text(118, 2.95 * 118 - 6, "x2.95 (2017 anchor)", fontsize=6.2, color=INK, ha="right", va="top", rotation=0)
+    a.text(128, 220, "quantile mapping\n(two coastal gauges)", fontsize=6.2, color=RAIN, ha="right", va="top")
+    a.text(126, 118, "1:1", fontsize=6.2, color=MUTED, ha="right", va="bottom")
+    a.set_xlim(0, 130); a.set_ylim(0, 380)
+    a.set_xlabel("ERA5-Land 24-h total (mm)", fontsize=7)
+    a.set_ylabel("BMD gauge 24-h total (mm)", fontsize=7)
+    a.set_title(f"(a) July 2026, ten gauge totals\nmedian ratio {g['median_ratio']:.2f}", fontsize=8, loc="left", color=INK)
+    a.grid(color=GRID, lw=0.5); a.set_axisbelow(True)
+    # ---- (b) trade-off ----
+    for mode, col, lab in [("qm", RAIN, "quantile-mapped"), ("flat", INK, f"flat factor {g['median_ratio']:.2f}")]:
+        sw = sk["sweep_24h"][mode]
+        x = [r["alarm_days_mean"] for r in sw]; y = [r["pod"] for r in sw]
+        b.plot(x, y, color=col, lw=1.0, marker="o", ms=2.5, label=lab)
+        for tn, thr, mk in [("empirical_24h_57.4", 57.4, "s"), ("installed_24h_200", 200, "D")]:
+            ad = np.mean(list(sk["alarm_days_per_season_1979_2025"][mode][tn].values()))
+            pod = sk["detection"][mode][tn]["pod_all"]
+            b.scatter([ad], [pod], s=34, marker=mk, facecolor="white", edgecolor=col, lw=1.1, zorder=4)
+    b.set_xscale("log"); b.set_xlim(0.15, 90); b.set_ylim(0, 1)
+    b.set_xticks([0.2, 0.5, 1, 2, 5, 10, 20, 50]); b.set_xticklabels(["0.2", "0.5", "1", "2", "5", "10", "20", "50"])
+    b.scatter([], [], marker="s", facecolor="white", edgecolor=INK2, label="empirical 57.4 mm")
+    b.scatter([], [], marker="D", facecolor="white", edgecolor=INK2, label="installed 200 mm")
+    b.legend(fontsize=6.2, frameon=False, loc="upper left")
+    b.set_xlabel("Days per May\u2013October season the threshold fires (1979\u20132025 mean)", fontsize=7)
+    b.set_ylabel("Share of dated landslide\ndistrict-days detected", fontsize=7)
+    b.set_title(f"(b) Detection against alarm days, 24-h threshold, n = {sk['detection']['qm']['empirical_24h_57.4']['n']}",
+                fontsize=8, loc="left", color=INK)
+    b.grid(color=GRID, lw=0.5, which="major"); b.set_axisbelow(True)
+    for ax in (a, b):
+        ax.tick_params(labelsize=6.5)
+    fig.savefig(OUT / "fig2_skill.pdf", bbox_inches="tight")
+    fig.savefig(OUT / "fig2_skill.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 if __name__ == "__main__":
-    fig1(); fig2(); hits = fig3(); fig4()
+    fig1(); fig2(); hits = fig3(); fig4(); fig5()
     print(f"figures written to {OUT}; crossings {hits}")

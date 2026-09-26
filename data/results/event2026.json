@@ -1,0 +1,394 @@
+{
+ "gauge_check": {
+  "pairs": [
+   {
+    "station": "Chattogram",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 283,
+    "era5land_mm": 60.1,
+    "ratio": 4.71,
+    "ratio_range_3x3": [
+     4.48,
+     5.65
+    ],
+    "cell_offset_km": 6.0
+   },
+   {
+    "station": "Kutubdia",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 195,
+    "era5land_mm": 67.0,
+    "ratio": 2.91,
+    "ratio_range_3x3": [
+     2.8,
+     3.4
+    ],
+    "cell_offset_km": 10.5
+   },
+   {
+    "station": "Cox's Bazar",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 129,
+    "era5land_mm": 59.0,
+    "ratio": 2.19,
+    "ratio_range_3x3": [
+     2.15,
+     2.19
+    ],
+    "cell_offset_km": 8.5
+   },
+   {
+    "station": "Bandarban",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 128,
+    "era5land_mm": 38.8,
+    "ratio": 3.3,
+    "ratio_range_3x3": [
+     2.85,
+     3.42
+    ],
+    "cell_offset_km": 2.2
+   },
+   {
+    "station": "Rangamati",
+    "end_bst": "2026-07-08 06:00",
+    "gauge_mm": 287,
+    "era5land_mm": 91.2,
+    "ratio": 3.15,
+    "ratio_range_3x3": [
+     2.88,
+     3.19
+    ],
+    "cell_offset_km": 4.4
+   },
+   {
+    "station": "Bandarban",
+    "end_bst": "2026-07-08 09:00",
+    "gauge_mm": 309,
+    "era5land_mm": 86.7,
+    "ratio": 3.57,
+    "ratio_range_3x3": [
+     3.23,
+     3.82
+    ],
+    "cell_offset_km": 2.2
+   },
+   {
+    "station": "Chattogram",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 329,
+    "era5land_mm": 123.9,
+    "ratio": 2.66,
+    "ratio_range_3x3": [
+     2.46,
+     2.88
+    ],
+    "cell_offset_km": 6.0
+   },
+   {
+    "station": "Bandarban",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 235,
+    "era5land_mm": 88.8,
+    "ratio": 2.65,
+    "ratio_range_3x3": [
+     2.34,
+     2.95
+    ],
+    "cell_offset_km": 2.2
+   },
+   {
+    "station": "Rangamati",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 130,
+    "era5land_mm": 87.2,
+    "ratio": 1.49,
+    "ratio_range_3x3": [
+     1.32,
+     1.6
+    ],
+    "cell_offset_km": 4.4
+   },
+   {
+    "station": "Cox's Bazar",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 125,
+    "era5land_mm": 74.3,
+    "ratio": 1.68,
+    "ratio_range_3x3": [
+     1.63,
+     1.68
+    ],
+    "cell_offset_km": 8.5
+   }
+  ],
+  "median_ratio": 2.79,
+  "iqr": [
+   2.3,
+   3.26
+  ],
+  "min_max": [
+   1.49,
+   4.71
+  ],
+  "ratio_2017_anchor": 2.95
+ },
+ "replay": {
+  "Rangamati": {
+   "cell_offset_km": 4.8,
+   "raw_max24h_mm": 106.4,
+   "raw": {
+    "empirical_24h_57.4": "2026-07-05 11:00",
+    "empirical_72h_130": "2026-07-06 16:00",
+    "installed_24h_200": null,
+    "installed_72h_350": null
+   },
+   "k_min": {
+    "empirical_24h_57.4": "2026-07-05 04:00",
+    "empirical_72h_130": "2026-07-05 16:00",
+    "installed_24h_200": null,
+    "installed_72h_350": "2026-07-09 03:00"
+   },
+   "k_median": {
+    "empirical_24h_57.4": "2026-07-04 22:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-05 14:00",
+    "installed_72h_350": "2026-07-06 13:00"
+   },
+   "k_max": {
+    "empirical_24h_57.4": "2026-07-04 21:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-05 06:00",
+    "installed_72h_350": "2026-07-05 13:00"
+   }
+  },
+  "Ukhiya camps": {
+   "cell_offset_km": 5.0,
+   "raw_max24h_mm": 142.1,
+   "raw": {
+    "empirical_24h_57.4": "2026-07-04 20:00",
+    "empirical_72h_130": "2026-07-05 09:00",
+    "installed_24h_200": null,
+    "installed_72h_350": null
+   },
+   "k_min": {
+    "empirical_24h_57.4": "2026-07-04 19:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-05 10:00",
+    "installed_72h_350": "2026-07-06 23:00"
+   },
+   "k_median": {
+    "empirical_24h_57.4": "2026-07-04 17:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-05 01:00",
+    "installed_72h_350": "2026-07-05 08:00"
+   },
+   "k_max": {
+    "empirical_24h_57.4": "2026-07-04 16:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-04 19:00",
+    "installed_72h_350": "2026-07-05 06:00"
+   }
+  },
+  "Chattogram": {
+   "cell_offset_km": 6.0,
+   "raw_max24h_mm": 134.8,
+   "raw": {
+    "empirical_24h_57.4": "2026-07-05 00:00",
+    "empirical_72h_130": "2026-07-05 16:00",
+    "installed_24h_200": null,
+    "installed_72h_350": null
+   },
+   "k_min": {
+    "empirical_24h_57.4": "2026-07-04 23:00",
+    "empirical_72h_130": "2026-07-05 07:00",
+    "installed_24h_200": "2026-07-09 15:00",
+    "installed_72h_350": "2026-07-07 06:00"
+   },
+   "k_median": {
+    "empirical_24h_57.4": "2026-07-04 22:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-05 05:00",
+    "installed_72h_350": "2026-07-05 14:00"
+   },
+   "k_max": {
+    "empirical_24h_57.4": "2026-07-04 21:00",
+    "empirical_72h_130": "2026-07-05 06:00",
+    "installed_24h_200": "2026-07-04 23:00",
+    "installed_72h_350": "2026-07-05 06:00"
+   }
+  }
+ },
+ "imerg": {
+  "product": "IMERG V07 Late (GPM_3IMERGHHL)",
+  "gauge_pairs": [
+   {
+    "station": "Chattogram",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 283,
+    "imerg_mm": 84.5,
+    "ratio": 3.35
+   },
+   {
+    "station": "Kutubdia",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 195,
+    "imerg_mm": 135.2,
+    "ratio": 1.44
+   },
+   {
+    "station": "Cox's Bazar",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 129,
+    "imerg_mm": 129.8,
+    "ratio": 0.99
+   },
+   {
+    "station": "Bandarban",
+    "end_bst": "2026-07-07 06:00",
+    "gauge_mm": 128,
+    "imerg_mm": 98.2,
+    "ratio": 1.3
+   },
+   {
+    "station": "Rangamati",
+    "end_bst": "2026-07-08 06:00",
+    "gauge_mm": 287,
+    "imerg_mm": 111.4,
+    "ratio": 2.58
+   },
+   {
+    "station": "Bandarban",
+    "end_bst": "2026-07-08 09:00",
+    "gauge_mm": 309,
+    "imerg_mm": 133.7,
+    "ratio": 2.31
+   },
+   {
+    "station": "Chattogram",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 329,
+    "imerg_mm": 109.3,
+    "ratio": 3.01
+   },
+   {
+    "station": "Bandarban",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 235,
+    "imerg_mm": 84.9,
+    "ratio": 2.77
+   },
+   {
+    "station": "Rangamati",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 130,
+    "imerg_mm": 71.4,
+    "ratio": 1.82
+   },
+   {
+    "station": "Cox's Bazar",
+    "end_bst": "2026-07-09 06:00",
+    "gauge_mm": 125,
+    "imerg_mm": 136.5,
+    "ratio": 0.92
+   }
+  ],
+  "median_ratio": 2.06,
+  "min_max": [
+   0.92,
+   3.35
+  ],
+  "replay": {
+   "Rangamati": {
+    "raw_max24h_mm": 131.3,
+    "raw": {
+     "empirical_24h_57.4": "2026-07-07 04:00",
+     "empirical_72h_130": "2026-07-07 09:00",
+     "installed_24h_200": null,
+     "installed_72h_350": null
+    },
+    "k_min": {
+     "empirical_24h_57.4": "2026-07-07 10:00",
+     "empirical_72h_130": "2026-07-07 10:00",
+     "installed_24h_200": null,
+     "installed_72h_350": null
+    },
+    "k_median": {
+     "empirical_24h_57.4": "2026-07-04 19:00",
+     "empirical_72h_130": "2026-07-06 00:00",
+     "installed_24h_200": "2026-07-07 15:00",
+     "installed_72h_350": "2026-07-07 14:00"
+    },
+    "k_max": {
+     "empirical_24h_57.4": "2026-07-04 19:00",
+     "empirical_72h_130": "2026-07-06 00:00",
+     "installed_24h_200": "2026-07-07 09:00",
+     "installed_72h_350": "2026-07-07 01:00"
+    }
+   },
+   "Ukhiya camps": {
+    "raw_max24h_mm": 189.8,
+    "raw": {
+     "empirical_24h_57.4": "2026-07-05 18:00",
+     "empirical_72h_130": "2026-07-06 06:00",
+     "installed_24h_200": null,
+     "installed_72h_350": null
+    },
+    "k_min": {
+     "empirical_24h_57.4": "2026-07-05 21:00",
+     "empirical_72h_130": "2026-07-06 07:00",
+     "installed_24h_200": null,
+     "installed_72h_350": null
+    },
+    "k_median": {
+     "empirical_24h_57.4": "2026-07-05 11:00",
+     "empirical_72h_130": "2026-07-06 00:00",
+     "installed_24h_200": "2026-07-06 03:00",
+     "installed_72h_350": "2026-07-06 09:00"
+    },
+    "k_max": {
+     "empirical_24h_57.4": "2026-07-05 10:00",
+     "empirical_72h_130": "2026-07-06 00:00",
+     "installed_24h_200": "2026-07-05 21:00",
+     "installed_72h_350": "2026-07-06 03:00"
+    }
+   },
+   "Chattogram": {
+    "raw_max24h_mm": 157.5,
+    "raw": {
+     "empirical_24h_57.4": "2026-07-06 15:00",
+     "empirical_72h_130": "2026-07-06 18:00",
+     "installed_24h_200": null,
+     "installed_72h_350": null
+    },
+    "k_min": {
+     "empirical_24h_57.4": "2026-07-06 15:00",
+     "empirical_72h_130": "2026-07-06 21:00",
+     "installed_24h_200": null,
+     "installed_72h_350": null
+    },
+    "k_median": {
+     "empirical_24h_57.4": "2026-07-04 21:00",
+     "empirical_72h_130": "2026-07-06 00:00",
+     "installed_24h_200": "2026-07-07 09:00",
+     "installed_72h_350": "2026-07-07 07:00"
+    },
+    "k_max": {
+     "empirical_24h_57.4": "2026-07-04 20:00",
+     "empirical_72h_130": "2026-07-06 00:00",
+     "installed_24h_200": "2026-07-06 15:00",
+     "installed_72h_350": "2026-07-06 14:00"
+    }
+   }
+  }
+ },
+ "timeline_bst": {
+  "forecast_and_activation": "2026-07-05 00:00",
+  "camp_deaths_6jul": "2026-07-06 00:00",
+  "bulletin_05": "2026-07-07 13:00",
+  "rangamati_287mm_window_end": "2026-07-08 06:00",
+  "camp5_deaths": "2026-07-08 12:00",
+  "rangamati_upgrade_reported": "2026-07-09 00:00"
+ },
+ "note": "ERA5-Land event file ends 14 Jul 2026 23:00 UTC. Corrected = raw x ratio."
+}

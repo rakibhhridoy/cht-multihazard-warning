@@ -1,0 +1,146 @@
+{
+ "calibration": {
+  "Chattogram airport": {
+   "seasons": [
+    2008,
+    2009,
+    2010,
+    2011,
+    2013,
+    2014,
+    2015,
+    2017,
+    2018,
+    2020,
+    2023,
+    2024
+   ],
+   "days": 2150,
+   "gauge_mean_mm": 16.01,
+   "era5land_mean_mm": 12.39,
+   "gauge_p99_mm": 176.5,
+   "era5land_p99_mm": 85.7
+  },
+  "Cox's Bazar": {
+   "seasons": [
+    2015,
+    2018,
+    2020,
+    2023,
+    2024
+   ],
+   "days": 886,
+   "gauge_mean_mm": 21.07,
+   "era5land_mean_mm": 14.42,
+   "gauge_p99_mm": 224.8,
+   "era5land_p99_mm": 108.7
+  }
+ },
+ "calibration_days": 3036,
+ "transfer_points_mm": {
+  "5": 1.4,
+  "20": 27.5,
+  "40": 62.0,
+  "60": 105.6,
+  "80": 145.4,
+  "100": 200.8,
+  "120": 242.1
+ },
+ "validation_2026": [
+  {
+   "station": "Chattogram",
+   "end_bst": "2026-07-07 06:00",
+   "gauge": 283,
+   "raw": 60.1,
+   "x2.95": 177.2,
+   "qm": 105.7
+  },
+  {
+   "station": "Kutubdia",
+   "end_bst": "2026-07-07 06:00",
+   "gauge": 195,
+   "raw": 67.0,
+   "x2.95": 197.6,
+   "qm": 117.1
+  },
+  {
+   "station": "Cox's Bazar",
+   "end_bst": "2026-07-07 06:00",
+   "gauge": 129,
+   "raw": 59.0,
+   "x2.95": 174.1,
+   "qm": 103.6
+  },
+  {
+   "station": "Bandarban",
+   "end_bst": "2026-07-07 06:00",
+   "gauge": 128,
+   "raw": 38.8,
+   "x2.95": 114.5,
+   "qm": 60.4
+  },
+  {
+   "station": "Rangamati",
+   "end_bst": "2026-07-08 06:00",
+   "gauge": 287,
+   "raw": 91.2,
+   "x2.95": 269.1,
+   "qm": 179.9
+  },
+  {
+   "station": "Bandarban",
+   "end_bst": "2026-07-08 09:00",
+   "gauge": 309,
+   "raw": 86.7,
+   "x2.95": 255.6,
+   "qm": 172.6
+  },
+  {
+   "station": "Chattogram",
+   "end_bst": "2026-07-09 06:00",
+   "gauge": 329,
+   "raw": 123.9,
+   "x2.95": 365.5,
+   "qm": 245.3
+  },
+  {
+   "station": "Bandarban",
+   "end_bst": "2026-07-09 06:00",
+   "gauge": 235,
+   "raw": 88.8,
+   "x2.95": 261.8,
+   "qm": 176.8
+  },
+  {
+   "station": "Rangamati",
+   "end_bst": "2026-07-09 06:00",
+   "gauge": 130,
+   "raw": 87.2,
+   "x2.95": 257.2,
+   "qm": 173.3
+  },
+  {
+   "station": "Cox's Bazar",
+   "end_bst": "2026-07-09 06:00",
+   "gauge": 125,
+   "raw": 74.3,
+   "x2.95": 219.1,
+   "qm": 138.4
+  }
+ ],
+ "score_raw": {
+  "bias_mm": -137.3,
+  "mae_mm": 137.3,
+  "median_ratio_to_gauge": 0.36
+ },
+ "score_x2.95": {
+  "bias_mm": 14.2,
+  "mae_mm": 52.3,
+  "median_ratio_to_gauge": 1.06
+ },
+ "score_qm": {
+  "bias_mm": -67.7,
+  "mae_mm": 79.0,
+  "median_ratio_to_gauge": 0.69
+ }
+}

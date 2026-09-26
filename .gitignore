@@ -26,3 +26,9 @@ venv/
 
 # ERA5-Land monsoon climatology, one NetCDF per year
 data/era5land_climatology/
+
+# Public inputs of the enhancement analyses, fetched by data/scripts/fetch_public_inputs.py
+data/ghcnd/
+data/camps/
+data/dem/
+*.tif

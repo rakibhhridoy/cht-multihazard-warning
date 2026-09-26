@@ -348,3 +348,43 @@ Y11 Data availability now cites the CONCEPT DOI 10.5281/zenodo.22917014; the ver
 Y12 Figure 2's July 2026 panel extended to 18 Jul (rain 14-18 Jul at Bandarban 1.5-7.8 mm/day)
     from the climatology season file, identical to the event file to 4e-6 mm over 3-13 Jul ..... SOLID
 
+## Z. Enhancement analyses (2026-09-26/27) — data/scripts/{event2026,bias_qm,skill,shared_clock,camp_slopes}.py
+Z1  2026 gauge check: 10 BMD 24-h totals (BDRCS SR2-3, Daily Star) vs same windows (event2026.json):
+    ERA5-Land ratio 1.49-4.71, median 2.79, IQR 2.30-3.26; IMERG V07 Late median 2.06 (0.92-3.35).
+    Rangamati/Bandarban/Kutubdia at town coordinates; Chattogram (Ambagan) and Cox's Bazar ~1 km .. SOLID
+Z2  Quantile mapping on GHCN Chattogram airport (12 seasons 2008-2024) + Cox's Bazar (5 seasons
+    2015-2024), seasons >=170 reported days, 3,036 days: 20->27.5 mm, 100->200.8 mm. 2026
+    out-of-sample: flat x2.95 bias +14.2 mm, MAE 52.3; QM median 0.69 of gauge; raw 0.36 (bias_qm.json).
+    => bias is intensity-dependent; results bracketed QM (ordinary days) .. flat 2.79 (extremes) .. SOLID
+Z3  Skill (skill.json, K_FLAT 2.79): 31 inventory district-dates May-Oct + 6 sitrep = 37 (3 January
+    excluded). Empirical 24h POD 0.57 (qm) - 0.73 (flat), alarm days 12-26 (qm) / 32-56 (flat) per
+    season; installed 24h POD 0.22-0.38, alarm 1-2 (qm) / 3-8 (flat). Sitrep events: empirical 1.00.
+    Sweep: ~5 alarm d -> POD ~0.38 under BOTH corrections; ~10 d -> ~0.5; ~20 d -> ~0.6. 90% CI
+    about +/-0.13. POD is a lower bound (image dates); alarm days are not ...................... SOLID
+Z4  2026 replay, each product corrected by its own 2026 median ratio (event2026.json):
+    Rangamati empirical 24h: ERA5 4 Jul 22:00, IMERG 4 Jul 19:00 (>2.5 d before Bulletin 05, 7 Jul 13:00).
+    Installed 24h: ERA5 5 Jul 14:00; IMERG 7 Jul 15:00 (2 h AFTER the bulletin); not reached at the
+    lowest ratio of either product. Camps empirical: ERA5 4 Jul 17:00, IMERG 5 Jul 11:00; installed
+    ERA5 5 Jul 01:00, IMERG 6 Jul 03:00 (~first deaths, early 6 Jul). Camp 5: 8 Jul afternoon .. SOLID
+Z5  Camp terrain (camp_slopes.csv/json), Copernicus GLO-30 (2011-15, pre-camp, DSM) in ISCG outlines
+    (33 camps): relief 8.0-28.7 m; max slope in any camp 24.3 deg. Fatal vs other Ukhiya (4 vs 22):
+    Mann-Whitney p 0.15-0.44 on all metrics. Listed vs unlisted Ukhiya (15 vs 11): relief 18.2 vs
+    14.4 m p=0.046; slope p90 p=0.175. Unlisted fatal camps 15, 5 rank 7, 11 of 33 by slope p90;
+    listed fatal 7, 11 rank 16, 17. "Cuts set the deaths" is INFERENCE from the null ............ SOLID + INFER
+Z6  Shared clock (shared_clock.json), season files, both corrections, Bandarban + Lama:
+    2017 empirical 12 Jun 02:00-03:00, installed 24h 12 Jun 06:00-15:00; Matamuhuri DL 12 Jun, Sangu 13 Jun.
+    2023 empirical first 31 Jul-2 Aug, then 5-10 of 10 days to 10 Aug; installed 24h 8 Aug (flat) /
+    never (qm); installed 72h 8 Aug (flat) / never (qm); rivers 6-7 Aug; slides reported 7 Aug.
+    2026 empirical 24-25 Jun (no recorded slide) and 4-5 Jul; installed 24h 25 Jun + 5 Jul (flat),
+    5 Jul Lama only (qm); first deaths 6 Jul; rivers 8 Jul ................................ SOLID
+Z7  TWO TIMING BUGS FOUND AND FIXED (2026-09-27):
+    (a) IMERG hours were labelled at their START while ERA5-Land hours are labelled at their END,
+        so every IMERG crossing in the 2017 analysis was 1 h EARLY (rain_analysis.imerg_hourly_point,
+        now shifted +1 h). Supersedes the IMERG parts of O4/Q5: empirical 24h 12 Jun 09:00 (lead
+        17.5 h, was 18.5); installed 24h 23:00-00:00 (lead 2.5-3.5 h, was 3.5-4.5); installed 72h
+        13 Jun 06:00 (was 05:00). Text now "17 to 25 h" and "two to eight h". 14-18 h gap unchanged.
+        This bug is in the PUBLISHED v1.1.1 code and results.
+    (b) event2026.py and the 2026 check in bias_qm.py added the +6 h BST offset twice (ra.point
+        already returns BST). All 2026 numbers in Z1, Z2, Z4 above are from the corrected code;
+        the first drafts (median 2.88, crossings 6 h late) are void. skill/shared_clock unaffected
+        except via K_FLAT (2.88 -> 2.79) .............................................. FIXED

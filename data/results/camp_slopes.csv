@@ -1,0 +1,34 @@
+camp,name,upazila,area_km2,cells,slope_mean,slope_p90,relief_p95_p5_m,fatal_2026,highest_risk_list,frac_gt10,frac_gt15,frac_gt20,rank_slope_p90
+C21,Camp 21,Teknaf,0.404,450,9.1,14.4,22.4,False,False,0.398,0.073,0.004,1
+C14,Camp 14,Ukhia,0.857,951,8.6,14.1,25.7,False,True,0.365,0.059,0.0,2
+C10,Camp 10,Ukhia,0.496,555,7.4,13.0,23.4,False,True,0.247,0.045,0.0,3
+C22,Camp 22,Teknaf,0.558,624,5.9,11.9,28.7,False,False,0.178,0.024,0.002,4
+C01E,Camp 1E,Ukhia,0.663,730,6.8,11.5,19.8,False,False,0.196,0.008,0.0,5
+C08E,Camp 8E,Ukhia,0.957,1067,5.8,11.0,19.4,False,True,0.142,0.025,0.001,6
+C15,Camp 15,Ukhia,0.984,1095,6.3,10.8,17.6,True,False,0.151,0.011,0.0,7
+C18,Camp 18,Ukhia,0.752,838,6.4,10.8,22.3,False,True,0.149,0.01,0.001,8
+C17,Camp 17,Ukhia,0.954,1054,6.2,10.4,15.2,False,False,0.12,0.001,0.0,9
+C08W,Camp 8W,Ukhia,0.772,854,5.9,10.1,21.2,False,True,0.107,0.002,0.0,10
+C05,Camp 5,Ukhia,0.615,691,5.7,10.1,16.8,True,False,0.101,0.0,0.0,11
+C13,Camp 13,Ukhia,0.754,837,5.6,9.8,19.5,False,True,0.087,0.001,0.0,12
+C09,Camp 9,Ukhia,0.649,720,5.5,9.8,19.0,False,True,0.097,0.011,0.0,13
+C16,Camp 16,Ukhia,0.528,590,5.5,9.8,18.2,False,True,0.09,0.0,0.0,14
+C04X,Camp 4 Extension,Ukhia,0.497,549,5.3,9.7,13.8,False,False,0.071,0.0,0.0,15
+C07,Camp 7,Ukhia,0.714,790,5.3,9.6,18.2,True,True,0.091,0.006,0.0,16
+C11,Camp 11,Ukhia,0.466,514,5.4,9.6,15.5,True,True,0.074,0.0,0.0,17
+C01W,Camp 1W,Ukhia,0.534,590,5.6,9.5,18.8,False,False,0.075,0.002,0.0,18
+C12,Camp 12,Ukhia,0.631,702,5.7,9.3,14.1,False,True,0.064,0.0,0.0,19
+C20,Camp 20,Ukhia,0.489,540,5.4,9.2,13.7,False,True,0.065,0.0,0.0,20
+C19,Camp 19,Ukhia,0.77,856,5.3,9.2,17.4,False,True,0.067,0.0,0.0,21
+C04,Camp 4,Ukhia,1.155,1281,5.2,9.2,14.4,False,False,0.065,0.0,0.0,22
+C06,Camp 6,Ukhia,0.361,400,5.6,9.1,14.0,False,False,0.03,0.0,0.0,23
+C20X,Camp 20 Extension,Ukhia,0.766,850,5.3,8.8,11.7,False,True,0.044,0.0,0.0,24
+C27,Camp 27,Teknaf,1.334,1487,4.7,8.7,17.7,False,False,0.063,0.015,0.003,25
+C26,Camp 26,Teknaf,1.721,1907,4.2,8.5,20.7,False,False,0.069,0.018,0.003,26
+C02W,Camp 2W,Ukhia,0.391,439,4.9,8.1,14.1,False,False,0.018,0.0,0.0,27
+C03,Camp 3,Ukhia,0.454,501,4.3,7.6,13.4,False,True,0.014,0.0,0.0,28
+KRC,Kutupalong RC,Ukhia,0.359,399,3.7,7.0,12.7,False,False,0.01,0.0,0.0,29
+C02E,Camp 2E,Ukhia,0.391,435,4.1,7.0,12.1,False,False,0.007,0.0,0.0,30
+C24,Camp 24,Teknaf,1.181,1318,3.3,6.1,12.8,False,False,0.007,0.0,0.0,31
+C25,Camp 25,Teknaf,1.13,1253,2.6,5.6,12.1,False,False,0.024,0.01,0.002,32
+NRC,Nayapara RC,Teknaf,0.322,356,2.5,4.6,8.0,False,False,0.0,0.0,0.0,33
