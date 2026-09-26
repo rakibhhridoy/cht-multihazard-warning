@@ -49,7 +49,9 @@ here where the two disagree.
 pip install xarray netCDF4 pandas numpy scipy matplotlib cdsapi earthaccess
 ```
 
-The figures rebuild from the derived data shipped in this repository, with no downloads:
+The figures rebuild from the derived data shipped in this repository, with no downloads. Where
+LuaLaTeX is installed, the PDFs are typeset through it so that their text embeds as Latin Modern,
+the manuscript's font; without it they fall back to matplotlib's own PDF output:
 
 ```bash
 python figures/make_figures.py

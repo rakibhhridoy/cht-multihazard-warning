@@ -55,6 +55,20 @@ plt.rcParams.update({
     "savefig.facecolor": "white", "figure.facecolor": "white",
 })
 
+# PDFs are typeset by LuaLaTeX through the PGF backend where it is installed, so that figure text
+# is embedded as the same Latin Modern fonts as the manuscript rather than as Type 3 glyphs, which
+# journal production can reject. PNGs, and PDFs on machines without LaTeX, use the default backend.
+import shutil
+if shutil.which("lualatex"):
+    plt.rcParams.update({"pgf.texsystem": "lualatex", "pgf.rcfonts": False,
+                         "pgf.preamble": r"\usepackage{fontspec}\setmainfont{Latin Modern Roman}"})
+    _savefig = plt.Figure.savefig
+    def _savefig_pgf(self, fname, *args, **kw):
+        if str(fname).endswith(".pdf"):
+            kw.setdefault("backend", "pgf")
+        return _savefig(self, fname, *args, **kw)
+    plt.Figure.savefig = _savefig_pgf
+
 def hourly(lat, lon, start, end, tag):
     f = CACHE / f"{tag}.csv"
     if f.exists():
@@ -111,7 +125,7 @@ EVENTS = [
     dict(name="June 2017", start="2017-06-08", end="2017-06-16",
          flood=[("2017-06-12 12:00", "Matamuhuri above\ndanger level"),                   # F1
                 ("2017-06-13 12:00", "Sangu peak\n+135 cm")],                             # F1
-         slide=[("2017-06-13 05:00", "257 dated failures;\n~150-170 deaths")],            # Q2, Y4
+         slide=[("2017-06-13 05:00", "257 dated failures;\n~150\u2013170 deaths")],            # Q2, Y4
          warn=[], warn_none="no dedicated warning\nfor either hazard"),                     # F3, G1
     dict(name="August 2023", start="2023-08-02", end="2023-08-11",
          flood=[("2023-08-07 12:00", "Sangu +283 cm")],                                    # H1

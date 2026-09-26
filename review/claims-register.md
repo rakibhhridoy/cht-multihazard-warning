@@ -397,3 +397,7 @@ Z8  Warming sensitivity (warming.json): corrected 1979-2025 series scaled unifor
     so warming moves a fixed trigger ALONG the Fig 2b curve. Sensitivity, not projection ...... SOLID
     (2026-09-27: manuscript restructured to Introduction / Results / Discussion / Methods;
     Acknowledgements-funding and Competing interests added as \todo placeholders for the authors.)
+Z9  Rangamati counterfactual: 2017 rate 121/160 = 0.756 deaths per dated failure; x 126 incidents
+    (2026) = 95.3 expected vs 1 observed. For consistency each 2026 incident would need ~1/95 the
+    lethality of a 2017 failure, or the 2026 count would overstate comparable failures ~95-fold.
+    Arithmetic on I7, Q2, Y4; the counts' comparability remains the stated caveat ............. SOLID (arith)
