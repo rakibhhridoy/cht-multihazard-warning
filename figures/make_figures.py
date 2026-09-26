@@ -213,44 +213,51 @@ RESIDUAL = [("Rohingya camps,\nCox's Bazar", 13),   # L3: 8 on 6 Jul + >=5 Camp 
             ("Cox's Bazar\nhost community", 5),     # I9
             ("Chattogram", 3)]                       # L3
 
+# one type scale for the redrawn figures: ticks <= labels <= titles
+TS = {"tick": 7.0, "label": 7.5, "title": 8.5, "note": 6.8, "value": 7.5}
+
+
+def _style(ax, grid_axis="y"):
+    ax.tick_params(labelsize=TS["tick"], length=3, width=0.6, colors=INK2)
+    ax.grid(axis=grid_axis, color=GRID, lw=0.5); ax.set_axisbelow(True)
+
+
 def fig2():
-    fig, (axL, axR) = plt.subplots(1, 2, figsize=(6.27, 3.2),
-                                   gridspec_kw={"width_ratios": [1, 1.15], "wspace": 0.42})
-
-    # ---- (a) slope chart: one axis, same unit, direct labels only (no legend) ----
-    x = [0, 1]
-    for name, y, col, lab_dx, lab_dy in [("Slope failures", [160, 126], RAIN, 0.50, 11),
-                                         ("Deaths",         [121, 1],   SLIDE, 0.56, 6)]:
-        axL.plot(x, y, color=col, lw=2, solid_capstyle="round", zorder=2)
-        axL.scatter(x, y, s=58, color=col, edgecolor="white", linewidth=1.2, zorder=3, clip_on=False)
-        axL.text(-0.07, y[0], f"{y[0]}", ha="right", va="center", fontsize=8.5, color=INK)
-        axL.text(1.07, y[1], f"{y[1]}", ha="left", va="center", fontsize=8.5, color=INK)
-        axL.text(lab_dx, (y[0] + y[1]) / 2 + lab_dy, name, ha="center", va="bottom",
-                 fontsize=7.5, color=col)
-    axL.set_xticks(x)
-    axL.set_xticklabels(["June 2017\nno dedicated warning", "July 2026\nwarning layer"], fontsize=7.5)
-    axL.set_xlim(-0.40, 1.40); axL.set_ylim(0, 168); axL.set_ylabel("Count", fontsize=8)
-    axL.yaxis.grid(True, color=GRID, linewidth=0.5); axL.set_axisbelow(True)
-    axL.set_title("(a) Rangamati district", fontsize=8.5, color=INK, loc="left", pad=24)
-    axL.text(0, 1.015, "peak 24-h rain: 332-343 mm at the Bandarban\ngauge in 2017, 287 mm at Rangamati in 2026",
-             transform=axL.transAxes, fontsize=6.8, color=MUTED, va="bottom")
-
-    # ---- (b) where the residual fell ----
+    """Rangamati 2017 against 2026 (failures and deaths on separate axes) and the identifiable
+    landslide deaths of July 2026 by setting. Registers Q2, Y4, I7, L3, I9."""
+    fig = plt.figure(figsize=(7.2, 2.6))
+    outer = fig.add_gridspec(1, 2, width_ratios=[1.05, 1.35], wspace=0.42,
+                             left=0.065, right=0.975, top=0.80, bottom=0.2)
+    left = outer[0].subgridspec(1, 2, wspace=0.45)
+    a1, a2, b = fig.add_subplot(left[0]), fig.add_subplot(left[1]), fig.add_subplot(outer[1])
+    years = ["June\n2017", "July\n2026"]
+    for ax, vals, col, sub, top in [(a1, [160, 126], RAIN, "Slope failures", 190),
+                                    (a2, [121, 1], SLIDE, "Deaths", 143)]:
+        ax.bar([0, 1], vals, width=0.52, color=col, linewidth=0)
+        for x, v in zip([0, 1], vals):
+            ax.text(x, v + top * 0.025, f"{v}", ha="center", va="bottom", fontsize=TS["value"], color=INK)
+        ax.set_xticks([0, 1]); ax.set_xticklabels(years)
+        ax.set_xlim(-0.6, 1.6); ax.set_ylim(0, top)
+        ax.set_title(sub, fontsize=TS["label"], color=INK, loc="left", pad=4)
+        _style(ax)
     labs = [l for l, _ in RESIDUAL][::-1]
     vals = [v for _, v in RESIDUAL][::-1]
-    ypos = range(len(vals))
-    axR.barh(list(ypos), vals, height=0.5, color=SLIDE, linewidth=0)
+    b.barh(range(len(vals)), vals, height=0.52, color=SLIDE, linewidth=0)
     for i, v in enumerate(vals):
-        axR.text(v + 0.35, i, str(v), va="center", ha="left", fontsize=8.5, color=INK)
-    axR.set_yticks(list(ypos)); axR.set_yticklabels(labs, fontsize=7.5)
-    axR.set_xlim(0, 15); axR.set_xlabel("Identifiable landslide deaths, July 2026", fontsize=8)
-    axR.set_xticks([0, 5, 10, 15])          # deaths are counts, so the axis carries integers
-    axR.xaxis.grid(True, color=GRID, linewidth=0.5); axR.set_axisbelow(True)
-    axR.tick_params(axis="y", length=0)
-    axR.set_title("(b) Where the residual fell", fontsize=8.5, color=INK, loc="left", pad=24)
-    axR.text(0, 1.015, "at least 21 deaths are identifiable\nfrom the incident records",
-             transform=axR.transAxes, fontsize=6.8, color=MUTED, va="bottom")
-
+        b.text(v + 0.25, i, str(v), va="center", ha="left", fontsize=TS["value"], color=INK)
+    b.set_yticks(range(len(vals))); b.set_yticklabels(labs)
+    b.set_xlim(0, 14.5); b.set_xticks([0, 5, 10])
+    b.set_xlabel("Deaths", fontsize=TS["label"], color=INK2)
+    b.set_title("Identifiable landslide deaths, July 2026 (n = 21)",
+                fontsize=TS["label"], color=INK, loc="left", pad=4)
+    _style(b, grid_axis="x"); b.tick_params(axis="y", length=0)
+    fig.canvas.draw()
+    ytl = min(t.get_window_extent().x0 for t in b.get_yticklabels())
+    xb = fig.transFigure.inverted().transform((ytl, 0))[0]
+    fig.text(a1.get_position().x0 - 0.045, 0.975, "(a) Rangamati district, 2017 and 2026", fontsize=TS["title"],
+             color=INK, ha="left", va="top")
+    fig.text(xb, 0.975, "(b) Where the remaining deaths fell", fontsize=TS["title"],
+             color=INK, ha="left", va="top")
     fig.savefig(OUT / "fig4_rangamati.pdf", bbox_inches="tight")
     fig.savefig(OUT / "fig4_rangamati.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
@@ -302,46 +309,46 @@ def fig3():
 
 def fig4():
     """Annual maximum rolling 24-h ERA5-Land rainfall, 1950-2025, from data/scripts/climatology.py.
-    Values are uncorrected ERA5-Land, so only their ranks and relative changes are interpreted."""
+    Uncorrected values, so only ranks and relative changes are interpreted. Registers W2-W6."""
     import numpy as np
     sys.path.insert(0, str(ROOT / "data" / "scripts"))
     from climatology import mann_kendall
     am = pd.read_csv(ROOT / "data" / "results" / "climatology_annual_maxima.csv")
     am = am[am.window == "24h"]
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.7), sharey=True, constrained_layout=True)
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.7), sharey=True)
+    fig.subplots_adjust(wspace=0.08, top=0.88, bottom=0.16, left=0.08, right=0.99)
     for a, (pt, lab) in zip(axes, [("Rangamati", "a"), ("Bandarban", "b")]):
         s = am[am.point == pt].set_index("year").annual_max_mm
         full, part = s[s.index <= 2025], s[s.index > 2025]
         a.axvspan(1949.5, 1978.5, color=BAND, lw=0, zorder=0)
-        a.text(1964, 300, "before satellite\ndata entered\nthe reanalysis", ha="center", va="top",
-               fontsize=6.3, color=INK2)
-        a.plot(full.index, full.values, color=RAIN, lw=0.7, alpha=0.55, zorder=2)
-        a.scatter(full.index, full.values, s=7, color=RAIN, lw=0, zorder=3)
-        meds = {}
+        a.text(1964, 8, "before satellite data\nentered the reanalysis", ha="center", va="bottom",
+               fontsize=TS["note"], color=INK2, linespacing=1.15, zorder=6,
+               path_effects=[pe.withStroke(linewidth=2.4, foreground=BAND)])
+        a.scatter(full.index, full.values, s=9, color=RAIN, lw=0, zorder=3)
         for lo, hi in [(1950, 1978), (1979, 2025)]:
-            meds[lo] = m = full.loc[lo:hi].median()
-            a.plot([lo - 0.5, hi + 0.5], [m, m], color=INK2, lw=0.8, ls=(0, (4, 2)), zorder=2)
+            m = full.loc[lo:hi].median()
+            a.plot([lo, hi], [m, m], color=INK2, lw=1.6, solid_capstyle="butt", zorder=4)
+            a.text((lo + hi) / 2, m + 7, f"median {m:.0f} mm", fontsize=TS["note"], color=INK2,
+                   ha="center", va="bottom", zorder=6, path_effects=[pe.withStroke(linewidth=2.4, foreground="white")])
         x = full.loc[1979:]; mk = mann_kendall(x.values)
-        yrs = np.array(x.index); b = mk["sen_slope_per_year"]
-        c0 = np.median(x.values - b * (yrs - yrs[0]))
-        a.plot(yrs, c0 + b * (yrs - yrs[0]), color=INK, lw=1.0, zorder=4)
-        a.text(2026, 405, f"dashed: median {meds[1950]:.0f} mm (1950\u201378), {meds[1979]:.0f} mm (1979\u20132025)\n"
-               f"solid: Sen slope 1979\u20132025, {1000*b/x.median():+.0f}% per decade, p = {mk['p']:.2f}",
-               fontsize=6.0, color=INK, ha="right", va="top", linespacing=1.5)
-        for yr, nm in [(2017, "2017"), (2023, "2023")]:
-            a.scatter([yr], [s[yr]], s=26, facecolor="none", edgecolor=SLIDE, lw=1.0, zorder=5)
-            a.annotate(nm, (yr, s[yr]), xytext=(0, 9 if nm == "2017" else -12), textcoords="offset points",
-                       ha="center", fontsize=6.3, color=SLIDE)
+        yrs = np.array(x.index); bslope = mk["sen_slope_per_year"]
+        c0 = np.median(x.values - bslope * (yrs - yrs[0]))
+        a.plot(yrs, c0 + bslope * (yrs - yrs[0]), color=INK, lw=1.0, zorder=4)
+        a.text(1981, 382, f"trend 1979\u20132025\n{1000 * bslope / x.median():+.0f}% per decade, p = {mk['p']:.2f}",
+               fontsize=TS["note"], color=INK, ha="left", va="top", zorder=6, path_effects=[pe.withStroke(linewidth=2.4, foreground="white")])
+        for yr in (2017, 2023):
+            a.scatter([yr], [s[yr]], s=34, facecolor="none", edgecolor=SLIDE, lw=1.0, zorder=5)
+            a.annotate(str(yr), (yr, s[yr]), xytext=(-16, 14 if yr == 2017 else -16), textcoords="offset points",
+                       ha="center", va="center", fontsize=TS["note"], color=INK, zorder=6, path_effects=[pe.withStroke(linewidth=2.4, foreground="white")],
+                       arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.5, shrinkA=0, shrinkB=3))
         if len(part):
-            a.scatter(part.index, part.values, s=26, facecolor="none", edgecolor=MUTED, lw=1.0,
+            a.scatter(part.index, part.values, s=34, facecolor="none", edgecolor=MUTED, lw=1.0,
                       ls=(0, (1, 1)), zorder=5)
-            a.annotate("2026 to\n21 Sep", (part.index[0], part.values[0]), xytext=(0, 10),
-                       textcoords="offset points", ha="center", fontsize=6.0, color=MUTED)
-        a.set_title(f"({lab}) {pt}", fontsize=8, loc="left", color=INK)
-        a.set_xlim(1948, 2029); a.set_ylim(0, 410)
-        a.set_xlabel("Year", fontsize=7)
-        a.grid(axis="y", color=GRID, lw=0.5); a.set_axisbelow(True)
-    axes[0].set_ylabel("Annual maximum 24-h total,\nERA5-Land, uncorrected (mm)", fontsize=7)
+        a.set_title(f"({lab}) {pt}", fontsize=TS["title"], loc="left", color=INK, pad=4)
+        a.set_xlim(1948, 2029); a.set_ylim(0, 400); a.set_yticks([0, 100, 200, 300, 400])
+        a.set_xlabel("Year", fontsize=TS["label"], color=INK2)
+        _style(a)
+    axes[0].set_ylabel("Annual maximum 24-h rainfall (mm)", fontsize=TS["label"], color=INK2)
     fig.savefig(OUT / "fig5_climatology.pdf", bbox_inches="tight")
     fig.savefig(OUT / "fig5_climatology.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
