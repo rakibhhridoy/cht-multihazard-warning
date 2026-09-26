@@ -85,6 +85,17 @@ def era5land_point(lat, lon, start, end):
     if _ERA is None:
         _ERA = ra.era5land_hourly()[1]
     s = ra.point(_ERA, lat, lon, "valid_time").loc[start:end]
+    if s.index.max() < pd.Timestamp(end):
+        # The event files stop on 14 July 2026; the season file of the climatology archive
+        # gives identical hourly values at this cell (checked to 4e-6 mm) and runs further.
+        import climatology as cl
+        season = sorted((cl.ARCHIVE).glob("era5land_tp_%s.nc" % start[:4]))
+        _glob, cl.glob.glob = cl.glob.glob, (lambda p: [str(x) for x in season])
+        try:
+            ext = cl.point_series(cl.load_hourly(), lat, lon)
+        finally:
+            cl.glob.glob = _glob
+        s = pd.concat([s, ext.loc[s.index.max() + pd.Timedelta(hours=1):end]])
     s.to_csv(f)
     return s
 
@@ -100,14 +111,14 @@ EVENTS = [
     dict(name="June 2017", start="2017-06-08", end="2017-06-16",
          flood=[("2017-06-12 12:00", "Matamuhuri above\ndanger level"),                   # F1
                 ("2017-06-13 12:00", "Sangu peak\n+135 cm")],                             # F1
-         slide=[("2017-06-13 05:00", "257 dated failures;\n~150-170 deaths")],            # C2, D1
+         slide=[("2017-06-13 05:00", "257 dated failures;\n~150-170 deaths")],            # Q2, Y4
          warn=[], warn_none="no dedicated warning\nfor either hazard"),                     # F3, G1
     dict(name="August 2023", start="2023-08-02", end="2023-08-11",
          flood=[("2023-08-07 12:00", "Sangu +283 cm")],                                    # H1
-         slide=[("2023-08-08 12:00", "10 deaths, flood\nand landslides")],                # H4
+         slide=[("2023-08-08 12:00", "10 deaths, flood\nand landslides")],                # R4
          warn=[("2023-08-07 07:00", "FFWC bulletin (24-48 h);\nBMD landslide alert"),     # H2, H3
                ("2023-08-10 12:00", "33,000\nsheltered")]),
-    dict(name="July 2026", start="2026-07-03", end="2026-07-13",
+    dict(name="July 2026", start="2026-07-03", end="2026-07-18",
          flood=[("2026-07-08 09:00", "Sangu +96 cm")],                                     # A6
          slide=[("2026-07-06 02:00", "8 killed,\ncamps"),                                 # I8
                 ("2026-07-08 14:00", "5+ killed,\nCamp 5"),                               # L6
@@ -193,7 +204,7 @@ def fig1():
 # ======================================================================================
 # Figure 3 - Rangamati 2017 vs 2026, and where the 2026 residual fell
 # ======================================================================================
-# (a) the like-for-like district comparison under comparable forcing  [C2, D1, I7, J1]
+# (a) the like-for-like district comparison under comparable forcing  [Q2, Y4, I7, A1, A6]
 # (b) the identifiable landslide deaths of July 2026 by setting       [L3, I7, I9]
 # The three settings whose landslide deaths can be separated from other causes; they sum to the
 # 21 of Section 5.1. Rangamati's single 2026 death is deliberately absent: the source does not
@@ -220,8 +231,8 @@ def fig2():
     axL.set_xticklabels(["June 2017\nno dedicated warning", "July 2026\nwarning layer"], fontsize=7.5)
     axL.set_xlim(-0.40, 1.40); axL.set_ylim(0, 168); axL.set_ylabel("Count", fontsize=8)
     axL.yaxis.grid(True, color=GRID, linewidth=0.5); axL.set_axisbelow(True)
-    axL.set_title("(a) Rangamati district", fontsize=8.5, color=INK, loc="left", pad=16)
-    axL.text(0, 1.015, "peak 24-h rainfall above 300 mm in 2017, 287 mm in 2026",
+    axL.set_title("(a) Rangamati district", fontsize=8.5, color=INK, loc="left", pad=24)
+    axL.text(0, 1.015, "peak 24-h rain: 332-343 mm at the Bandarban\ngauge in 2017, 287 mm at Rangamati in 2026",
              transform=axL.transAxes, fontsize=6.8, color=MUTED, va="bottom")
 
     # ---- (b) where the residual fell ----
@@ -236,8 +247,8 @@ def fig2():
     axR.set_xticks([0, 5, 10, 15])          # deaths are counts, so the axis carries integers
     axR.xaxis.grid(True, color=GRID, linewidth=0.5); axR.set_axisbelow(True)
     axR.tick_params(axis="y", length=0)
-    axR.set_title("(b) Where the residual fell", fontsize=8.5, color=INK, loc="left", pad=16)
-    axR.text(0, 1.015, "at least 21 deaths are identifiable from the incident records",
+    axR.set_title("(b) Where the residual fell", fontsize=8.5, color=INK, loc="left", pad=24)
+    axR.text(0, 1.015, "at least 21 deaths are identifiable\nfrom the incident records",
              transform=axR.transAxes, fontsize=6.8, color=MUTED, va="bottom")
 
     fig.savefig(OUT / "fig3_rangamati.pdf", bbox_inches="tight")

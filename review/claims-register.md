@@ -13,6 +13,7 @@ A4  ERA5-Land precipitation NOT served by Open-Meteo; "best_match" is an ERA5/ER
     use CDS ERA5-Land hourly + IMERG bracket. Do not cite Open-Meteo numbers in print ...... SOLID
 A5  IMERG over Bangladesh +18 to +92% on extremes (opposite sign to ERA5-Land's >=20% under).
     The two bracket the truth -> use as the uncertainty analysis .......................... SOLID (lit)
+    [SUPERSEDED by O2: the bracket fails for 2017. The ERA5 85 % claim is Y5]
 A6  July 2026: Bandarban 309 mm (7-8 Jul, Daily Star/BMD); Rangamati 287 mm to 8 Jul (BDRCS/BMD);
     Chattogram Ambagan 329 mm to 06:00 9 Jul (BDRCS/BMD) .................................. SOLID
 A7  Aug 2023: 44-89 mm/day prolonged; monthly to 10 Aug Bandarban 856, Chattogram 933,
@@ -37,24 +38,27 @@ B6  Gauge density vs a >=16-per-0.2deg benchmark (~1 per 30 km2): BMD-only (~3 i
 ## C. Inventory
 C1  Rabby & Li 730 records; 484 (66.3%) full date, 238 year-only, 8 blank ................. SOLID
 C2  13/06/2017: 243 dated failures (Rangamati 146, Bandarban 91, Chittagong 6); median 59 m2 . SOLID
+    [SUPERSEDED by Q2: 257 / Rangamati 160]
 C3  Date field: "For Google Earth mapping, the date of the image was recorded" (Rabby & Li 2020) SOLID
 C4  Rainfall date audit: 15 clusters/446 records; 4 SUSPECT dates = 83 records (18.6%);
     20/07/2017 Khagrachari (73) has ~20 mm on the date, 130 mm four days later, no documented
     event; Khagrachari IS documented in the June sequence (14, 18 June, Ramgarh) .......... SOLID
 C5  FALSE POSITIVE: 11/06/2007 (the 127-death Chittagong disaster) flags WEAK at 33 mm.
     => audit produces FLAGS not deletions; reanalysis can miss real events ................ SOLID
-C6  '13/06/207' malformed year, 14 records — resolve, don't drop ........................... OPEN
+C6  '13/06/207' malformed year, 14 records — resolve, don't drop ........................... RESOLVED (Q1)
 C7  Cut-slope hypothesis for 20/07/2017: road/camp locations 51% vs 39% — weak, rejected .... SOLID
 
 ## D. June 2017 timing  [notes/13 SUPERSEDED by notes/14]
 D1  Failure WINDOW, not point: night 12->13 Jun (asleep) -> "just after dawn" -> ~11:00
     (Manikchhari, soldiers). ~11 h progressive sequence .................................... SOLID (press)
+    [SUPERSEDED by Q4: 02:30 to ~11:00, nine hours]
 D2  Gauge-corrected threshold crossings vs window: empirical 24h (57.4) +31 to +42 h;
     deployed 24h (200) +14 to +25 h; deployed 72h (350) +3 to +14 h; deployed 3h (100) NEVER . SOLID*
     *3h/100 mm "never" holds under uniform scaling only — a smoothed local burst could have
     crossed it. Say so.
 D3  ~17 h gap between empirical and deployed 24 h crossings = operational cost of the
     threshold discrepancy. Robust to uniform scaling ...................................... SOLID
+    [SUPERSEDED by O5/Q5: 14-18 h]
 D4  RETRACTED: "deployed thresholds set too high to use the window" (notes/13). Wrong after
     gauge correction. Do not use ............................................................ RETRACTED
 D5  Regime: prolonged ~36 h moderate-intensity accumulation, failures 24-30 h in -> DELAYED
@@ -63,6 +67,7 @@ D5  Regime: prolonged ~36 h moderate-intensity accumulation, failures 24-30 h in
 ## E. Thresholds
 E1  Deployed (Chittagong City, 2 automated gauges): 100 mm/3h, 200 mm/24h, 350 mm/72h,
     presented as "to initiate landslide occurrence" (IntechOpen 10.5772/intechopen.74743) ... SOLID
+    [station count SUPERSEDED by P8: four GSB stations, Chattogram and Cox's Bazar, 2015]
 E2  Empirical (Cox's Bazar, Roy et al. 2022): T5 I=3.63D^-0.1313; 57.4 mm/24h; 130 mm/72h .. SOLID
 E3  Deployed / empirical = 3.5x (24h), 2.7x (72h). Different districts, different constructions,
     NEITHER reports ROC/FAR. The absence of skill scores is the finding ................... SOLID
@@ -85,12 +90,14 @@ G2  Chittagong Metropolitan web-GIS LEWS published 2018 (after the event) ......
 G3  => June 2017: observing infrastructure existed for both hazards; warning function for
     neither; Rangamati had neither station nor forecast ................................... SOLID
 G4  Operational date of the 2 Chittagong City gauges relative to June 2017 ................. OPEN
+    [SUPERSEDED by P8: four stations set up 2015, "not yet functional" in 2018]
 
 ## H. August 2023
 H1  Sangu at Bandarban 17.63 m = +283 cm DL, 7 Aug (FFWC via press) ....................... PRESS
 H2  FFWC bulletin 7 Aug AM: heavy-very heavy rain SE hill basin next 24-48 h ............... PRESS
 H3  "Landslide alert issued for Chattogram division" — issuer TBC (BMD by 2026 analogy) ...... PRESS/OPEN
 H4  10 killed 8 Aug Bandarban (Kalaghata, Tongkabati, Naikhongchhari, Lama, Thanchi) ....... PRESS
+    [SUPERSEDED by R4: 10 deaths from flood and landslides combined]
 H5  NAWG #01: Cox's Bazar 5 dead (SHED); 718 homes damaged by landslides; road to Bandarban
     Sadar "snapped due to landslides" .......................................................... SOLID
 H6  Bandarban cut off from sub-districts AND from Rangamati (>3 ft water) ................... PRESS
@@ -102,6 +109,7 @@ I1  Draft Landslide National Early Action Protocol (NEAP): attention/warning/act
 I2  BMD Special Warning Bulletin for Landslide No. 05/2026, 7 Jul 13:00; classification at
     UPAZILA and WARD level ("Wards 7, 8, 9 and 14 of CCC") ................................... SOLID
 I3  RETRACTED: "district-level, ~8 orders of magnitude" (notes/19). Upazila/ward: ~5-7 orders . RETRACTED
+    [5-7 CORRECTED to 4-7 by Y6]
 I4  5 Jul forecast -> MoDMR/DDM/BMD/FFWC activated; NDRCC 24/7; district early warning,
     evacuation, shelter (ICCG) ................................................................ SOLID
 I5  38,422 in 1,047 shelters (BDRCS SR3); 1,700 shelters activated; ~36,500 displaced ....... SOLID
@@ -118,7 +126,7 @@ I11 Cascade: Bandarban-Ruma/Thanchi blocked; Khagrachari-Rangamati cut at Mahalc
 I12 The Lancet correspondence is health-focused; 0 mentions of warning. Cite for health only .. SOLID
 
 ## J. The three-event comparison
-J1  Rangamati: 2017 = 146 failures/121 deaths; 2026 = 126 incidents/1 death. Same district,
+J1  Rangamati: 2017 = 146 [now 160, Q2] failures/121 deaths; 2026 = 126 incidents/1 death. Same district,
     comparable forcing (>300 vs 287 mm). Cautions: night-concentrated vs 4-day spread; onset
     timing; incident-count comparability; attribution is inference ........................... SOLID + INFER
 J2  Warning layer: none (2017) -> bulletin + alert (2023) -> NEAP + evacuation (2026) ......... SOLID
@@ -135,9 +143,9 @@ K4  "Early-warning systems unfit for compound disasters" (Discover Hazards 2026)
 
 ## Items still OPEN (in priority order)
 1. B6 recompute gauge-density with BWDB's 11 stations included
-2. H3 issuer of the 2023 landslide alert
+2. H3 issuer of the 2023 landslide alert  [RESOLVED, R1]
 3. G4 when the Chittagong City gauges went live
-4. C6 the 14 '13/06/207' records
+4. C6 the 14 '13/06/207' records  [RESOLVED, Q1]
 5. FFWC flash-flood forecast extension date to SE hills (between 2017 and 2023)
 6. Rabby & Li (2018) — the mapping-date methodology (supports C3/C4)
 
@@ -192,6 +200,7 @@ O6  D4 partially reinstated: operational thresholds would have fired 1-5 h befor
     failures, at night; depends on assumed earliest failure 00:00 ............................. SOLID + INFER
 O7  Audit (ERA5-Land): 6 SUSPECT dates / 101 records (22.6%); 2007 disaster SUSPECT (23.9 mm);
     4 dates / 83 records flagged under both proxy and ERA5-Land ............................... SOLID
+    [denominator updated by Y1: 101 of 463 = 21.8 %]
 
 ## P. Pre-submission check (2026-09-22)
 P1  CDMP-II developed a community-based landslide EWS for Cox's Bazar district in 2012 (Ahmed et al.
@@ -205,6 +214,7 @@ P4  RETRACTED G1 sub-claim: NGO efforts "sporadic... failed" — the quoted word
     traced to any source in hand. Removed from the text ....................................... RETRACTED
 P5  CDMP-II threshold (IJGI 2018): 96 mm in 24 h or 185 mm [duration truncated in extraction] — a
     THIRD threshold set for the region, not yet used in the paper. Consider for §3.4 / §7.3 ..... OPEN
+    [RESOLVED by Y2: 185 mm in 48 h]
 P6  Camp population: about 1.2 million refugees, most in 33 camps in Cox's Bazar (UN News, Jun 2026) SOLID
 P7  Citation fixes: LEWS-lit -> Ahmed et al. 2020 GNHR; CMA-LEWS -> Ahmed et al. 2018 IJGI 7(12):485;
     Roy et al. 2022 pp. 81-94; IMERG-BD removed (uncited; source never confirmed) ............... SOLID
@@ -308,3 +318,33 @@ W6  Event-year season maxima (24h, GEV on 1950-2025): 2017 = 116.3 mm R / 120.8 
     at both; 2023 RP 1.6 / 1.2 y; 2026-to-date RP 2.1 / 1.7 y. These are SEASON maxima, an upper
     bound on the event: Rangamati 2023 max fell 27 Aug (event 8-9 Aug); Bandarban 2017 72h max
     fell 25 Jul. ERA5-Land cannot rank the events; do not quote these as event return periods .. SOLID
+
+## Y. Consistency pass (2026-09-26) — full read against register, data and figures
+Y1  Three records dated '15/06/217' (Rangunia Eco Park, Chattogram) read as 15/06/2017: 15 km
+    from the Rangunia/Gomra records already on that date; '217' admits no other reading in
+    2001-2017. Added to DATE_FIXES in rain_analysis.py; audit rerun. 15/06/2017 now 25 records
+    (OK, 107.1 mm); audit 15 dates / 463 records; SUSPECT unchanged at 6 dates / 101 records
+    (21.8 %); nearest-cell offset now up to 7.1 km. 13 Jun cluster and all crossings unchanged  SOLID
+Y2  P5 resolved: CDMP-II threshold is 96 mm in 24 h or 185 mm in 48 h; "no longer active, as no
+    follow-up activities or long-term maintenance" (Ahmed et al. 2018, IJGI, verified in PDF) .. SOLID
+Y3  Sangu at Bandarban 2026: 15.76 m = +96 cm DL (MSL datum), 8 Jul (Daily Star, 8 Jul 2026) .. PRESS
+Y4  2017 deaths: Rangamati 121; national 150-170 by source and date (Dhaka Tribune; Daily Star).
+    First published failure time (02:30) is at BANDARBAN; Rangamati's first is "just after dawn",
+    so lead times at the Rangamati centroid measured to 02:30 are LOWER BOUNDS ............... PRESS / INFER
+Y5  ERA5 underestimates Bangladesh rainfall above the 75th percentile by up to 85 % (Islam &
+    Cartwright 2020, N3; notes/11) ........................................................... SOLID (lit)
+Y6  Advisory unit vs 59 m2 median scar: upazila (few hundred km2) ~6.5-7 orders; city ward
+    (~1-5 km2) ~4-5 orders. Quote "four to seven" ........................................... SOLID (arith)
+Y7  Empirical 72 h (130 mm) gauge-corrected crossings: 12 Jun 03:00-11:00, 1-3 h after the
+    empirical 24 h crossing (june2017_crossings.json) ....................................... SOLID
+Y8  Anchor caveat: the 332/343 mm gauge peak is at Bandarban (~45 km S of the Rangamati centroid);
+    no Rangamati gauge value is published. Stated in §2.3 and §7.6 ........................... INFER
+Y9  A7 clarified: 856 mm at Bandarban is the MONTHLY total to 10 Aug 2023, not 5-10 Aug.
+    With R3 (322 mm/24 h at Chattogram, 6 Aug) 2023 is "sustained", not "moderate" ........... SOLID
+Y10 2023 FFWC bulletin (R2) is a RAINFALL outlook; whether a formal flash flood forecast covered
+    the SE hills in 2023 remains OPEN (open item 5) ......................................... OPEN
+Y11 Data availability now cites the CONCEPT DOI 10.5281/zenodo.22917014; the version DOI
+    22917015 is v1.0.0, which lacks the climatology and has the broken figure script ......... NOTE
+Y12 Figure 2's July 2026 panel extended to 18 Jul (rain 14-18 Jul at Bandarban 1.5-7.8 mm/day)
+    from the climatology season file, identical to the event file to 4e-6 mm over 3-13 Jul ..... SOLID
+

@@ -21,7 +21,10 @@ FAIL = {"earliest": "2017-06-13 02:30", "dawn": "2017-06-13 05:30", "latest": "2
 # All fourteen are in Rangamati at Manikchhari, the 2007 cluster is entirely in Chittagong
 # district, their centroid falls inside the 13 June 2017 cluster, and ERA5-Land gives
 # 116.3 mm/24h at that point on 13 June 2017 against 23.1 mm on 13 June 2007. Read as 2017.
-DATE_FIXES = {"13/06/207": "13/06/2017"}
+# Three records carry "15/06/217". All three are at Rangunia Eco Park (Chittagong), within
+# 15 km of the Rangunia/Gomra records already dated 15/06/2017, and "217" admits no other
+# reading within the inventory's 2001-2017 span. Read as 2017.
+DATE_FIXES = {"13/06/207": "13/06/2017", "15/06/217": "15/06/2017"}
 
 THRESH = [("empirical_24h_57.4", 24, 57.4), ("empirical_72h_130", 72, 130.0),
           ("operational_3h_100", 3, 100.0), ("operational_24h_200", 24, 200.0), ("operational_72h_350", 72, 350.0)]
