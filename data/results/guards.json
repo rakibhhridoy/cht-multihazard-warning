@@ -1,0 +1,114 @@
+{
+ "A_rangamati_forcing_raw": {
+  "era5land": {
+   "2017": {
+    "max24h": 116.3,
+    "max72h": 193.0,
+    "event_total": 213.2
+   },
+   "2026": {
+    "max24h": 106.4,
+    "max72h": 259.9,
+    "event_total": 483.2
+   }
+  },
+  "imerg": {
+   "2017": {
+    "max24h": 215.5,
+    "max72h": 307.6,
+    "event_total": 315.0
+   },
+   "2026 (to 10 Jul)": {
+    "max24h": 131.3,
+    "max72h": 267.1,
+    "event_total": 396.5
+   }
+  }
+ },
+ "B_reading_interval_2017": {
+  "era5land": {
+   "factor": 2.95,
+   "24h_to_12Jun_0600": 146.0,
+   "24h_to_13Jun_0600": 314.0,
+   "3h_reports_first_57.4": "2017-06-12 03:00",
+   "3h_reports_first_200": "2017-06-12 21:00",
+   "6h_reports_first_57.4": "2017-06-12 06:00",
+   "6h_reports_first_200": "2017-06-13 00:00"
+  },
+  "imerg": {
+   "factor": 1.59,
+   "24h_to_12Jun_0600": 36.0,
+   "24h_to_13Jun_0600": 305.0,
+   "3h_reports_first_57.4": "2017-06-12 09:00",
+   "3h_reports_first_200": "2017-06-13 00:00",
+   "6h_reports_first_57.4": "2017-06-12 12:00",
+   "6h_reports_first_200": "2017-06-13 00:00"
+  }
+ },
+ "C_gauge_alarm_days": {
+  "Chattogram airport": {
+   "seasons": [
+    2008,
+    2009,
+    2010,
+    2011,
+    2013,
+    2014,
+    2015,
+    2017,
+    2018,
+    2020,
+    2023,
+    2024
+   ],
+   "gauge_daily_days_ge_57.4": 14.2,
+   "gauge_daily_days_ge_200": 1.17,
+   "qm_daily_days_ge_57.4": 14.7,
+   "qm_rolling24_days_ge_57.4": 24.6,
+   "qm_daily_days_ge_200": 1.2,
+   "qm_rolling24_days_ge_200": 2.9,
+   "flat_daily_days_ge_57.4": 31.2,
+   "flat_rolling24_days_ge_57.4": 47.3,
+   "flat_daily_days_ge_200": 3.2,
+   "flat_rolling24_days_ge_200": 7.1
+  },
+  "Cox's Bazar": {
+   "seasons": [
+    2015,
+    2018,
+    2020,
+    2023,
+    2024
+   ],
+   "gauge_daily_days_ge_57.4": 19.4,
+   "gauge_daily_days_ge_200": 2.4,
+   "qm_daily_days_ge_57.4": 19.2,
+   "qm_rolling24_days_ge_57.4": 32.2,
+   "qm_daily_days_ge_200": 2.4,
+   "qm_rolling24_days_ge_200": 4.4,
+   "flat_daily_days_ge_57.4": 39.4,
+   "flat_rolling24_days_ge_57.4": 57.2,
+   "flat_daily_days_ge_200": 5.6,
+   "flat_rolling24_days_ge_200": 11.2
+  }
+ },
+ "D_coxs_bazar_only": {
+  "n_events": 13,
+  "qm_57.4": {
+   "pod": 0.46,
+   "alarm_days": 26.0
+  },
+  "qm_200": {
+   "pod": 0.15,
+   "alarm_days": 2.4
+  },
+  "flat_57.4": {
+   "pod": 0.69,
+   "alarm_days": 56.4
+  },
+  "flat_200": {
+   "pod": 0.23,
+   "alarm_days": 7.5
+  }
+ }
+}

@@ -401,3 +401,18 @@ Z9  Rangamati counterfactual: 2017 rate 121/160 = 0.756 deaths per dated failure
     (2026) = 95.3 expected vs 1 observed. For consistency each 2026 incident would need ~1/95 the
     lethality of a 2017 failure, or the 2026 count would overstate comparable failures ~95-fold.
     Arithmetic on I7, Q2, Y4; the counts' comparability remains the stated caveat ............. SOLID (arith)
+## ZZ. Reviewer-attack checks (2026-09-29) — data/scripts/guards.py -> results/guards.json
+Z10 Rangamati forcing, same point, uncorrected: ERA5-Land 2017 max24 116.3 / max72 193.0 / total 213.2
+    vs 2026 106.4 / 259.9 / 483.2; IMERG 2017 215.5 / 307.6 / 315.0 vs 2026 (to 10 Jul) 131.3 / 267.1 /
+    396.5. 2026 larger totals, lower 24-h peak (-9 % ERA5, -39 % IMERG); 72-h +35 % / -13 %.
+    => "comparable forcing" holds for totals, not peak intensity; stated as a fifth qualification .. SOLID
+Z11 Reading interval (gauge-anchored 2017): 3-hourly reports first >=57.4 at 12 Jun 03:00 (ERA5) /
+    09:00 (IMERG); 6-hourly 06:00 / 12:00 -> 14-24 h before 02:30 13 Jun. Single 06:00 reading:
+    146 mm (ERA5) vs 36 mm (IMERG) on 12 Jun; 314/305 mm on 13 Jun (after first failures) ..... SOLID
+Z12 Gauge-only alarm days (GHCN daily totals, complete seasons): Chattogram airport >=57.4 14.2 d,
+    >=200 1.17 d (12 seasons); Cox's Bazar 19.4 d, 2.40 d (5 seasons). QM daily reproduces these
+    (14.7, 1.2; 19.2, 2.4) by construction; flat x2.79 roughly doubles them (31.2, 3.2; 39.4, 5.6).
+    Rolling-24h counts exceed daily-total counts (~1.6-1.7x) ....................................... SOLID
+Z13 Cox's Bazar only (13 events): empirical POD 0.46 (qm) / 0.69 (flat), alarm 26.0 / 56.4 d;
+    installed POD 0.15 / 0.23, alarm 2.4 / 7.5 d. Same trade-off where the empirical threshold
+    was derived ..................................................................................... SOLID
