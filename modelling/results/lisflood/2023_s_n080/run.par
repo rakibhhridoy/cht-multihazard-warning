@@ -1,0 +1,23 @@
+DEMfile dem.asc
+resroot run
+dirroot out
+sim_time 1038600
+initial_tstep 10
+massint 900
+saveint 1038600
+fpfric 0.08
+SGCwidth width.asc
+SGCbank dem.asc
+SGCn 0.035
+SGCr 0.3
+SGCp 0.76
+max_Froude 1
+dynamicrainfile rain.nc
+routing
+routingspeed 0.1
+routesfthresh 0.1
+depththresh 0.003
+infiltration 5.556e-07
+bcifile free.bci
+stagefile town.stage
+elevoff

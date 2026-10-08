@@ -11,7 +11,7 @@ import numpy as np, pandas as pd, xarray as xr
 ROOT = Path(__file__).resolve().parents[1]; RES = ROOT / "results"; RES.mkdir(exist_ok=True)
 LOCAL = pd.Timedelta(hours=6)
 RANGAMATI = (22.5954, 92.1431); BANDARBAN = (22.1953, 92.2184)
-GAUGE_24H = {"low": 332.0, "high": 343.0}          # FFWC 2017 / BMD via Islam et al. 2021 (A1)
+GAUGE_24H = {"low": 332.0, "high": 343.0}          # FFWC Bandarban 2017 / BMD Rangamati station (A1, revised 2026-10-03)
 # Failure window from contemporaneous reports (D1). Earliest is the first published clock time,
 # landslides at Bandarban "around 2:30am" on 13 June (Dhaka Tribune, 13 Jun 2017); dawn from a
 # survivor account (Al Jazeera, 14 Jun 2017); latest the Manikchhari slide that killed four

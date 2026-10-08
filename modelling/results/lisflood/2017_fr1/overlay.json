@@ -1,0 +1,40 @@
+{
+ "run": "2017_fr1",
+ "depth_threshold_m": 0.5,
+ "flooded_cells": 14733,
+ "flooded_km2": 119.3,
+ "landslides_in_catchment_in_window": 62,
+ "landslide_dates": {
+  "2017-06-13": 62
+ },
+ "landslide_dist_to_flood_m_p25_50_75": [
+  201,
+  360,
+  711
+ ],
+ "random_dist_to_flood_m_p25_50_75": [
+  255,
+  485,
+  805
+ ],
+ "share_within_250m": {
+  "landslides": 0.29,
+  "random": 0.24
+ },
+ "share_within_500m": {
+  "landslides": 0.58,
+  "random": 0.51
+ },
+ "share_within_1000m": {
+  "landslides": 0.97,
+  "random": 0.87
+ },
+ "mannwhitney_p_landslides_closer": 0.061,
+ "blocks_1km": 14,
+ "mannwhitney_p_blocks": 0.45,
+ "nearest_flood_peak_bst_p10_50_90": [
+  "2017-06-13 03:00",
+  "2017-06-13 15:00",
+  "2017-06-13 16:00"
+ ]
+}

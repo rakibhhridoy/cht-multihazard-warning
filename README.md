@@ -6,7 +6,9 @@ Bangladesh: **June 2017**, **August 2023** and **July 2026**.
 
 The study compares what was observed, what was forecast, what was advised and what was
 acted on across the three events, using gauge-anchored rainfall, a date-audited landslide
-inventory, river stage records and agency situation reports. Manuscript in preparation.
+inventory, river stage records and agency situation reports. Physical and causal models of
+slope stability, soil and river lags and river flooding test what the record leaves open.
+Manuscript in preparation.
 
 ## What is here
 
@@ -26,7 +28,11 @@ inventory, river stage records and agency situation reports. Manuscript in prepa
 | `data/scripts/warming.py` | Sensitivity of the thresholds' alarm days and detection to 1-3 degrees of warming at the Clausius-Clapeyron rate |
 | `data/scripts/guards.py` | Checks against likely reviewer objections: 2017 vs 2026 forcing at Rangamati, the gauge reading interval needed for the 2017 lead time, gauge-only alarm days, and threshold skill in Cox's Bazar alone |
 | `data/scripts/camp_slopes.py` | Slope and relief of the 33 Rohingya camps from the Copernicus 30 m elevation model, by fatal and listed status |
-| `figures/make_figures.py` | Builds the five manuscript figures from the derived data in `data/` |
+| `figures/make_figures.py` | Builds manuscript Figures 1-5 from the derived data in `data/` |
+| `figures/make_model_figures.py` | Builds Figure 6 and Supplementary Figure 1 from the derived model results in `modelling/results/` |
+| `modelling/scripts/` | The physical and causal models: a TRIGRS slope-stability ensemble for Rangamati, June 2017, and its replay under the July 2026 storm; ICESat-2 checks of elevation-model slopes; PCMCI+ causal lags on ERA5-Land; a LISFLOOD-FP flood model of the Sangu above Bandarban with sensitivity runs; and the GloFAS v5.0 comparison. See `modelling/README.md` |
+| `modelling/results/` | Derived model outputs: ensemble and replay tables, ICESat-2 slopes, causal lags, GloFAS discharge, and per-run parameters, summaries and town depth for every flood run |
+| `modelling/build/` | Source, version and build notes for TRIGRS and LISFLOOD-FP, which are not redistributed |
 | `data/results/` | Derived outputs: the June 2017 hourly series at Rangamati, the threshold crossing times, the inventory date audit table, and the 1950-2025 rainfall climatology |
 | `data/figdata/` | Cached point rainfall series for the three events: ERA5-Land extractions at Bandarban, and the gauge-comparison series |
 | `review/claims-register.md` | Every load-bearing quantitative claim in the study, its status, and its source |
@@ -56,6 +62,7 @@ the manuscript's font; without it they fall back to matplotlib's own PDF output:
 
 ```bash
 python figures/make_figures.py
+python figures/make_model_figures.py
 ```
 
 The rainfall analysis itself reads hourly NetCDF that is **not** redistributed here, because
@@ -108,6 +115,9 @@ The landslide inventory is the supplementary dataset of Rabby and Li (2020) and 
 redistributed here. Download it from the publisher and place the WGS-84 CSV at
 `data/rabby_li_inventory/inventory_wgs84.csv` before running the date audit.
 
+The models are run from `modelling/`; `modelling/README.md` gives the order, the model builds
+and two solver behaviours that every flood run is checked against.
+
 ## Third-party data
 
 | Source | Terms |
@@ -118,6 +128,8 @@ redistributed here. Download it from the publisher and place the WGS-84 CSV at
 | Copernicus GLO-30 elevation model, ESA | Copernicus licence; attribution required |
 | Camp outlines, Inter Sector Coordination Group via HDX | CC0 |
 | Landslide inventory, Rabby and Li (2020) | Obtain from the publisher; cite the original |
+| ICESat-2 ATL08, NASA NSIDC DAAC | Freely available; attribution required |
+| GloFAS v5.0 historical discharge, CEMS Early Warning Data Store | CEMS-FLOODS licence; attribution required |
 | Flood Forecasting and Warning Centre annual reports; agency situation reports | Obtain from the issuing organisations |
 
 Publisher PDFs, agency reports and raw reanalysis files are deliberately excluded from this
@@ -125,8 +137,8 @@ repository. The scripts that fetch them are included instead.
 
 ## Licence
 
-Code in `data/scripts/` and `figures/` is released under the MIT Licence (`LICENSE`).
-Derived data in `data/` and the claims register in `review/` are released under
+Code in `data/scripts/`, `figures/` and `modelling/scripts/` is released under the MIT Licence (`LICENSE`).
+Derived data in `data/` and `modelling/results/` and the claims register in `review/` are released under
 Creative Commons Attribution 4.0 International (`LICENSE-data`).
 
 ## Authors

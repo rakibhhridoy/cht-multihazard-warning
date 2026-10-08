@@ -237,7 +237,7 @@ def _style(ax, grid_axis="y"):
 
 
 def fig2():
-    """Rangamati 2017 against 2026 (failures and deaths on separate axes) and the identifiable
+    """Rangamati 2017 against 2026 (gauge rainfall and deaths on separate axes) and the identifiable
     landslide deaths of July 2026 by setting. Registers Q2, Y4, I7, L3, I9."""
     fig = plt.figure(figsize=(7.2, 2.6))
     outer = fig.add_gridspec(1, 2, width_ratios=[1.05, 1.35], wspace=0.42,
@@ -245,7 +245,10 @@ def fig2():
     left = outer[0].subgridspec(1, 2, wspace=0.45)
     a1, a2, b = fig.add_subplot(left[0]), fig.add_subplot(left[1]), fig.add_subplot(outer[1])
     years = ["June\n2017", "July\n2026"]
-    for ax, vals, col, sub, top in [(a1, [160, 126], RAIN, "Slope failures", 190),
+    # (a) compares like with like: the same Rangamati gauge in both years and the district deaths.
+    # Slope-failure counts are not plotted, because 2017 counts inventory points and 2026 counts
+    # incidents reported during the response (register Z18).
+    for ax, vals, col, sub, top in [(a1, [343, 287], RAIN, "24-h rain (mm)", 400),
                                     (a2, [121, 1], SLIDE, "Deaths", 143)]:
         ax.bar([0, 1], vals, width=0.52, color=col, linewidth=0)
         for x, v in zip([0, 1], vals):

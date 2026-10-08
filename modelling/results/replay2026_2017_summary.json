@@ -1,0 +1,28 @@
+{
+ "runs": 674,
+ "admissible_both_years": 674,
+ "hill_share_2017_pct10_50_90": [
+  0.001,
+  0.039,
+  0.244
+ ],
+ "hill_share_2026_pct10_50_90": [
+  0.0,
+  0.034,
+  0.238
+ ],
+ "ratio_2026_to_2017_pct10_50_90": [
+  0.08,
+  1.0,
+  3.19
+ ],
+ "runs_2026_more_unstable": 121,
+ "runs_2026_less_unstable": 208,
+ "runs_equal_within_0.5pp": 345,
+ "timing_fit_2017_runs": 97,
+ "timing_fit_2017_hill_2017_vs_2026_median": [
+  0.088,
+  0.154
+ ],
+ "timing_fit_2017_median_first_2026": "2026-07-07 06:00:00"
+}

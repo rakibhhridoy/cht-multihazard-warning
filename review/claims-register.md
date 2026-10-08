@@ -416,3 +416,162 @@ Z12 Gauge-only alarm days (GHCN daily totals, complete seasons): Chattogram airp
 Z13 Cox's Bazar only (13 events): empirical POD 0.46 (qm) / 0.69 (flat), alarm 26.0 / 56.4 d;
     installed POD 0.15 / 0.23, alarm 2.4 / 7.5 d. Same trade-off where the empirical threshold
     was derived ..................................................................................... SOLID
+Z14 Chance and year robustness (skill.json "robustness", added 2026-10-03). Chance = share of May-Oct
+    days in the event's district and year whose day-or-day-before window reaches the threshold.
+    Empirical 24h: POD 0.57 (qm) / 0.73 (flat) vs chance 0.16 / 0.36 (factor 3.6 / 2.0); without
+    2017 (8 of 37 events) 0.55 / 0.72; leave-one-year-out 0.50-0.60 / 0.69-0.76.
+    Installed 24h: POD 0.22 / 0.38 vs chance 0.02 / 0.05; without 2017 0.17 / 0.34; LOYO 0.16-0.24 /
+    0.31-0.41. Max LOYO shift 0.07. 18 event years (2002-2017, 2023, 2026). Published Z3 values
+    reproduce exactly. Answers the co-author's "won't work for different years" for the skill result
+    only; it says nothing about the Rangamati 2017/2026 comparison ................................ SOLID
+Z15 Riveros et al. 2026 (NHESS 26:2437) cited in Intro and Discussion: unified RF susceptibility for
+    flash flood + landslide, Liguria; static factors only; finds shared controls and overlapping
+    area; leaves rainfall/timing/joint occurrence and thresholds to future work (their 5.4, 5.7) .. SOLID
+
+Z16 2017 crossings under other corrections, Rangamati 13-Jun centroid (scratch lead.py, ERA5-Land):
+    raw max24 116 mm, empirical 24h 12 Jun 11:00 (+15.5 h), installed never; QM max24 239 mm (0.70
+    of 343), empirical 12 Jun 04:00 (+22.5 h), installed 13 Jun 02:00 (+0.5 h); flat 2.95 02:00
+    (+24.5 h) / 19:00 (+7.5 h). Empirical lead robust; installed lead depends on the anchor ..... SOLID
+Z17 Roy et al. 2022 event dates (their Table 1) vs our Cox's Bazar events: 5 of 13 within 1 day
+    (2003-06-15, 2008-07-03, 2010-06-13/14/15). skill.json "independent_of_roy": CXB overlap POD
+    0.8 (qm) / 1.0 (flat); CXB independent (n=8) empirical POD 0.25 / 0.50 vs chance 0.22 / 0.43
+    (no skill out of sample, n small); installed 0.12 / 0.12 vs 0.02 / 0.07. Pooled without the 5
+    (n=32): empirical 0.53 / 0.69 vs chance 0.17 / 0.35; installed 0.22 / 0.38 vs 0.02 / 0.05 .. SOLID
+    => Z13 sentence "Nor is the trade-off an artefact..." WITHDRAWN (2026-10-03).
+Z18 Inventory Death_ field, 13 Jun 2017: Rangamati 14 deaths at 3 of 160 sites; Bandarban 10 at 3 of
+    91; Chattogram 0 of 6. Against 121 reported for Rangamati => mapped scars and fatal slides are
+    largely different sets; Z9 deaths-per-failure rate WITHDRAWN from the manuscript ............. SOLID
+Z19 Rohingya: >670,000 arrived after 25 Aug 2017 (JRP 2018; other versions 671,000 / 688,000);
+    ~212,000 before (ISCG sitreps 2017). From search snippets only; the PDFs were blocked to
+    download. VERIFY against the JRP 2018 PDF before submission ...................................... SNIPPET
+A1 REVISED 2026-10-03: 343 mm is the BMD station in RANGAMATI town ("The Dhaka Met office said Tuesday
+    morning it had recorded 343mm of rainfall in Rangamati over the course of 24 hours", Al Jazeera
+    14 Jun 2017; Islam 2021 gives 343 mm without a station). 332 mm = FFWC Bandarban. Y8 ("no
+    Rangamati gauge value is published") WITHDRAWN. BMD Rangamati also gave 287 mm (2026, A6).
+    Station ~3.4 km from the 160-failure centroid (coords 22.63N 92.15E from a search summary,
+    unverified). B1 stands only as "not in GHCN"; "Rangamati had neither" WITHDRAWN ............... PRESS+SOLID
+
+## Open after co-author critique (2026-10-03) — NOT yet addressed in the manuscript
+- [ADDRESSED 2026-10-03, Z18] Rangamati 2017 vs 2026 counts are different units; Z9 rate withdrawn.
+- [ADDRESSED 2026-10-03, A1 revised] BMD reports Rangamati rainfall (287, 130, 106 mm 2026; 601 mm Aug 2023), so a BMD Rangamati gauge
+  exists; "Rangamati had neither", B1-based framing and the gauge recommendation need correcting.
+- [ADDRESSED: it is Rangamati, Al Jazeera] Islam 2021 343 mm: quoted text says "southeastern Bangladesh", no station; "at Bandarban" unverified.
+- [ADDRESSED, Z19 needs PDF check] Camps barely existed June 2017 (influx from Aug 2017): "deaths moved" is partly exposure change.
+- [ADDRESSED, Z16] Installed 24h lead 2-8 h holds under flat scaling only; QM gives 0.5 h (12 Jun 02:00 vs 13 Jun 02:00).
+- [ADDRESSED, Z17] Roy 2022 derivation events (30 Cox's Bazar, 1997-2021, BMD) may overlap our 13 Cox's Bazar events.
+- Abedin et al. 2020 (Geoenviron Disasters 7:23) on 13 Jun 2017 Rangamati not yet obtained (publisher bot wall).
+- [ADDRESSED 2026-10-08] Title now "Landslide deaths in Bangladesh now concentrate in warned refugee camps" (13 of >=21 identifiable 2026 landslide deaths in camps, L3); no 'moved' claim. Fig 4a now plots Rangamati gauge 24-h rain (343 vs 287 mm) and deaths; failure counts dropped (Z18).
+
+## M. Modelling companion study (started 2026-10-04) — modelling/, separate from the npj paper
+M1  TRIGRS 2.1.00c (usgs/landslides-trigrs @ 9bb5ec2, code.usgs.gov) built with gfortran on M1
+    (trg, tpx); USGS tutorial runs, FS falls from period 1 to 2 with cells < 1 (no reference output
+    shipped). Runoff routing skipped (TI files absent; TRIGRS logs "Skipped runoff-routing") ....... SOLID
+M2  Domain: 160 Rangamati failures of 13 Jun 2017 +1.5 km, GLO-30 -> UTM46N 30 m, 722 x 477 cells,
+    155 failure cells. Slope p10/50/90: all cells 0.0/10.2/24.6 deg; failure cells 6.4/18.1/26.4.
+    Forcing = manuscript's gauge-anchored hourly series (343 mm anchor), 10 Jun 01:00-14 Jun 00:00 ... SOLID
+M3  Lookup mode (one-row grid of slopes 0-50 deg @0.25) equals full TRIGRS: 60x60 crop, |dFS| <= 0.004
+    on slopes >= 5 deg (max 0.18 only on near-flat cells with FS ~10), FS<1 classification agrees on
+    100 % of cells. Must delete TRgrid_size.txt before each run (TRIGRS caches grid size) ............ SOLID
+M4  30 m slope barely separates failure cells from hillslope: AUC 0.551; share >= 21 deg 0.30 vs 0.26;
+    >= 26 deg 0.12 vs 0.12. With uniform parameters FS ranks cells by slope, so 0.551 is the ceiling
+    of any such run => TRIGRS at 30 m cannot answer "where"; only "when" ......................... SOLID
+M5  Infinite slope, fully saturated: critical slope at the median failure slope (18 deg) is reached
+    only at the weak corner of Santo et al. 2024 lab values (c 3.7 kPa, gamma 15.7, z >= 2 m:
+    18.2 deg) or with c ~ 0 (phi 27.8 -> 14.4 deg). Central values (c 6, phi 31, gamma 19, z 2): 26 deg . SOLID
+M6  Ensemble (ensemble_2017.csv/_summary.json): 400 LHS sets x 2 forcings = 800 runs, 0 errors; 674
+    admissible (<5 % hill cells FS<1 before rain). 442 trigger failure cells; median first failure
+    23.5 h (p10-p90 3.6-26.5 h) BEFORE 02:30 13 Jun, i.e. 12 Jun early morning, with the empirical
+    threshold crossing. 97 runs trigger any cell in the 02:30-11:00 window, 15 a majority; in-window
+    share of failure cells median 0.019 (p90 0.086). Delay set by low diffusivity (D0/Ks rho 0.55)
+    and deep soil (zmax rho -0.34); in-window runs: Ks 5.7e-7 vs 2.7e-6, D0/Ks 23 vs 67, zmax 3.0 vs
+    2.5 m. Failure cells fail no more than hillslope (0.097 vs 0.105); AUC 0.551 in every run (M4).
+    Extent driven by cohesion (rho -0.65) ............................................................ SOLID
+M7  ICESat-2 ATL08 v007 (59 granules 2018-10..2026-09 found, 31 with ground in domain, 96 tracks,
+    24,006 20-m points; icesat2_slopes.json). Heights converted ellipsoid -> EGM2008 (N ~ -52.8 m;
+    first pass without it was wrong). DEM - ICESat-2 ground: median 0.4 m (p10 -1.7, p90 7.2).
+    60 m baseline, hill points (DEM >= 5 deg): DEM p50/90/95 = 8.0/17.1/19.9 deg; ICESat-2 3.7/19.6/24.5;
+    share >= 26 deg 0.8 % vs 3.1 %. Noise floor (DEM < 2 deg) 0.1-0.5 deg. => the 30 m surface model
+    both adds slope where ground is gentle and flattens the steepest ground (tail ~2.5-4.6 deg steeper,
+    ~4x more >= 26 deg). A statistical correction would raise unstable AREA but cannot place it;
+    ASF "12.5 m ALOS" DEM is upsampled SRTM (ASF RTC guide) - not used .............................. SOLID
+M8  2026 replay (replay2026_2017.csv/_summary.json): all 674 admissible 2017 sets re-run with July 2026
+    forcing anchored the same way (max 24 h at the failure centroid = 287 mm Rangamati BMD, K 2.70
+    ERA5 / 2.19 IMERG; flat factor inflates the fortnight to 1,334 / 873 mm). All sets: unstable hill
+    share 2017 vs 2026 equal in median (ratio 1.0; 345 equal within 0.5 pp, 208 lower, 121 higher).
+    The 97 sets that reproduce the 2017 timing (slow, deep soils): 2026 MORE unstable, 15.4 vs 8.8 %
+    of hillslope (ratio 1.93 ERA5, 1.48 IMERG; 67 of 97 higher; corrected from 66 on 2026-10-08), first failures 6 Jul 18:00 (ERA5) /
+    7 Jul 15:00 (IMERG), before the assumed 8-11 Jul incident window. => the 2026 storm was at least
+    as hazardous as 2017 in this model; with soils that fit 2017's timing it was more so. Caveats:
+    30 m (M4), flat correction over two weeks, 2026 incident dates unknown ............................ SOLID
+M9  PCMCI+ lag structure (pcmci_lags.py -> pcmci_lags.json; tigramite 5.2.10, RobustParCorr, tau_max
+    5 d, pc_alpha 0.01, rain exogenous). ERA5-Land daily (00 UTC fields; UTC day = 06:00-06:00 BST)
+    May-Oct 2001-2026 (4,727 days), anomalies from a 31-day smoothed DOY climatology, at the inventory
+    centroids (Rangamati 22.661/92.175, Bandarban 22.107/92.246). sm3 = swvl3 (28-100 cm), sro = surface
+    runoff, ssro = ro - sro. Both points: rain -> sro same day, strongest link (val 0.68 Rangamati,
+    0.83 Bandarban); rain -> sm3 same day (0.19 / 0.31), sm3 memory 1-2 d (lag-1 val 0.70 / 0.76);
+    ssro driven by sm3 (Rangamati lag 1, 0.12; Bandarban same day, 0.40) with memory 2-4 d. Rain
+    -> sro and rain -> sm3 at lag 0 hold under ParCorr, pc_alpha 0.05 and both halves (2001-13,
+    2014-26). Order: quickflow and deep-soil wetting on the storm day, slow (river-sustaining)
+    runoff after. Event composite thin: Rangamati n = 2 (2017, 2026) sro and sm3 peak on the UTC
+    day before the BST date (= the storm day), ssro peaks +2 d; Bandarban n = 5, ssro shows no rise.
+    Hourly, Rangamati June 2017: rain and sro peak 03:00 BST 13 Jun, sm3 peak 04:00, i.e. within
+    1.5 h after the first failures (02:30); sm3 had made 96 % of its rise by then, ssro was at 18 %
+    of its peak (15 Jun 22:00). July 2026: rain/sro peak 7 Jul 16:00, sm3 9 Jul 03:00, ssro 9 Jul
+    23:00. Bandarban sm3 sits at 0.40-0.43 (near the model's saturation) through July 2026, so ssro
+    there answers the burst at once (2017: sro and ssro both 12 Jun 08:00). CAVEATS: every variable
+    is from one land-surface model, so the graph is that model's internal order, not observation;
+    9 km cells; Kaptai Lake regulates the Karnaphuli at Rangamati, so ssro there is not a river
+    stage. GloFAS discharge checked later, see M11 ..................... SOLID
+M10 Flood model, Sangu above Bandarban (LISFLOOD-FP 8.x inertial solver; prep_sangu.py, run_lisflood.py,
+    lisflood_overlay.py -> results/lisflood/<event>_fr1/). GLO-30 at 90 m, catchment 2,158 km2, D4-
+    conditioned; IMERG V07 half-hourly on 900 m tiles, catchment only, one scale factor per storm
+    anchored to the station record (2017 x1.91, 2026 x2.10); sub-grid channel w = 2.6 A^0.5; n 0.05
+    floodplain, 0.035 channel; NO infiltration (the scalar keyword is ignored by the sub-grid solver,
+    so the intended 2 mm/h never applied; only an infilfile grid works); max_Froude 1. FIRST RUNS (_base) INVALID: without
+    the Froude limiter the sub-grid channel created water (2026: stored 5.9e9 m3 against 2.1e9 m3 of
+    rain; 30 m stage; Qout 66,560 m3/s); the internal Verror column did not show it. 36 h tests on
+    2026: stored/rain 8.47 unchanged, 1.29 cfl 0.3, 1.00 no sub-grid, 1.00 max_Froude 1, 1.00 cfl 0.1,
+    2.49 channel only >= 100 km2. With max_Froude 1 stored/rain never exceeds 1.00 in any full run.
+    Results (town stage, BST): 2017 peak 13 Jun 16:30 (obs 13 Jun); 2023 7 Aug 22:30 (obs 7 Aug);
+    2026 9 Jul 01:15 (obs 8 Jul, ~1 d late). Peak depth 14.70 / 14.24 / 14.08 m and 3 h Qout
+    6,078 / 5,341 / 5,174 m3/s rank 2023 > 2017 > 2026, as observed (+283 / +135 / +96 cm over DL).
+    Rank margins are small (0.6 m across the three against 1.9 m observed), and three events give a
+    1-in-6 chance of the right order. Overbank duration ranks differently (2023 174 h > 2026 117 h >
+    2017 51 h). Magnitudes are not credible (90 m DEM, no bathymetry): timing and rank only.
+    Overlay, 2017 (62 landslides, all 13 Jun): median distance to a flooded valley (>= 0.5 m, >= 1 km2)
+    360 m against 485 m for random catchment cells, within 1 km 97 % vs 87 %, Mann-Whitney p 0.061,
+    on 14 one-km blocks p 0.45 -> NO detectable co-location at 90 m. Nearest-flood peak p10/50/90
+    13 Jun 03:00 / 15:00 / 16:00, i.e. the valleys peaked hours after the first failures (02:30).
+    No dated inventory landslides inside the catchment in the 2023 or 2026 windows.
+    SENSITIVITY (lisflood_sensitivity.py -> results/lisflood_sensitivity.{csv,json}; one at a time,
+    all three storms each, 8 variants + reference = 27 runs, stored/net rain <= 1.00 in all):
+    floodplain n 0.03/0.08, channel n 0.025/0.05, infiltration 2/5 mm/h (infilfile), width
+    coefficient 1.8/3.5. 2023 ranks highest in 9/9 configurations (depth and Qout). 2023 > 2017 >
+    2026 in 7/9; the two high-roughness variants (floodplain 0.08, channel 0.05) give 2023 > 2026 >
+    2017, with 2017 and 2026 within 0.1 m. Spread across storms 0.54-0.74 m, while one roughness
+    step moves every storm by ~0.5 m. Peak on the recorded day: 2017 9/9; 2023 8/9 (floodplain 0.08:
+    00:15 on 8 Aug); 2026 2/9 (only the low-roughness variants; else 01:15-02:30 on 9 Jul, i.e. a few
+    hours past the recorded day). Infiltration and width barely matter (<= 0.3 m). Claim allowed:
+    the model times the peaks and picks 2023 as the largest; it does NOT separate 2017 from 2026 ...... TIMING SOLID, 2023-LARGEST SOLID, 2017/2026 ORDER NOT RESOLVED, CO-LOCATION NULL
+M11 GloFAS v5.0 check (fetch_glofas.py -> data/glofas/; glofas_check.py -> results/glofas_check.json,
+    glofas_sangu.csv). Consolidated reanalysis, daily mean discharge (00-24 UTC), Jun-Sep 2001-2025 and
+    Jun-Jul 2026, EWDS (CEMS-FLOODS licence accepted 2026-10-07). Sangu cell beside the FFWC station
+    (22.175 N, 92.225 E; JJAS mean 156 m3/s, median annual max 544 m3/s). Peaks: 2017 365 m3/s on
+    13 Jun (obs 13 Jun, offset 0; rank 18 of the 25 annual maxima); 2026 759 m3/s on 10 Jul (obs 8 Jul,
+    +2 d; rank 5); 2023 207 m3/s on 10 Aug (obs 7 Aug, +3 d; lower than every annual maximum
+    2001-2025). Order 2026 > 2017 > 2023, the reverse of the recorded stage (2023 > 2017 > 2026).
+    Same order and offsets at all 14 cells of the Sangu chain in the box, so not a cell-choice
+    artefact. Cause is the forcing: ERA5-Land rain at the station cell 1-10 Aug 2023 = 333 mm against
+    856 mm gauged (NAWG); 2017 max day 96 mm against 332 mm; 2026 max day 89 mm against 309 mm. ERA5
+    totals rank the storms 2026 (415 mm) > 2023 (333) > 2017 (230), and GloFAS follows its forcing.
+    So GloFAS cannot arbitrate 2017 vs 2026: it misranks the event the record is clearest on. What it
+    adds: a global system without a local rain anchor would have placed the worst of the three floods
+    last, which supports anchoring rain to the station record (M10 rank holds for 2023 in 9/9
+    configurations). Timing from GloFAS is right only for 2017 ...................... SOLID (as a negative result)
+MERGE 2026-10-08: block M merged into the paper. Main text: Results 2.5 "What physical models add"
+    (Sections/06b_models.tex; M2, M4, M6-M11; Fig. 6 = TRIGRS timing and 2026 replay), Methods
+    "Physical and causal models" (Sections/02b_model_methods.tex), one sentence each in the
+    abstract, Rangamati 2.3.2 and Limits, code availability. Supplement: Note 4 (flood model,
+    GloFAS), Supplementary Fig. 1 (flood), Supplementary Table 2 (sensitivity). 17 references
+    appended to references.bib. OPEN: modelling/ scripts not yet in the public repository (\todo in
+    code availability); submission/ package not rebuilt while the paper is on hold.

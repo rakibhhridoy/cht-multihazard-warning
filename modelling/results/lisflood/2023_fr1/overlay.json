@@ -1,0 +1,8 @@
+{
+ "run": "2023_fr1",
+ "depth_threshold_m": 0.5,
+ "flooded_cells": 14894,
+ "flooded_km2": 120.6,
+ "landslides_in_catchment_in_window": 0,
+ "landslide_dates": {}
+}

@@ -1,0 +1,78 @@
+{
+ "runs": 800,
+ "errors": 0,
+ "admissible": 674,
+ "admissible_by_product": {
+  "era5land": 352,
+  "imerg": 322
+ },
+ "runs_triggering_any_failure_cell": 442,
+ "runs_any_in_window": 97,
+ "runs_majority_of_triggered_in_window": 15,
+ "lead_h_of_median_first_failure_pct10_50_90": [
+  3.6,
+  23.5,
+  26.5
+ ],
+ "share_fail_cells_failing_pct10_50_90": [
+  0.019,
+  0.097,
+  0.348
+ ],
+ "share_hill_cells_failing_pct10_50_90": [
+  0.012,
+  0.105,
+  0.286
+ ],
+ "auc_pct10_50_90": [
+  0.551,
+  0.551,
+  0.551
+ ],
+ "spearman_lead_h": {
+  "c": 0.02,
+  "phi": 0.15,
+  "uws": 0.17,
+  "Ks": 0.05,
+  "D0_Ks": 0.55,
+  "zmax": -0.34,
+  "dwt_f": -0.11,
+  "rizero": 0.03
+ },
+ "spearman_share_fail": {
+  "c": -0.65,
+  "phi": -0.12,
+  "uws": 0.0,
+  "Ks": 0.16,
+  "D0_Ks": 0.24,
+  "zmax": 0.11,
+  "dwt_f": 0.1,
+  "rizero": -0.14
+ },
+ "lab_cohesion_runs_triggering": 322,
+ "lab_cohesion_share_fail_cells_failing_max": 0.452,
+ "param_medians_admissible": {
+  "c": 6.72,
+  "phi": 33.6,
+  "uws": 18.5,
+  "Ks": 2.71e-06,
+  "D0_Ks": 66.7,
+  "zmax": 2.49,
+  "dwt_f": 0.772,
+  "rizero": 9.21e-09
+ },
+ "param_medians_any_in_window": {
+  "c": 5.63,
+  "phi": 33.1,
+  "uws": 17.8,
+  "Ks": 5.73e-07,
+  "D0_Ks": 23.1,
+  "zmax": 3.04,
+  "dwt_f": 0.827,
+  "rizero": 7.63e-09
+ },
+ "in_window_share_of_fail_cells_pct50_90": [
+  0.019,
+  0.086
+ ]
+}

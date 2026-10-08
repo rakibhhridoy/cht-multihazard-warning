@@ -1,0 +1,24 @@
+LISFLOOD-FP v8.2 (University of Bristol / Sheffield), GPL v3.
+Zenodo record 13121102, file LISFLOOD-FP-v8.2.zip (348 MB, includes .git), downloaded 2026-10-06.
+Copied without .git, Windows DLLs, the Word manuals and the bundled x86_64 Mac binaries.
+
+Patches for macOS arm64 (no other source changes):
+  CMakeLists.txt line 204: `if (UNIX)` -> `if (UNIX AND NOT APPLE)` (libnuma does not exist on macOS)
+  CMakeLists.txt end: macshim/ added to include path on APPLE
+  macshim/numa.h: stubs numa_node_of_cpu() and sched_getcpu(), used only to print thread placement
+  config/mac-cpu: config.default.cmake with _NETCDF 0
+
+Build (Apple clang + Homebrew libomp, cmake from pip):
+  OMP=$(brew --prefix libomp); mkdir build && cd build
+  cmake .. -D_CONFIG=../config/mac-cpu -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DCMAKE_C_COMPILER=/usr/bin/clang \
+    -DOpenMP_CXX_FLAGS="-Xpreprocessor -fopenmp -I$OMP/include" -DOpenMP_CXX_LIB_NAMES=omp \
+    -DOpenMP_omp_LIBRARY=$OMP/lib/libomp.dylib
+  make -j8 lisflood
+Binary: bin/lisflood (Mach-O arm64).
+Banner of the built binary reads 'LISFLOOD-FP version 8.1.0 (double)' although the archive is labelled v8.2.
+cuda/ and linuxdep/ removed after the build (GPU and Linux-only; 142 MB). Restore from the Zenodo archive if needed.
+2026-10-06: rebuilt with NetCDF (config/mac-cpu-nc = config.default.cmake, _NETCDF 1; add
+  -DCMAKE_PREFIX_PATH=$(brew --prefix netcdf)) so `dynamicrainfile` works. bin/lisflood is this build.
+  Why: with `rainfallmask` the subgrid path treats the mask as a constant volume rate (time series
+  ignored) and the plain inertial path ignores the mask; only `dynamicrainfile` gives time-varying
+  rain confined to the catchment.

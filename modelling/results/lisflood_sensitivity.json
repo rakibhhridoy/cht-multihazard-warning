@@ -1,0 +1,200 @@
+{
+ "reference": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.62,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": NaN
+ },
+ "floodplain n 0.03": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.61,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 0
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "floodplain n 0.08": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2026",
+   "2017"
+  ],
+  "rank_depth_ok": false,
+  "rank_qout": [
+   "2023",
+   "2026",
+   "2017"
+  ],
+  "rank_qout_ok": false,
+  "depth_spread_m": 0.63,
+  "peak_offset_d": {
+   "2023": 1,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "channel n 0.025": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.71,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 0
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "channel n 0.05": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2026",
+   "2017"
+  ],
+  "rank_depth_ok": false,
+  "rank_qout": [
+   "2023",
+   "2026",
+   "2017"
+  ],
+  "rank_qout_ok": false,
+  "depth_spread_m": 0.54,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "infiltration 2 mm/h": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.62,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "infiltration 5 mm/h": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.62,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "width 1.8 A^0.5": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.58,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": 1.0
+ },
+ "width 3.5 A^0.5": {
+  "complete": true,
+  "rank_depth": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_depth_ok": true,
+  "rank_qout": [
+   "2023",
+   "2017",
+   "2026"
+  ],
+  "rank_qout_ok": true,
+  "depth_spread_m": 0.63,
+  "peak_offset_d": {
+   "2023": 0,
+   "2017": 0,
+   "2026": 1
+  },
+  "max_stored_over_net_rain": 1.0
+ }
+}

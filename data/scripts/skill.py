@@ -12,6 +12,9 @@ is reported as the number of days per May-October season on which each threshold
 1979-2025, per district. A threshold that fires on a third of the monsoon cannot carry an
 evacuation trigger whatever its detection rate.
 
+Detection is set against chance (a random date in the same district and season) and recomputed
+leaving out one event year at a time, to show the rate does not rest on any one storm year.
+
 Correction is bracketed: 'qm' maps ERA5-Land onto the two coastal gauges by quantiles (right for
 ordinary days, low for the heaviest), 'flat' multiplies by the 2026 gauge median of 2.79 (right
 for the heaviest days, high for ordinary ones). Writes data/results/skill.json."""
@@ -34,6 +37,14 @@ SITREP = [("Bandarban", "2023-08-08"),       # H5, R4: landslides with deaths/ro
           ("Chittagong", "2026-07-08"),      # L3: two children, city and Sitakunda
           ("Chittagong", "2026-07-10"),      # L3: Rangunia
           ("Rangamati", "2026-07-08")]       # I6, I7: 126 incidents over four days, 287 mm to 8 Jul
+# Event dates Roy et al. (2022) used to derive the empirical threshold (their Table 1, Cox's Bazar,
+# 1997-2021). Inventory events within a day of one are not independent tests of that threshold.
+ROY_DATES = pd.to_datetime(["1997-07-11", "2003-06-16", "2003-07-29", "2008-07-03", "2008-07-06",
+                            "2008-08-18", "2010-06-13", "2010-06-15", "2012-06-24", "2012-10-30",
+                            "2015-06-26", "2015-07-27", "2015-09-01", "2017-06-14", "2017-07-05",
+                            "2017-07-24", "2017-07-25", "2018-05-04", "2018-06-11", "2018-07-25",
+                            "2018-07-28", "2019-05-11", "2019-07-06", "2019-07-14", "2019-09-09",
+                            "2021-05-27", "2021-06-05", "2021-06-19", "2021-07-27", "2021-07-28"])
 
 
 def corrected(s, x, y, mode):
@@ -45,6 +56,33 @@ def corrected(s, x, y, mode):
     r24 = s.rolling(24, center=True, min_periods=1).sum()
     ratio = pd.Series(qm.apply(r24.values, x, y), index=s.index) / r24.where(r24 > 0.1)
     return s * ratio.fillna(1.0)
+
+
+def robustness(events, roll, hrs, thr):
+    """Detection against chance, and its stability across years.
+
+    Chance: the share of May-October days in the event's own district and year whose window (that
+    day or the day before, as for the events) reaches the threshold, i.e. the detection a date drawn
+    at random from the same season would score. Leave-one-year-out: detection recomputed with each
+    event year removed in turn, so no single storm year carries the rate."""
+    hits, base, years = [], [], []
+    for _, e in events.iterrows():
+        r = roll[e.District][hrs]
+        w = r.loc[e.D - pd.Timedelta(days=1): e.D + pd.Timedelta(hours=23)]
+        if not len(w):
+            continue
+        hits.append(bool((w >= thr).any())); years.append(e.D.year)
+        ry = r[(r.index.year == e.D.year) & r.index.month.isin(range(5, 11))]
+        day = (ry >= thr).groupby(ry.index.normalize()).any()
+        day = day.reindex(pd.date_range(day.index.min(), day.index.max(), freq="D"), fill_value=False)
+        base.append(float((day | day.shift(1, fill_value=False)).mean()))
+    hits, years = np.array(hits), np.array(years)
+    loyo = [float(hits[years != y].mean()) for y in np.unique(years)]
+    return {"pod": round(float(hits.mean()), 2), "chance": round(float(np.mean(base)), 2),
+            "pod_without_2017": round(float(hits[years != 2017].mean()), 2),
+            "n_without_2017": int((years != 2017).sum()),
+            "loyo_min": round(min(loyo), 2), "loyo_max": round(max(loyo), 2),
+            "events_per_year": {int(y): int((years == y).sum()) for y in np.unique(years)}}
 
 
 def load_inventory():
@@ -91,6 +129,18 @@ def main():
                        "pod_inventory": round(float(hv[src == "inventory"].mean()), 2),
                        "pod_sitrep": round(float(hv[src == "sitrep"].mean()), 2), "n": int(len(hv))}
         out["detection"][mode] = det
+        if mode in ("qm", "flat"):
+            out.setdefault("robustness", {})[mode] = {tn: robustness(events, roll, hrs, thr)
+                                                      for tn, hrs, thr in THRESH}
+            near = events.D.apply(lambda t: bool((abs((ROY_DATES - t).days) <= 1).any()))
+            roy = (events.District == "Cox's Bazar") & near
+            cxb = events.District == "Cox's Bazar"
+            out.setdefault("independent_of_roy", {})[mode] = {
+                "n_overlap": int(roy.sum()),
+                "pooled": {tn: robustness(events[~roy], roll, hrs, thr) for tn, hrs, thr in THRESH},
+                "coxs_bazar": {tn: robustness(events[cxb & ~roy], roll, hrs, thr) for tn, hrs, thr in THRESH},
+                "coxs_bazar_overlap_pod": {tn: robustness(events[roy], roll, hrs, thr)["pod"]
+                                           for tn, hrs, thr in THRESH}}
         # sensitivity: recorded date only, without the day before
         same = {}
         for tn, hrs, thr in THRESH:

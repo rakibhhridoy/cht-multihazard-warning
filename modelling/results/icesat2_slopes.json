@@ -1,0 +1,57 @@
+{
+ "geoid": "EGM2008 via PROJ (EPSG:4979 -> 4326+3855)",
+ "granules_found": 59,
+ "granules_unreadable": [],
+ "granules_used": 31,
+ "tracks": 96,
+ "points": 24006,
+ "dem_minus_is2_m_pct10_50_90": [
+  -1.7,
+  0.4,
+  7.2
+ ],
+ "baseline_20m": {
+  "pairs": 19589,
+  "noise_floor_is2_deg_where_dem_lt2_pct50_90": [
+   0.2,
+   0.9
+  ],
+  "hill_dem_deg_pct": {
+   "50": 9.2,
+   "75": 13.8,
+   "90": 18.7,
+   "95": 22.3
+  },
+  "hill_is2_deg_pct": {
+   "50": 3.4,
+   "75": 12.7,
+   "90": 22.6,
+   "95": 28.3
+  },
+  "tan_ratio_is2_over_dem_median_on_hill": 0.37,
+  "share_is2_ge_26deg_on_hill": 0.066,
+  "share_dem_ge_26deg_on_hill": 0.023
+ },
+ "baseline_60m": {
+  "pairs": 15062,
+  "noise_floor_is2_deg_where_dem_lt2_pct50_90": [
+   0.1,
+   0.5
+  ],
+  "hill_dem_deg_pct": {
+   "50": 8.0,
+   "75": 11.8,
+   "90": 17.1,
+   "95": 19.9
+  },
+  "hill_is2_deg_pct": {
+   "50": 3.7,
+   "75": 12.2,
+   "90": 19.6,
+   "95": 24.5
+  },
+  "tan_ratio_is2_over_dem_median_on_hill": 0.46,
+  "share_is2_ge_26deg_on_hill": 0.031,
+  "share_dem_ge_26deg_on_hill": 0.008
+ }
+}
