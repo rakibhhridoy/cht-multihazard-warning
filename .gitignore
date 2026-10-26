@@ -32,3 +32,7 @@ data/ghcnd/
 data/camps/
 data/dem/
 *.tif
+
+# District boundaries (geoBoundaries) and the hillshade cache of the map figures
+data/admin/
+data/figdata/hillshade_*.npz

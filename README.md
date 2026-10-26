@@ -20,7 +20,7 @@ Manuscript in preparation.
 | `data/scripts/fetch_era5land_climatology.py` | Retrieves ERA5-Land hourly precipitation for May to October of every year from 1950, one verified file per season |
 | `data/scripts/climatology.py` | Annual maximum 24- and 72-hour rainfall at Rangamati and Bandarban, Mann-Kendall trends and Sen slopes (full record and 1979 onward), GEV return periods, and threshold-exceedance days |
 | `data/scripts/fetch_imerg_event.py` | Retrieves and subsets IMERG V07 half-hourly precipitation for a comparator event (Late run for July 2026), resumably |
-| `data/scripts/fetch_public_inputs.py` | Retrieves the GHCN-Daily gauge records, the ISCG camp outlines and the Copernicus 30 m elevation tiles |
+| `data/scripts/fetch_public_inputs.py` | Retrieves the GHCN-Daily gauge records, the ISCG camp outlines, the Copernicus 30 m and 90 m elevation tiles and the geoBoundaries district boundaries |
 | `data/scripts/event2026.py` | Checks ERA5-Land and IMERG Late against the ten BMD 24-hour gauge totals of July 2026 and replays the thresholds at Rangamati, the Ukhiya camps and Chattogram |
 | `data/scripts/bias_qm.py` | Quantile mapping of ERA5-Land onto the Chattogram and Cox's Bazar gauges, validated out of sample on July 2026 |
 | `data/scripts/skill.py` | Detection of dated landslide district-days by each threshold, days per season on which each would fire, and a sweep of the 24-hour threshold |
@@ -28,8 +28,7 @@ Manuscript in preparation.
 | `data/scripts/warming.py` | Sensitivity of the thresholds' alarm days and detection to 1-3 degrees of warming at the Clausius-Clapeyron rate |
 | `data/scripts/guards.py` | Checks against likely reviewer objections: 2017 vs 2026 forcing at Rangamati, the gauge reading interval needed for the 2017 lead time, gauge-only alarm days, and threshold skill in Cox's Bazar alone |
 | `data/scripts/camp_slopes.py` | Slope and relief of the 33 Rohingya camps from the Copernicus 30 m elevation model, by fatal and listed status |
-| `figures/make_figures.py` | Builds manuscript Figures 1-5 from the derived data in `data/` |
-| `figures/make_model_figures.py` | Builds Figure 6 and Supplementary Figure 1 from the derived model results in `modelling/results/` |
+| `figures/make_figures.py` | Builds manuscript Figures 1-6 and Supplementary Figure 1 from the derived data in `data/` and the model results in `modelling/results/` |
 | `modelling/scripts/` | The physical and causal models: a TRIGRS slope-stability ensemble for Rangamati, June 2017, and its replay under the July 2026 storm; ICESat-2 checks of elevation-model slopes; PCMCI+ causal lags on ERA5-Land; a LISFLOOD-FP flood model of the Sangu above Bandarban with sensitivity runs; and the GloFAS v5.0 comparison. See `modelling/README.md` |
 | `modelling/results/` | Derived model outputs: ensemble and replay tables, ICESat-2 slopes, causal lags, GloFAS discharge, and per-run parameters, summaries and town depth for every flood run |
 | `modelling/build/` | Source, version and build notes for TRIGRS and LISFLOOD-FP, which are not redistributed |
@@ -53,16 +52,18 @@ here where the two disagree.
 ## Reproducing the analysis
 
 ```bash
-pip install xarray netCDF4 pandas numpy scipy matplotlib cdsapi earthaccess
+pip install xarray netCDF4 pandas numpy scipy matplotlib geopandas shapely rasterio cdsapi earthaccess
 ```
 
-The figures rebuild from the derived data shipped in this repository, with no downloads. Where
-LuaLaTeX is installed, the PDFs are typeset through it so that their text embeds as Latin Modern,
-the manuscript's font; without it they fall back to matplotlib's own PDF output:
+The charts rebuild from the derived data shipped in this repository. The two maps (Figs. 1a
+and 4b) also need the camp outlines, elevation tiles and district boundaries, and the June 2017
+failure points of the landslide inventory (see below). Text is set in Arial with fonts embedded
+in the PDFs. A single figure can be rebuilt by number (`1` to `6`, `S1`):
 
 ```bash
-python figures/make_figures.py
-python figures/make_model_figures.py
+python data/scripts/fetch_public_inputs.py     # maps only
+python figures/make_figures.py                 # all figures
+python figures/make_figures.py 2 5             # Figs. 2 and 5 only
 ```
 
 The rainfall analysis itself reads hourly NetCDF that is **not** redistributed here, because
@@ -92,7 +93,7 @@ Sen slope is reported as a percentage of the median per decade.
 accumulations run from 00 UTC and reset at 01 UTC. It runs on import and will fail loudly if
 a future data revision changes that convention.
 
-The enhancement analyses read the same hourly archives plus three small public inputs, which
+The enhancement analyses read the same hourly archives plus small public inputs, which
 are fetched rather than redistributed, and IMERG Late for July 2026:
 
 ```bash
