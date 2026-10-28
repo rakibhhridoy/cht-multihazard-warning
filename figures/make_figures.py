@@ -699,9 +699,296 @@ def figS1():
     save(fig, "figS1_flood")
 
 
+# ======================================================================================
+# Figure 7 - the study on its terrain: data, three events and the main results in one view
+# ======================================================================================
+def _terrain3d(ax, adm, bounds, step=2, res=0.0022, zbox=None, zoom=1.6, fade=0.68):
+    """Oblique grey shaded-relief surface of the hills, sea in pale blue, terrain outside Bangladesh faded.
+    Returns a function giving surface height at lon/lat for draping overlays."""
+    from matplotlib.colors import LinearSegmentedColormap, to_rgb
+    from matplotlib.path import Path as MPath
+    from scipy.ndimage import gaussian_filter
+    hs, elev, ext = hillshade(bounds, res=res)
+    hs, elev = hs[::step, ::step], elev[::step, ::step]
+    ny, nx = elev.shape
+    lon = np.linspace(ext[0], ext[1], nx); lat = np.linspace(ext[3], ext[2], ny)
+    LON, LAT = np.meshgrid(lon, lat)
+    z = np.nan_to_num(elev, nan=0.0); z[z < 0] = 0
+    z = np.minimum(z, 1400)                         # the Chin Hills would otherwise tower over the frame
+    z = gaussian_filter(z, 1.0)                       # 90 m needles read as noise at this scale
+    bd = adm.union_all() if hasattr(adm, "union_all") else adm.unary_union
+    inside = np.zeros(z.shape, bool); pts = np.c_[LON.ravel(), LAT.ravel()]
+    for p in (bd.geoms if hasattr(bd, "geoms") else [bd]):
+        inside |= MPath(np.asarray(p.exterior.coords)).contains_points(pts).reshape(z.shape)
+    shade = LinearSegmentedColormap.from_list("hs", ["#7f7c75", "#c9c6bf", "#fbfaf7"])   # the grey of the Fig. 1 map
+    rgb = shade(np.clip((hs - 0.45) / 0.5, 0, 1))[..., :3]
+    sea = z <= 0.5
+    rgb[sea] = to_rgb(SEA)
+    out = ~inside & ~sea
+    rgb[out] = rgb[out] * (1 - fade) + fade
+    surf = ax.plot_surface(LON, LAT, z, facecolors=rgb, rstride=1, cstride=1, linewidth=0, antialiased=False,
+                           shade=False, rasterized=True, zorder=1)
+    surf.set_clip_on(False)        # a 3-D axes is kept square; let the terrain run to the page edges
+    kmx = (bounds[2] - bounds[0]) * 111.32 * math.cos(math.radians((bounds[1] + bounds[3]) / 2))
+    kmy = (bounds[3] - bounds[1]) * 111.32
+    ax.set_box_aspect((kmx, kmy, zbox if zbox else 15 * kmx / 105), zoom=zoom)
+    ax.set_xlim(bounds[0], bounds[2]); ax.set_ylim(bounds[1], bounds[3]); ax.set_zlim(0, 1500)
+    ax.set_axis_off()
+
+    def zat(lo, la):
+        lo, la = np.asarray(lo), np.asarray(la)
+        ix = np.clip(((lo - ext[0]) / (ext[1] - ext[0]) * (nx - 1)).round().astype(int), 0, nx - 1)
+        iy = np.clip(((ext[3] - la) / (ext[3] - ext[2]) * (ny - 1)).round().astype(int), 0, ny - 1)
+        return z[iy, ix]
+    return zat
+
+
+def _slot(fig, rect, title):
+    """A graph slot in figure coordinates, drawn straight on the map: a plain title and no panel.
+    Returns the inner plotting rectangle."""
+    x, y, w, h = rect
+    fig.text(x + 0.004, y + h, title, fontsize=7.3, fontweight="bold", color=INK, va="top", zorder=6,
+             path_effects=HALO)
+    return [x + 0.046, y + 0.028, w - 0.052, h - 0.056]
+
+
+def fig7():
+    from matplotlib.patches import FancyBboxPatch
+    from mpl_toolkits.mplot3d import proj3d
+    adm, camps, f17 = layers()
+    import os
+    bounds = (91.68, 20.72, 92.70, 23.20)                 # the study region, for overlays
+    dem_b = (90.90, 19.60, 93.75, 24.80)                  # terrain drawn well past the page edges
+    fig = plt.figure(figsize=(W2, 9.0))
+    fig.patch.set_facecolor(SEA)
+    ax = fig.add_axes([0, 0, 1, 1], projection="3d", computed_zorder=False)
+    ax.patch.set_alpha(0)
+    zat = _terrain3d(ax, adm, dem_b, step=int(os.environ.get("F7_STEP", 1)), res=0.0035, zoom=float(os.environ.get("F7_ZOOM", 3.9)), fade=0.62)
+    ax.view_init(elev=float(os.environ.get("F7_ELEV", 40)), azim=float(os.environ.get("F7_AZIM", -100)))
+    # centre the camera on the study region rather than on the whole terrain
+    cx, cy = float(os.environ.get("F7_CX", 92.12)), float(os.environ.get("F7_CY", 21.80))
+    hx, hy = (dem_b[2] - dem_b[0]) / 2, (dem_b[3] - dem_b[1]) / 2
+    ax.set_xlim(cx - hx, cx + hx); ax.set_ylim(cy - hy, cy + hy)
+
+    # ---- overlays on the terrain ----
+    # district lines as in Fig. 1: grey on a white casing, the national border darker
+    import shapely
+    near = adm.clip(shapely.box(*dem_b))
+    bd = adm.union_all() if hasattr(adm, "union_all") else adm.unary_union
+
+    def drape(geoms, **kw):
+        for geom in geoms:
+            for ln in (geom.geoms if hasattr(geom, "geoms") else [geom]):
+                xy = np.asarray(ln.coords)[:, :2]
+                ax.plot(xy[:, 0], xy[:, 1], zat(xy[:, 0], xy[:, 1]) + 25, **kw)
+    drape(near.boundary.geometry, color="white", lw=0.9, zorder=3)
+    drape(near.boundary.geometry, color="#7d7a73", lw=0.35, zorder=3.1)
+    drape([bd.boundary.intersection(shapely.box(*dem_b))], color=INK2, lw=0.6, zorder=3.2)
+    for geom in camps.geometry:
+        for p in (geom.geoms if hasattr(geom, "geoms") else [geom]):
+            xy = np.asarray(p.exterior.coords)[:, :2]
+            ax.plot(xy[:, 0], xy[:, 1], zat(xy[:, 0], xy[:, 1]) + 30, color=INK, lw=0.8, zorder=4)
+    ax.scatter(f17.lon, f17.lat, zat(f17.lon, f17.lat) + 40, s=3.5, c=SLIDE, depthshade=False, lw=0, zorder=5)
+    for nm, (la, lo) in RAIN_GAUGES.items():
+        ax.scatter([lo], [la], [zat(lo, la) + 60], s=14, marker="s", facecolor="white", edgecolor=RAIN, lw=0.9,
+                   depthshade=False, zorder=6)
+    for nm, (la, lo) in RIVER_GAUGES.items():
+        ax.scatter([lo + 0.035], [la], [zat(lo + 0.035, la) + 60], s=16, marker="^", color=FLOOD, edgecolor="white",
+                   lw=0.4, depthshade=False, zorder=6)
+    for nm, (lo, la) in {"Khagrachhari": (92.0, 22.95), "Rangamati": (92.33, 22.80), "Bandarban": (92.40, 21.95),
+                         "Chattogram": (91.92, 22.36), "Cox's Bazar": (92.08, 21.55)}.items():
+        ax.text(lo, la, zat(lo, la) + 300, nm, fontsize=6.2, style="italic", color=INK2, ha="center", zorder=7,
+                path_effects=HALO)
+    ax.text(91.80, 21.25, 0, "Bay of Bengal", fontsize=6.2, style="italic", color="#6d8597", ha="center", zorder=7)
+    ax.text(92.80, 22.00, zat(92.80, 22.00) + 250, "MYANMAR", fontsize=5.6, color=MUTED, ha="center", zorder=7)
+
+    for art in ax.collections + ax.lines + ax.texts:     # the 3-D axes is square; overlays run to the page edge
+        art.set_clip_on(False)
+    fig.canvas.draw()
+
+    def at(lo, la, dz=60):
+        x2, y2, _ = proj3d.proj_transform(lo, la, float(zat(lo, la)) + dz, ax.get_proj())
+        return fig.transFigure.inverted().transform(ax.transData.transform((x2, y2)))
+
+    def leader(card_rect, side, lo, la):
+        x, y, w, h = card_rect
+        sx = x + w if side == "left" else x - 0.014
+        sy = y + h * 0.55
+        if side == "top":                           # from above the slot title
+            sx, sy = x + w * 0.5, y + h + 0.004
+        p = at(lo, la)
+        fig.add_artist(Line2D([sx, p[0]], [sy, p[1]], transform=fig.transFigure, color=INK2, lw=0.6,
+                              zorder=8))
+        fig.add_artist(Line2D([p[0]], [p[1]], transform=fig.transFigure, marker="o", ms=3.2, mfc="white",
+                              mec=INK, mew=0.7, zorder=9))
+
+    def mini(rect):
+        a = fig.add_axes(rect, zorder=5)            # above the card panel, which is a figure artist
+        a.patch.set_alpha(0)
+        a.tick_params(labelsize=6.0, length=2.0, width=0.4, pad=1)
+        for s_ in a.spines.values():               # borderless: ticks and labels only
+            s_.set_visible(False)
+        for t in a.get_xticklabels() + a.get_yticklabels():
+            t.set_path_effects(HALO)
+        for t in (a.xaxis.label, a.yaxis.label, a.title):
+            t.set_path_effects(HALO)
+        return a
+
+    XL, XR, cw = 0.012, 0.692, 0.296               # both graph groups sit at the bottom of the page
+
+    # ---- L1: the June 2017 storm and the two thresholds at Rangamati ----   [A1, D1, Q4]
+    r = (XL, 0.412, cw, 0.188); a = mini(_slot(fig, r, "June 2017 storm, Rangamati"))
+    d = pd.read_csv(ROOT / "data" / "results" / "june2017_hourly_rangamati.csv", index_col=0, parse_dates=True)
+    t0, t1 = pd.Timestamp("2017-06-11 12:00"), pd.Timestamp("2017-06-14 00:00")
+    win = (pd.Timestamp("2017-06-13 02:30"), pd.Timestamp("2017-06-13 11:00"))
+    a.axvspan(*win, color=SLIDE_T, lw=0)
+    hits = {57.4: [], 200.0: []}
+    for col_raw, colr in (("era5land_raw", RAIN), ("imerg_raw", SLIDE)):
+        raw = d[col_raw].loc[t0 - pd.Timedelta(hours=24):t1]
+        r24 = (raw * 343.0 / raw.rolling(24, min_periods=1).sum().max()).rolling(24, min_periods=1).sum()
+        a.plot(r24.index, r24.values, color=colr, lw=1.0)
+        for v in hits:
+            hits[v].append(r24[r24 >= v].index.min())
+    for v, yy in ((57.4, 57.4), (200, 200)):
+        a.axhline(v, color=INK2, lw=0.4, ls=(0, (1, 1.4)))
+        h0, h1 = min(hits[v]), max(hits[v])
+        l0, l1 = [(win[0] - h).total_seconds() / 3600 for h in (h1, h0)]
+        a.annotate("", xy=(win[0], yy + 22), xytext=(h0, yy + 22),
+                   arrowprops=dict(arrowstyle="-|>", lw=0.6, color=INK, mutation_scale=4, shrinkA=0, shrinkB=0))
+        a.text(h0 - pd.Timedelta(hours=1), yy + 22, f"{math.floor(l0)}–{math.ceil(l1)} h", fontsize=6.3,
+               fontweight="bold", ha="right", va="center", color=INK)
+    a.set_xlim(t0, t1); a.set_ylim(0, 380); a.set_yticks([0, 200])
+    a.xaxis.set_major_locator(mdates.DayLocator()); a.xaxis.set_major_formatter(mdates.DateFormatter("%d Jun"))
+    a.set_ylabel("24-h rain (mm)", fontsize=6.1, labelpad=1)
+    a.text(win[1], 360, "failures ", fontsize=5.9, color=SLIDE, ha="right", va="top", fontweight="bold")
+    leader(r, "left", *RANGAMATI[::-1])
+
+    # ---- L2: Rangamati deaths, one dot each, under comparable gauge rain ----   [A1, A6, Y4, I7]
+    r = (XL, 0.012, cw, 0.168); a = mini(_slot(fig, r, "Rangamati district deaths"))
+    for j, (lab, rain, n) in enumerate([("June 2017", 343, 121), ("July 2026", 287, 1)]):
+        x0 = j * 14.5
+        xx = x0 + np.arange(n) % 11; yy = -(np.arange(n) // 11)
+        a.scatter(xx, yy, s=2.6, color=SLIDE, lw=0)
+        a.text(x0, 6.2, f"{lab}\n{rain} mm in 24 h", fontsize=6.1, color=INK2, va="bottom")
+        a.text(x0, 1.0, f"{n}", fontsize=9, fontweight="bold", color=SLIDE, va="bottom")
+        a.text(x0 + (4.9 if n > 9 else 1.9), 1.3, "deaths" if n > 1 else "death", fontsize=6.1, color=INK2, va="bottom")
+    a.set_xlim(-1, 27); a.set_ylim(-11, 10.5); a.set_aspect("equal"); a.axis("off")
+    leader(r, "left", 92.20, 22.64)
+
+    # ---- L3: identifiable landslide deaths of July 2026 by setting ----   [L3, I9]
+    r = (0.5 - cw / 2, 0.012, cw, 0.120); a = mini(_slot(fig, r, "July 2026 landslide deaths"))
+    left = 0
+    for lab, v, shade in (("camps", 13, SLIDE), ("host", 5, "#f3a27f"), ("Ctg", 3, "#f8c8b2")):
+        a.barh([0], [v], left=left, height=0.55, color=shade, edgecolor="white", lw=0.8)
+        a.text(left + v / 2, 0, f"{v}", fontsize=6.9, fontweight="bold", color=INK if shade != SLIDE else "white",
+               ha="center", va="center")
+        a.text(left + v / 2, -0.52, lab, fontsize=6.1, color=INK2, ha="center", va="top")
+        left += v
+    a.text(0, 0.5, "13 of ≥21 identifiable, in camps", fontsize=6.1, color=INK, va="bottom")
+    a.set_xlim(0, 21); a.set_ylim(-1.2, 1.25); a.axis("off")
+    cc = camps.geometry.union_all() if hasattr(camps.geometry, "union_all") else camps.geometry.unary_union
+    leader(r, "top", cc.centroid.x, cc.centroid.y)
+
+    # ---- R1: slope model, timing and the 2026 replay ----   [M6, M8]
+    r = (XL, 0.202, cw, 0.188); rr = _slot(fig, r, "Rangamati slope model")
+    a = mini([rr[0] - 0.012, rr[1], rr[2] * 0.52, rr[3]]); b2 = mini([rr[0] + rr[2] * 0.62, rr[1], rr[2] * 0.40, rr[3]])
+    dd = pd.read_csv(MRES / "ensemble_2017.csv")
+    adm_ = dd[dd.share_hill_fs_lt1_prestorm < 0.05]
+    adm_ = adm_[adm_.share_fail_cells_fs_lt1_final > adm_.share_fail_fs_lt1_prestorm]
+    tt = pd.to_datetime(adm_.median_first_fs_lt1).dropna()
+    bins = pd.date_range("2017-06-11 12:00", "2017-06-13 18:00", freq="3h")
+    cnt, _ = np.histogram(tt, bins=bins)
+    a.axvspan(*win, color=SLIDE_T, lw=0)
+    a.bar(bins[:-1], cnt, width=pd.Timedelta(hours=3) * 0.85, align="edge", color="#b9b7b0", lw=0)
+    a.axvline(tt.median(), color=INK, lw=0.6, ls=(0, (2, 1)))
+    a.text(tt.median() + pd.Timedelta(hours=2), cnt.max() * 0.95, "median\n23.5 h early", fontsize=5.9, va="top")
+    a.set_xlim(bins[0], bins[-1]); a.set_yticks([])
+    a.xaxis.set_major_locator(mdates.DayLocator()); a.xaxis.set_major_formatter(mdates.DateFormatter("%d Jun"))
+    a.set_title("first failure, 2017", fontsize=6.1, pad=1.5, color=INK2)
+    rp = pd.read_csv(MRES / "replay2026_2017.csv"); fit = rp[rp.share_fail_triggered_in_window > 0]
+    x, y = 100 * fit.share_hill_cells_fs_lt1_final, 100 * fit.r26_share_hill_cells_fs_lt1_final
+    hi = float(max(x.max(), y.max())) * 1.05
+    b2.fill_between([0, hi], [0, hi], [hi, hi], color=SLIDE_T, lw=0)
+    b2.plot([0, hi], [0, hi], color=INK2, lw=0.4, ls=(0, (2, 1)))
+    b2.scatter(x, y, s=2.2, color=FLOOD, lw=0)
+    b2.set_xlim(0, hi); b2.set_ylim(0, hi); b2.set_xticks([0, 40]); b2.set_yticks([0, 40])
+    b2.set_title("2026 vs 2017 (%)", fontsize=6.1, pad=1.5, color=INK2)
+    b2.text(0.97 * hi, 0.04 * hi, f"{int((y > x).sum())} of {len(fit)}\nabove line", fontsize=5.7, color=SLIDE,
+            va="bottom", ha="right", fontweight="bold")
+    leader(r, "left", *RANGAMATI[::-1])
+
+    # ---- R2: rainfall climatology at Bandarban ----   [W2-W6]
+    from climatology import mann_kendall
+    r = (XR, 0.366, cw, 0.176); a = mini(_slot(fig, r, "Rain climatology, Bandarban"))
+    am = pd.read_csv(ROOT / "data" / "results" / "climatology_annual_maxima.csv")
+    s_ = am[(am.window == "24h") & (am.point == "Bandarban")].set_index("year").annual_max_mm
+    s_ = s_[s_.index <= 2025]
+    a.axvspan(1949.5, 1978.5, color=WARN_T, lw=0)
+    a.plot(s_.index, s_.values, color=RAIN, lw=0.8)
+    xx = s_.loc[1979:]; mk = mann_kendall(xx.values); yrs = np.array(xx.index); bs = mk["sen_slope_per_year"]
+    c0 = np.median(xx.values - bs * (yrs - yrs[0]))
+    a.plot(yrs, c0 + bs * (yrs - yrs[0]), color=SLIDE, lw=0.9)
+    a.text(1981, 345, f"{1000 * bs / xx.median():+.0f}% per decade\np = {mk['p']:.2f}", fontsize=6.0, color=SLIDE, va="top")
+    a.set_xlim(1948, 2027); a.set_ylim(0, 380); a.set_xticks([1950, 1980, 2010]); a.set_yticks([0, 200])
+    a.set_ylabel("annual max (mm)", fontsize=6.1, labelpad=1)
+    leader(r, "right", 92.22, 22.20)
+
+    # ---- R3: flood model of the Sangu at Bandarban, the three storms aligned on the recorded peak day ----
+    r = (XR, 0.160, cw, 0.180); a = mini(_slot(fig, r, "Sangu flood model"))
+    a.axvspan(0, 1, color="#d6f1e6", lw=0)
+    for (ev, (name, a0, a1, obs)), shade in zip(FLOOD_EV.items(), ("#8a8984", "#52514e", FLOOD)):
+        ref = pd.read_csv(MRES / "lisflood" / f"{ev}_fr1" / "town_depth.csv", index_col=0, parse_dates=True).depth_m
+        days = (ref.index - pd.Timestamp(obs)).total_seconds() / 86400
+        a.plot(days, ref.values, color=shade, lw=0.9)
+        keep = days <= 3.9
+        a.text(min(days[keep][-1], 3.9) + 0.1, ref.values[keep][-1] + {"2017": 0.8, "2023": -1.6, "2026": 0.6}[ev], ev,
+               fontsize=5.9, color=shade, ha="left" if days[keep][-1] < 3.5 else "right")
+    a.set_xlim(-4, 4); a.set_ylim(0, 17.5); a.set_xticks([-3, 0, 3]); a.set_yticks([0, 10])
+    a.set_xlabel("days from recorded peak day", fontsize=6.1, labelpad=1)
+    a.set_ylabel("depth (m)", fontsize=6.1, labelpad=1)
+    leader(r, "right", 92.253, 22.195)
+
+    # ---- one bordered box, top centre: map symbols in a row, then the three events side by side ----
+    #      [F3, G1, H2, H3, I2, I4, I5, Y4, R4, I10]
+    BX = [0.105, 0.862, 0.79, 0.126]
+    fig.add_artist(FancyBboxPatch((BX[0], BX[1]), BX[2], BX[3], boxstyle="round,pad=0,rounding_size=0.006",
+                                  transform=fig.transFigure, facecolor="white", edgecolor="#b9b8b3", lw=0.6,
+                                  alpha=0.70, zorder=2))
+    bx = fig.add_axes(BX, zorder=5); bx.set_xlim(0, 1); bx.set_ylim(0, 1); bx.axis("off"); bx.patch.set_alpha(0)
+    sym = [(dict(marker="o", ms=3, mfc=SLIDE, mec=SLIDE), "failure, 13 Jun 2017"),
+           (dict(marker="s", ms=3.4, mfc="white", mec=RAIN, mew=0.9), "rain gauge"),
+           (dict(marker="^", ms=3.8, mfc=FLOOD, mec="white", mew=0.3), "river gauge"),
+           (None, "refugee camps")]
+    for k, (st, lab) in enumerate(sym):
+        x0, y0 = 0.13 + 0.2 * k, 0.88
+        if st:
+            bx.plot([x0 + 0.008], [y0], ls="", **st)
+        else:
+            bx.plot([x0, x0 + 0.016], [y0, y0], color=INK, lw=1.2)
+        bx.text(x0 + 0.024, y0, lab, fontsize=5.6, color=INK, va="center")
+    bx.plot([0.015, 0.985], [0.77, 0.77], color="#d4d3ce", lw=0.5)
+    ev3 = [("June 2017", "none dedicated to either hazard", "no sheltering documented",
+            "~150–170 (Rangamati 121)", "#b9b7b0"),
+           ("August 2023", "FFWC bulletin (24–48 h), BMD alert", "33,000 sheltered",
+            "10, flood and landslides", "#f3c55a"),
+           ("July 2026", "tiered bulletins by upazila", "38,422 in 1,047 shelters",
+            "26–59 by source; camps 13 of ≥21", WARN)]
+    for i, (nm, w_, s1, dth, col) in enumerate(ev3):
+        c0 = i / 3
+        bx.add_patch(Rectangle((c0 + 0.012, 0.07), 0.004, 0.63, color=col, lw=0))
+        bx.text(c0 + 0.024, 0.70, nm, fontsize=7, fontweight="bold", color=INK, va="top")
+        for k, (lab, txt) in enumerate((("warning", w_), ("action", s1), ("deaths", dth))):
+            bx.text(c0 + 0.024, 0.50 - k * 0.15, lab, fontsize=5.6, color=MUTED, va="top")
+            bx.text(c0 + 0.092, 0.50 - k * 0.15, txt, fontsize=5.6, color=INK, va="top")
+    # the terrain runs past the page on purpose, so the page itself is the frame (no tight bbox)
+    fig.savefig(OUT / "fig7_overview.pdf", facecolor=SEA)
+    fig.savefig(OUT / "fig7_overview.png", dpi=int(os.environ.get("F7_DPI", 300)), facecolor=SEA)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     only = set(sys.argv[1:])
-    fns = {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "S1": figS1}
+    fns = {"1": fig1, "2": fig2, "3": fig3, "4": fig4, "5": fig5, "6": fig6, "7": fig7, "S1": figS1}
     out = {}
     for k, fn in fns.items():
         if not only or k in only:

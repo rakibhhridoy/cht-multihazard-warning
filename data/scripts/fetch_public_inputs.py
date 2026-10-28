@@ -4,7 +4,7 @@ redistributed: GHCN-Daily records of the Chattogram airport and Cox's Bazar gaug
 the ISCG camp outlines of 12 April 2023 (HDX, CC0) and the Copernicus GLO-30 elevation tiles
 N20/N21 E092 (camp_slopes.py), and for the maps of Figs. 1 and 4 the geoBoundaries ADM2 districts of
 Bangladesh and the Copernicus GLO-90 tiles N20-N23, E091-E092."""
-import time, urllib.request, zipfile
+import time, urllib.error, urllib.request, zipfile
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GET = [
@@ -20,11 +20,10 @@ GET = [
 ]
 GET.append(("admin/bgd_adm2.geojson",
             "https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/gbOpen/BGD/ADM2/geoBoundaries-BGD-ADM2.geojson"))
-# GLO-90 has no tile for N20 E091, which is open sea
-for la in (20, 21, 22, 23):
-    for lo in ("091", "092"):
-        if (la, lo) == (20, "091"):
-            continue
+# GLO-90 for Figs. 1a and 4b and the full-page terrain of Fig. 7; tiles over open sea do not exist
+# and are skipped
+for la in (19, 20, 21, 22, 23, 24):
+    for lo in ("090", "091", "092", "093"):
         n = f"Copernicus_DSM_COG_30_N{la}_00_E{lo}_00_DEM"
         GET.append((f"dem/cop90/{n}.tif", f"https://copernicus-dem-90m.s3.amazonaws.com/{n}/{n}.tif"))
 for rel, url in GET:
@@ -39,6 +38,12 @@ for rel, url in GET:
                 urllib.request.urlretrieve(url, part)
                 part.rename(out)
                 break
+            except urllib.error.HTTPError as e:
+                if e.code in (403, 404) and "copernicus-dem" in url:
+                    print("  no tile (open sea)", flush=True)
+                    break
+                print("  retry", attempt + 1, e, flush=True)
+                time.sleep(5 * (attempt + 1))
             except OSError as e:
                 print("  retry", attempt + 1, e, flush=True)
                 time.sleep(5 * (attempt + 1))

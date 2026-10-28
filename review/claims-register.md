@@ -461,6 +461,7 @@ A1 REVISED 2026-10-03: 343 mm is the BMD station in RANGAMATI town ("The Dhaka M
 - [ADDRESSED, Z17] Roy 2022 derivation events (30 Cox's Bazar, 1997-2021, BMD) may overlap our 13 Cox's Bazar events.
 - Abedin et al. 2020 (Geoenviron Disasters 7:23) on 13 Jun 2017 Rangamati not yet obtained (publisher bot wall).
 - [ADDRESSED 2026-10-08] Title now "Landslide deaths in Bangladesh now concentrate in warned refugee camps" (13 of >=21 identifiable 2026 landslide deaths in camps, L3); no 'moved' claim. Fig 4a now plots Rangamati gauge 24-h rain (343 vs 287 mm) and deaths; failure counts dropped (Z18).
+- [ADDRESSED 2026-10-28] Title changed to "In 2026, landslide deaths in Bangladesh concentrated in warned refugee camps", so it no longer reads as a trend from one event; the single-event basis of the camp result (L3) is stated among the limits.
 
 ## M. Modelling companion study (started 2026-10-04) — modelling/, separate from the npj paper
 M1  TRIGRS 2.1.00c (usgs/landslides-trigrs @ 9bb5ec2, code.usgs.gov) built with gfortran on M1
@@ -575,3 +576,5 @@ MERGE 2026-10-08: block M merged into the paper. Main text: Results 2.5 "What ph
     GloFAS), Supplementary Fig. 1 (flood), Supplementary Table 2 (sensitivity). 17 references
     appended to references.bib. OPEN: modelling/ scripts not yet in the public repository (\todo in
     code availability); submission/ package not rebuilt while the paper is on hold.
+- [RELEASE 2026-10-08] modelling/ scripts and derived results published on GitHub as v1.4.0 (Zenodo draft 23033431,
+  version 1.4.0, awaiting Publish); figures/make_model_figures.py rebuilds Fig. 6 and Supp. Fig. 1 byte-identical.
