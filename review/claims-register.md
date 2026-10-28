@@ -329,6 +329,9 @@ Y2  P5 resolved: CDMP-II threshold is 96 mm in 24 h or 185 mm in 48 h; "no longe
     follow-up activities or long-term maintenance" (Ahmed et al. 2018, IJGI, verified in PDF) .. SOLID
 Y3  Sangu at Bandarban 2026: 15.76 m = +96 cm DL (MSL datum), 8 Jul (Daily Star, 8 Jul 2026) .. PRESS
 Y4  2017 deaths: Rangamati 121; national 150-170 by source and date (Dhaka Tribune; Daily Star).
+    2026-10-29: official counts added beside the press figure: WHO Bangladesh (15 Jun 2017 page, updates 16 and 21 Jun) 97 Rangamati deaths confirmed by 16 Jun, 160 national by 21 Jun; ACAPS briefing note 21 Jun 2017: 160 deaths, 187 injured. 121 for Rangamati remains press-only (Abedin et al. 2020 still not obtained: Springer bot wall).
+    2026-10-29: Abedin et al. 2020 (Geoenviron Disasters 7:23, read in full, review/sources/): Rangamati 126 in total (citing UNRC 2017 and others) and 118 incl. 2 missing as of 21 Jun (Prothom Alo); national 152 (Prothom Alo) and 168. Y4 121 lies inside 118-126 ............ SOLID (peer-reviewed range)
+Z19b 2026-10-29: camp population 1,200,171 individuals as of 30 Jun 2026 (joint GoB-UNHCR block-level factsheet, data.unhcr.org doc 123177), supports 'about 1.2 million'; replaces UN News. 33 camps from ISCG outlines ............ SOLID
     First published failure time (02:30) is at BANDARBAN; Rangamati's first is "just after dawn",
     so lead times at the Rangamati centroid measured to 02:30 are LOWER BOUNDS ............... PRESS / INFER
 Y5  ERA5 underestimates Bangladesh rainfall above the 75th percentile by up to 85 % (Islam &
@@ -459,9 +462,10 @@ A1 REVISED 2026-10-03: 343 mm is the BMD station in RANGAMATI town ("The Dhaka M
 - [ADDRESSED, Z19 needs PDF check] Camps barely existed June 2017 (influx from Aug 2017): "deaths moved" is partly exposure change.
 - [ADDRESSED, Z16] Installed 24h lead 2-8 h holds under flat scaling only; QM gives 0.5 h (12 Jun 02:00 vs 13 Jun 02:00).
 - [ADDRESSED, Z17] Roy 2022 derivation events (30 Cox's Bazar, 1997-2021, BMD) may overlap our 13 Cox's Bazar events.
-- Abedin et al. 2020 (Geoenviron Disasters 7:23) on 13 Jun 2017 Rangamati not yet obtained (publisher bot wall).
+- [ADDRESSED 2026-10-29] Abedin et al. 2020 (Geoenviron Disasters 7:23) obtained and cited for the Rangamati 118-126 and national 152-168 counts.
 - [ADDRESSED 2026-10-08] Title now "Landslide deaths in Bangladesh now concentrate in warned refugee camps" (13 of >=21 identifiable 2026 landslide deaths in camps, L3); no 'moved' claim. Fig 4a now plots Rangamati gauge 24-h rain (343 vs 287 mm) and deaths; failure counts dropped (Z18).
 - [ADDRESSED 2026-10-28] Title changed to "In 2026, landslide deaths in Bangladesh concentrated in warned refugee camps", so it no longer reads as a trend from one event; the single-event basis of the camp result (L3) is stated among the limits.
+- [ADDRESSED 2026-10-29] Title changed to "Three storms test a decade of multi-hazard warning in south-eastern Bangladesh" (user choice): covers the whole study and both hazards; the camp result stays in the abstract and Discussion.
 
 ## M. Modelling companion study (started 2026-10-04) — modelling/, separate from the npj paper
 M1  TRIGRS 2.1.00c (usgs/landslides-trigrs @ 9bb5ec2, code.usgs.gov) built with gfortran on M1

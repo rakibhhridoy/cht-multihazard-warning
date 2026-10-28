@@ -210,7 +210,7 @@ def basemap(ax, adm, bounds, region_fade=True):
 def scalebar(ax, lon, lat, km=20):
     dlon = km / (111.32 * math.cos(math.radians(lat)))
     ax.plot([lon, lon + dlon], [lat, lat], color=INK, lw=1.4, solid_capstyle="butt", zorder=6)
-    ax.text(lon + dlon / 2, lat + 0.03, f"{km} km", ha="center", va="bottom", fontsize=5.8, color=INK, zorder=6,
+    ax.text(lon + dlon / 2, lat + 0.03, f"{km} km", ha="center", va="bottom", fontsize=6.0, color=INK, zorder=6,
             path_effects=HALO)
 
 
@@ -250,15 +250,15 @@ def fig1():
     show = {"Chittagong": "Chattogram"}
     for k, (lo, la) in lab.items():
         m.text(lo, la, show.get(k, k), fontsize=6, color=INK2, ha="center", style="italic", zorder=6, path_effects=HALO)
-    m.text(91.80, 21.25, "Bay of\nBengal", fontsize=5.8, color="#6d8597", ha="center", style="italic", zorder=6)
-    m.annotate("Rohingya\ncamps", xy=(92.15, 21.12), xytext=(91.80, 20.92), fontsize=5.8, color=INK, ha="center",
+    m.text(91.80, 21.25, "Bay of\nBengal", fontsize=6.0, color="#6d8597", ha="center", style="italic", zorder=6)
+    m.annotate("Rohingya\ncamps", xy=(92.15, 21.12), xytext=(91.80, 20.92), fontsize=6.0, color=INK, ha="center",
                zorder=6, path_effects=HALO, arrowprops=dict(arrowstyle="-", lw=0.5, color=INK, shrinkB=2))
     scalebar(m, 91.74, 20.80); north(m, 92.62, 22.98)
     hd = [Line2D([], [], ls="", marker="o", ms=3.2, mfc=SLIDE, mec="white", mew=0.2, label="failure, 13 Jun 2017 (n = 257)"),
           Line2D([], [], ls="", marker="s", ms=3.6, mfc="white", mec=RAIN, mew=0.9, label="rain gauge (BMD)"),
           Line2D([], [], ls="", marker="^", ms=4, mfc=FLOOD, mec="white", mew=0.3, label="river gauge (FFWC)"),
           Line2D([], [], ls="", marker="s", ms=4, mfc=INK, mec=INK, label="refugee camp")]
-    m.legend(handles=hd, loc="upper left", bbox_to_anchor=(0.0, -0.005), frameon=False, fontsize=5.8,
+    m.legend(handles=hd, loc="upper left", bbox_to_anchor=(0.0, -0.005), frameon=False, fontsize=6.0,
              handletextpad=0.3, borderaxespad=0.2, labelspacing=0.35)
     letter(m, "a", x=0.0, y=1.01)
     # inset: where the region sits in Bangladesh
@@ -469,7 +469,7 @@ def fig3():
                 a.text(0.5, 0.53, ev["warn_none"], transform=a.transAxes, ha="center", va="center",
                        fontsize=6.5, color=INK2, style="italic", linespacing=1.2)
         if first is not None:
-            axes[3, c].text(first, 0.035, " warning issued →", fontsize=5.6, color="#9a6a00", ha="left",
+            axes[3, c].text(first, 0.035, " warning issued →", fontsize=6.0, color="#9a6a00", ha="left",
                             va="bottom", transform=axes[3, c].get_xaxis_transform())
         axes[3, c].xaxis.set_major_locator(mdates.DayLocator(interval=2))
         axes[3, c].xaxis.set_major_formatter(mdates.DateFormatter("%d"))
@@ -510,7 +510,7 @@ def fig4():
         r.set_xlim(0, 400); r.set_ylim(-0.6, 1.2); r.axis("off")
         r.text(0, 0.55, yr, fontsize=8, fontweight="bold", color=INK, va="bottom")
         r.text(rain + 8, 0, f"{rain} mm", fontsize=6.5, color=INK, va="center")
-        r.text(0, -0.5, "peak 24-h rain, Rangamati gauge", fontsize=5.8, color=INK2, va="top")
+        r.text(0, -0.5, "peak 24-h rain, Rangamati gauge", fontsize=6.0, color=INK2, va="top")
         xx = np.arange(dead) % n; yy = -(np.arange(dead) // n)
         u.scatter(xx, yy, s=17, color=SLIDE, lw=0)
         u.set_xlim(-0.7, n - 0.3); u.set_ylim(-n + 0.4, 2.2); u.set_aspect("equal"); u.axis("off")
@@ -518,7 +518,7 @@ def fig4():
         u.text(-0.5 + (2.6 if dead > 9 else 1.0), 1.15, ("deaths" if dead > 1 else "death") + " in the district",
                fontsize=6.5, color=INK, va="bottom")
         if dead == 1:
-            u.text(1.0, 0, "cause not stated\nin the source", fontsize=5.8, color=INK2, va="center")
+            u.text(1.0, 0, "cause not stated\nin the source", fontsize=6.0, color=INK2, va="center")
         if j == 0:
             letter(r, "a", x=-0.02, y=1.0)
     # ---- (b) where the identifiable 2026 landslide deaths fell ----       [L3, I7, I9]
@@ -542,7 +542,7 @@ def fig4():
     # Rangamati: many incidents, one death of unstated cause -> hollow, not counted     [I7]
     m.scatter(RANGAMATI[1], RANGAMATI[0], s=scale, facecolor="white", edgecolor=SLIDE, lw=1.0, zorder=5)
     m.text(RANGAMATI[1] + 0.06, RANGAMATI[0] + 0.02, "Rangamati\n126 incidents,\n1 death,\ncause not stated",
-           ha="left", va="center", fontsize=5.8, color=INK, zorder=6, path_effects=HALO)
+           ha="left", va="center", fontsize=6.0, color=INK, zorder=6, path_effects=HALO)
     scalebar(m, 92.32, 20.93)
     heading(m, "Identifiable landslide deaths, July 2026: 13 of 21 in the camps")
     letter(m, "b", x=-0.02, y=1.0)
@@ -565,7 +565,7 @@ def fig5():
         full, part = s[s.index <= 2025], s[s.index > 2025]
         a.axvspan(1949.5, 1978.5, color=BAND, lw=0, zorder=0)
         a.text(1964, 10, "before satellite data\nentered the reanalysis", ha="center", va="bottom",
-               fontsize=5.8, color=INK2, linespacing=1.15, zorder=6)
+               fontsize=6.0, color=INK2, linespacing=1.15, zorder=6)
         a.vlines(full.index, 0, full.values, color=RAIN, lw=0.5, alpha=0.35, zorder=2)
         a.scatter(full.index, full.values, s=8, color=RAIN, lw=0, zorder=3)
         for lo, hi in [(1950, 1978), (1979, 2025)]:
@@ -684,7 +684,7 @@ def figS1():
         gg = g.loc[a0:a1]
         bot.step(gg.index + pd.Timedelta(hours=6), gg.values, where="post", color=RAIN, lw=1.0)
         top.set_title(name, fontsize=8, fontweight="bold", loc="left", color=INK, pad=4)
-        top.text(o + pd.Timedelta(hours=12), 16.3, "recorded\npeak day", ha="center", va="top", fontsize=5.8,
+        top.text(o + pd.Timedelta(hours=12), 16.3, "recorded\npeak day", ha="center", va="top", fontsize=6.0,
                  color="#0f7a53")
         bot.set_xlim(pd.Timestamp(a0), pd.Timestamp(a1))
         bot.xaxis.set_major_locator(mdates.DayLocator(interval=2 if ev != "2023" else 3))
@@ -694,7 +694,7 @@ def figS1():
     axs[1, 0].set_ylim(0, 900); axs[1, 0].set_ylabel("GloFAS discharge\n(m$^3$ s$^{-1}$)")
     axs[0, 0].legend(handles=[Line2D([], [], color=FLOOD, lw=1.2, label="reference run"),
                               plt.Rectangle((0, 0), 1, 1, color=FLOOD, alpha=0.25, lw=0, label="eight sensitivity runs")],
-                     loc="lower right", frameon=False, fontsize=5.8, handlelength=1.4)
+                     loc="lower right", frameon=False, fontsize=6.0, handlelength=1.4)
     fig.text(0.54, 0.02, "Day of month (BST; GloFAS days 06:00 to 06:00)", ha="center", fontsize=6.8, color=INK2)
     save(fig, "figS1_flood")
 
@@ -800,7 +800,7 @@ def fig7():
         ax.text(lo, la, zat(lo, la) + 300, nm, fontsize=6.2, style="italic", color=INK2, ha="center", zorder=7,
                 path_effects=HALO)
     ax.text(91.80, 21.25, 0, "Bay of Bengal", fontsize=6.2, style="italic", color="#6d8597", ha="center", zorder=7)
-    ax.text(92.80, 22.00, zat(92.80, 22.00) + 250, "MYANMAR", fontsize=5.6, color=MUTED, ha="center", zorder=7)
+    ax.text(92.80, 22.00, zat(92.80, 22.00) + 250, "MYANMAR", fontsize=6.0, color=MUTED, ha="center", zorder=7)
 
     for art in ax.collections + ax.lines + ax.texts:     # the 3-D axes is square; overlays run to the page edge
         art.set_clip_on(False)
@@ -860,7 +860,7 @@ def fig7():
     a.set_xlim(t0, t1); a.set_ylim(0, 380); a.set_yticks([0, 200])
     a.xaxis.set_major_locator(mdates.DayLocator()); a.xaxis.set_major_formatter(mdates.DateFormatter("%d Jun"))
     a.set_ylabel("24-h rain (mm)", fontsize=6.1, labelpad=1)
-    a.text(win[1], 360, "failures ", fontsize=5.9, color=SLIDE, ha="right", va="top", fontweight="bold")
+    a.text(win[1], 360, "failures ", fontsize=6.0, color=SLIDE, ha="right", va="top", fontweight="bold")
     leader(r, "left", *RANGAMATI[::-1])
 
     # ---- L2: Rangamati deaths, one dot each, under comparable gauge rain ----   [A1, A6, Y4, I7]
@@ -901,7 +901,7 @@ def fig7():
     a.axvspan(*win, color=SLIDE_T, lw=0)
     a.bar(bins[:-1], cnt, width=pd.Timedelta(hours=3) * 0.85, align="edge", color="#b9b7b0", lw=0)
     a.axvline(tt.median(), color=INK, lw=0.6, ls=(0, (2, 1)))
-    a.text(tt.median() + pd.Timedelta(hours=2), cnt.max() * 0.95, "median\n23.5 h early", fontsize=5.9, va="top")
+    a.text(tt.median() + pd.Timedelta(hours=2), cnt.max() * 0.95, "median\n23.5 h early", fontsize=6.0, va="top")
     a.set_xlim(bins[0], bins[-1]); a.set_yticks([])
     a.xaxis.set_major_locator(mdates.DayLocator()); a.xaxis.set_major_formatter(mdates.DateFormatter("%d Jun"))
     a.set_title("first failure, 2017", fontsize=6.1, pad=1.5, color=INK2)
@@ -913,7 +913,7 @@ def fig7():
     b2.scatter(x, y, s=2.2, color=FLOOD, lw=0)
     b2.set_xlim(0, hi); b2.set_ylim(0, hi); b2.set_xticks([0, 40]); b2.set_yticks([0, 40])
     b2.set_title("2026 vs 2017 (%)", fontsize=6.1, pad=1.5, color=INK2)
-    b2.text(0.97 * hi, 0.04 * hi, f"{int((y > x).sum())} of {len(fit)}\nabove line", fontsize=5.7, color=SLIDE,
+    b2.text(0.97 * hi, 0.04 * hi, f"{int((y > x).sum())} of {len(fit)}\nabove line", fontsize=6.0, color=SLIDE,
             va="bottom", ha="right", fontweight="bold")
     leader(r, "left", *RANGAMATI[::-1])
 
@@ -942,7 +942,7 @@ def fig7():
         a.plot(days, ref.values, color=shade, lw=0.9)
         keep = days <= 3.9
         a.text(min(days[keep][-1], 3.9) + 0.1, ref.values[keep][-1] + {"2017": 0.8, "2023": -1.6, "2026": 0.6}[ev], ev,
-               fontsize=5.9, color=shade, ha="left" if days[keep][-1] < 3.5 else "right")
+               fontsize=6.0, color=shade, ha="left" if days[keep][-1] < 3.5 else "right")
     a.set_xlim(-4, 4); a.set_ylim(0, 17.5); a.set_xticks([-3, 0, 3]); a.set_yticks([0, 10])
     a.set_xlabel("days from recorded peak day", fontsize=6.1, labelpad=1)
     a.set_ylabel("depth (m)", fontsize=6.1, labelpad=1)
@@ -965,7 +965,7 @@ def fig7():
             bx.plot([x0 + 0.008], [y0], ls="", **st)
         else:
             bx.plot([x0, x0 + 0.016], [y0, y0], color=INK, lw=1.2)
-        bx.text(x0 + 0.024, y0, lab, fontsize=5.6, color=INK, va="center")
+        bx.text(x0 + 0.024, y0, lab, fontsize=6.0, color=INK, va="center")
     bx.plot([0.015, 0.985], [0.77, 0.77], color="#d4d3ce", lw=0.5)
     ev3 = [("June 2017", "none dedicated to either hazard", "no sheltering documented",
             "~150–170 (Rangamati 121)", "#b9b7b0"),
@@ -978,8 +978,8 @@ def fig7():
         bx.add_patch(Rectangle((c0 + 0.012, 0.07), 0.004, 0.63, color=col, lw=0))
         bx.text(c0 + 0.024, 0.70, nm, fontsize=7, fontweight="bold", color=INK, va="top")
         for k, (lab, txt) in enumerate((("warning", w_), ("action", s1), ("deaths", dth))):
-            bx.text(c0 + 0.024, 0.50 - k * 0.15, lab, fontsize=5.6, color=MUTED, va="top")
-            bx.text(c0 + 0.092, 0.50 - k * 0.15, txt, fontsize=5.6, color=INK, va="top")
+            bx.text(c0 + 0.024, 0.50 - k * 0.15, lab, fontsize=6.0, color=MUTED, va="top")
+            bx.text(c0 + 0.092, 0.50 - k * 0.15, txt, fontsize=6.0, color=INK, va="top")
     # the terrain runs past the page on purpose, so the page itself is the frame (no tight bbox)
     fig.savefig(OUT / "fig7_overview.pdf", facecolor=SEA)
     fig.savefig(OUT / "fig7_overview.png", dpi=int(os.environ.get("F7_DPI", 300)), facecolor=SEA)
